@@ -1,3 +1,33 @@
+# 1DV612: Assignment 1
+
+Interface repository for 1DV612 Assignment 1
+
+## About
+This repository was created for the course 1DV612: Web Application Architectures and Frameworks. Linnaeus University, Sweden.
+
+You can find the assignment [here.](https://coursepress.gitbooks.io/1dv612/content/assignments/assignment-1)
+
+## How to run the application
+1. Download the .zip file for your OS below
+- [Windows]()
+- [Linux]()
+- [Mac]()
+
+2. Extract folder to preferred location
+
+### For Windows
+1. Open Windows PowerShell
+2. Navigate to the extracted folder by using the `cd` command
+3. Start the application by typing `npm start`
+4. Follow the instructions in the application
+
+### For Linux / Mac
+1. Open Terminal
+2. Navigate to the extracted folder by using the `cd` command
+3. Start the application by typing `npm start`
+4. Follow the instructions in the application
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
