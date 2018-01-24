@@ -12,8 +12,8 @@ class App extends Component {
           <h1 className="App-title">Notify App</h1>
         </header>
 
-        <div class="columns" style={{ height: 50, backgroundColor: 'skyblue' }}>
-          <div class="column">
+        <div class="columns">
+          <div class="column is-2">
             <aside className="App-sidebar menu">
               <p className="menu-label">General</p>
               <ul className="menu-list">
@@ -34,7 +34,8 @@ class App extends Component {
             </aside>
           </div>
 
-          <div class="column" style={{ height: 50, backgroundColor: 'steelblue' }}>
+          <div class="column">
+            <h1 class="title">This is the content</h1>
           </div>
         </div>
       </div >
