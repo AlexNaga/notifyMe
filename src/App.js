@@ -12,24 +12,31 @@ class App extends Component {
           <h1 className="App-title">Notify App</h1>
         </header>
 
-        <aside className="App-content menu">
-          <p className="menu-label">General</p>
-          <ul className="menu-list">
-            <li><a>Dashboard</a></li>
-          </ul>
-          <p className="menu-label">Administration</p>
-          <ul className="menu-list">
-            <li><a>Settings</a></li>
-            <li>
-              <a className="is-active">Manage Notifications</a>
-              <ul>
-                <li><a>Slack</a></li>
-                <li><a>Github</a></li>
-                <li><a>Raspberry Pi</a></li>
+        <div class="columns" style={{ height: 50, backgroundColor: 'skyblue' }}>
+          <div class="column">
+            <aside className="App-sidebar menu">
+              <p className="menu-label">General</p>
+              <ul className="menu-list">
+                <li><a>Dashboard</a></li>
               </ul>
-            </li>
-          </ul>
-        </aside>
+              <p className="menu-label">Administration</p>
+              <ul className="menu-list">
+                <li><a>Settings</a></li>
+                <li>
+                  <a className="is-active">Manage Notifications</a>
+                  <ul>
+                    <li><a>Slack</a></li>
+                    <li><a>Github</a></li>
+                    <li><a>Raspberry Pi</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </aside>
+          </div>
+
+          <div class="column" style={{ height: 50, backgroundColor: 'steelblue' }}>
+          </div>
+        </div>
       </div >
     );
   }
