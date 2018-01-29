@@ -4,10 +4,10 @@ import logo from 'img/logo.svg';
 export default class Header extends Component {
   render() {
     return (
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Notify App</h1>
-        </header>
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <h1 className="App-title">NotifyMe</h1>
+      </header>
     );
   }
 }
