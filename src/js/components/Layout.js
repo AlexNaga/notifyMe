@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import logo from 'img/logo.svg';
-import 'css/App.css';
+import 'css/index.css';
 import 'bulma/css/bulma.css'
 
-class Layout extends Component {
+export default class Layout extends Component {
   render() {
     return (
       <div className="App">
@@ -42,5 +42,3 @@ class Layout extends Component {
     );
   }
 }
-
-export default Layout;
