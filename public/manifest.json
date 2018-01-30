@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "notifyMe",
+  "name": "notifyMe",
   "icons": [
     {
       "src": "favicon.ico",
