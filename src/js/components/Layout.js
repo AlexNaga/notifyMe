@@ -9,7 +9,7 @@ import Sidebar from './Sidebar';
 export default class Layout extends Component {
   render() {
     return (
-      <div className="App">
+      <div className="app">
         <Header />
 
         <div class="columns">

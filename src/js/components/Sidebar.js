@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 export default class Sidebar extends Component {
   render() {
     return (
-      <aside className="App-sidebar menu">
+      <aside className="app-sidebar menu">
         <p className="menu-label">General</p>
         <ul className="menu-list">
           <li><a>Dashboard</a></li>
