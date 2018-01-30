@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+// import NavLink from 'js/modules/NavLink';
+import { NavLink } from 'react-router-dom';
 
 export default class Sidebar extends Component {
   render() {
@@ -6,17 +8,16 @@ export default class Sidebar extends Component {
       <aside className="app-sidebar menu">
         <p className="menu-label">General</p>
         <ul className="menu-list">
-          <li><a>Dashboard</a></li>
+          <li><NavLink exact to="/" activeClassName="is-active">Dashboard</NavLink></li>          
         </ul>
         <p className="menu-label">Administration</p>
         <ul className="menu-list">
-          <li><a>Settings</a></li>
+          <li><NavLink to="/settings" activeClassName="is-active">Settings</NavLink></li>
           <li>
-            <a className="is-active">Manage Notifications</a>
+            <a>Manage Notifications</a>
             <ul>
-              <li><a>Slack</a></li>
-              <li><a>Github</a></li>
-              <li><a>Raspberry Pi</a></li>
+              <li><NavLink to="/slack" activeClassName="is-active">Slack</NavLink></li>
+              <li><NavLink to="/github" activeClassName="is-active">Github</NavLink></li>
             </ul>
           </li>
         </ul>
