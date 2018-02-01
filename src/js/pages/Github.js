@@ -8,18 +8,19 @@ import Sidebar from 'js/components/Sidebar';
 
 export default class Github extends Component {
   render() {
+    const pageTitle = "Github page";
+
     return (
       <div className="app">
         <Header />
 
-        <div class="columns">
-          <div class="column is-2">
+        <div className="columns">
+          <div className="column is-2">
             <Sidebar />
           </div>
-
-          <div class="column">
-            <Body />
-            <h1 class="title">This is the Github body</h1>
+          
+          <div className="column">
+            <Body pageTitle={pageTitle}/>
           </div>
         </div>
       </div >

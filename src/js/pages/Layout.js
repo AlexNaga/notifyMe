@@ -8,17 +8,19 @@ import Sidebar from 'js/components/Sidebar';
 
 export default class Layout extends Component {
   render() {
+    const pageTitle = "Home page";
+
     return (
       <div className="app">
         <Header />
 
-        <div class="columns">
-          <div class="column is-2">
+        <div className="columns">
+          <div className="column is-2">
             <Sidebar />
           </div>
           
-          <div class="column">
-            <Body />
+          <div className="column">
+            <Body pageTitle={pageTitle}/>
           </div>
         </div>
       </div >
