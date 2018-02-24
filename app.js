@@ -3,6 +3,8 @@ const app = express();
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
+const passport = require('passport');
+const GitHubStrategy = require('passport-github2').Strategy;
 
 const apiRoutes = require('./api/routes/index');
 const webhookRoutes = require('./api/routes/webhooks');
@@ -19,6 +21,26 @@ const authRoutes = require('./api/routes/auth');
 app.use(logger('dev')); // Logs all requests to the terminal
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(passport.initialize());
+
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.use(new GitHubStrategy({
+  clientID: process.env.GITHUB_CLIENT_ID,
+  clientSecret: process.env.GITHUB_CLIENT_SECRET,
+  callbackURL: "http://localhost:3000/auth/github/callback"
+},
+  (accessToken, refreshToken, profile, done) => {
+    console.log('githubId: ', profile.id);
+
+  }
+));
 
 // Routes
 app.use('/', apiRoutes);
