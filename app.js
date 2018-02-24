@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 
 const apiRoutes = require('./api/routes/index');
 const webhookRoutes = require('./api/routes/webhooks');
+const authRoutes = require('./api/routes/auth');
 
 // mongoose.connect(
 //   'mongodb://' + process.env.MONGO_ATLAS_USERNAME +
@@ -21,6 +22,7 @@ app.use(bodyParser.json());
 
 // Routes
 app.use('/', apiRoutes);
+app.use('/auth', authRoutes);
 app.use('/api/webhooks', webhookRoutes);
 
 // Error handling

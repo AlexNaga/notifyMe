@@ -9,6 +9,8 @@
     "mongoose": "^5.0.4",
     "mongoose-timestamp": "^0.6.0",
     "morgan": "^1.9.0",
+    "passport": "^0.4.0",
+    "passport-github2": "^0.1.11",
     "superagent": "^3.8.2"
   },
   "devDependencies": {},
