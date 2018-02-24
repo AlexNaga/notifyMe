@@ -8,11 +8,9 @@ const AuthController = require('../controllers/auth');
 router.get('/github', AuthController.githubAuth);
 
 // Callback for GitHub access token
-router.get('/auth/github/callback',
-  passport.authenticate('github', { failureRedirect: '/login' }),
+router.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }),
   (req, res) => {
-    // Successful authentication, redirect home.
-    res.redirect('/');
+    res.redirect("/");
   });
 
 module.exports = router;

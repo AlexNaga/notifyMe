@@ -6,9 +6,9 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const GitHubStrategy = require('passport-github2').Strategy;
 
-const apiRoutes = require('./api/routes/index');
-const webhookRoutes = require('./api/routes/webhooks');
-const authRoutes = require('./api/routes/auth');
+const indexRoutes = require('./src/routes/index');
+const authRoutes = require('./src/routes/auth');
+const webhookRoutes = require('./src/routes/webhooks');
 
 // mongoose.connect(
 //   'mongodb://' + process.env.MONGO_ATLAS_USERNAME +
@@ -43,7 +43,7 @@ passport.use(new GitHubStrategy({
 ));
 
 // Routes
-app.use('/', apiRoutes);
+app.use('/', indexRoutes);
 app.use('/auth', authRoutes);
 app.use('/api/webhooks', webhookRoutes);
 
