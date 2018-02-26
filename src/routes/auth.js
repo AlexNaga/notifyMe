@@ -8,9 +8,6 @@ const AuthController = require('../controllers/auth');
 router.get('/github', AuthController.githubAuth);
 
 // Callback for GitHub access token
-router.get('/github/callback', AuthController.githubCallback,
-  (req, res) => {
-    res.redirect('/success');
-  });
+router.get('/github/callback', AuthController.githubCallback);
 
 module.exports = router;
