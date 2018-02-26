@@ -18,27 +18,31 @@ const webhookRoutes = require('./src/routes/webhooks');
 // );
 // mongoose.Promise = global.Promise;
 
+// Config for OAuth2
 app.use(logger('dev')); // Logs all requests to the terminal
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(passport.initialize());
 
-passport.serializeUser((user, done) => {
-  done(null, user);
+app.get('/success', (req, res) => res.send('You have successfully logged in'));
+app.get('/error', (req, res) => res.send('error logging in'));
+
+passport.serializeUser((user, cb) => {
+  cb(null, user);
 });
 
-passport.deserializeUser((user, done) => {
-  done(null, user);
+passport.deserializeUser((obj, cb) => {
+  cb(null, obj);
 });
 
 passport.use(new GitHubStrategy({
   clientID: process.env.GITHUB_CLIENT_ID,
   clientSecret: process.env.GITHUB_CLIENT_SECRET,
-  callbackURL: "http://localhost:3000/auth/github/callback"
+  callbackURL: process.env.DOMAIN + 'auth/github/callback'
 },
-  (accessToken, refreshToken, profile, done) => {
-    console.log('githubId: ', profile.id);
-
+  (accessToken, refreshToken, profile, cb) => {
+    console.log('GitHub username:', profile.username);
+    return cb(null, profile);
   }
 ));
 
