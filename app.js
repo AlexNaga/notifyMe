@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
 const passport = require('passport');
+
 const GitHubStrategy = require('passport-github2').Strategy;
 
 const indexRoutes = require('./src/routes/index');
@@ -24,7 +25,6 @@ app.use(bodyParser.json());
 
 // Passport config
 app.use(passport.initialize());
-app.use(passport.session());
 
 passport.serializeUser((user, cb) => {
   cb(null, user);
@@ -52,8 +52,7 @@ passport.use(new GitHubStrategy({
   callbackURL: '/auth/github/callback'
 },
   (accessToken, refreshToken, profile, cb) => {
-    console.log('GitHub username:', profile.username);
-    return cb(null, profile);
+    return cb(null, { profile: profile, accessToken: accessToken });
   }
 ));
 

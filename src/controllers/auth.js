@@ -4,4 +4,8 @@ const passport = require('passport');
 exports.githubAuth = passport.authenticate('github', { scope: ['user', 'repo', 'admin: org', 'admin: org_hook'] });
 
 // Recives a callback from GitHub
-exports.githubCallback = passport.authenticate('github', { successRedirect: '/success', failureRedirect: '/error' });
+exports.githubCallback = (req, res, next) => {
+  console.log('GitHub username:', req.user.profile.username);
+  console.log('GitHub access token:', req.user.accessToken);
+  res.redirect('/');
+};
