@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
 const passport = require('passport');
+const session = require('express-session');
 
 const GitHubStrategy = require('passport-github2').Strategy;
 
@@ -22,6 +23,11 @@ const webhookRoutes = require('./src/routes/webhooks');
 app.use(logger('dev')); // Logs all requests to the terminal
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(session({
+  resave: false,
+  saveUninitialized: false, 
+  secret: process.env.SESSION_SECRET
+}));
 
 // Passport config
 app.use(passport.initialize());
