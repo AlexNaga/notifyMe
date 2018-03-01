@@ -10,6 +10,7 @@ const GitHubStrategy = require('passport-github2').Strategy;
 
 const indexRoutes = require('./src/routes/index');
 const authRoutes = require('./src/routes/auth');
+const githubRoutes = require('./src/routes/github');
 const webhookRoutes = require('./src/routes/webhooks');
 
 // mongoose.connect(
@@ -65,6 +66,7 @@ passport.use(new GitHubStrategy({
 // Routes
 app.use('/', indexRoutes);
 app.use('/auth', authRoutes);
+app.use('/github', githubRoutes);
 app.use('/api/webhooks', webhookRoutes);
 
 // Error handling
