@@ -1,5 +1,4 @@
 require('dotenv').load();
-
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
@@ -25,7 +24,6 @@ const webhookRoutes = require('./src/routes/webhooks');
 
 app.use(logger('dev')); // Logs all requests to the terminal
 app.use(express.static(__dirname + '/public'));
-console.log(__dirname + '/public');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
