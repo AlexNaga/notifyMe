@@ -22,11 +22,14 @@ const webhookRoutes = require('./src/routes/webhooks');
 // mongoose.Promise = global.Promise;
 
 app.use(logger('dev')); // Logs all requests to the terminal
+app.use(express.static(__dirname + '/public'));
+console.log(__dirname + '/public');
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(session({
   resave: false,
-  saveUninitialized: false, 
+  saveUninitialized: false,
   secret: process.env.SESSION_SECRET
 }));
 

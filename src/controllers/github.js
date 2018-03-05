@@ -4,17 +4,16 @@ const request = require('superagent');
 exports.githubGetOrgs = (req, res, next) => {
   let username = req.session.username;
   let client = github.client(req.session.accessToken);
-
   let githubUser = client.me();
 
-  // Get users organizations
+  // Get users organizations from GitHub
   githubUser.orgs((err, data, headers) => {
     data.forEach(org => {
       // console.log(org.url);
     });
   });
 
-  // Get users repositories
+  // Get users repositories from GitHub
   githubUser.repos((err, data, headers) => {
     data.forEach(repo => {
       console.log(repo.url);
