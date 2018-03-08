@@ -8,15 +8,23 @@ exports.githubGetOrgs = (req, res, next) => {
 
   // Get users organizations from GitHub
   githubUser.orgs((err, data, headers) => {
-    data.forEach(org => {
-      // console.log(org.url);
+    res.status(200).json({
+      githubOrgs: data.map(org => {
+        return {
+          url: org.url,
+        }
+      })
     });
+
+    // data.forEach(org => {
+    //   console.log(org.url);
+    // });
   });
 
   // Get users repositories from GitHub
   githubUser.repos((err, data, headers) => {
     data.forEach(repo => {
-      console.log(repo.url);
+      // console.log(repo.url);
     });
   });
 
@@ -30,9 +38,6 @@ exports.githubGetOrgs = (req, res, next) => {
   //     console.log('GitHub cb status code:', err.status);
   //   });
 
-  res.status(200).json({
-    message: 'Orgs'
-  });
   // res.redirect('/auth/github');
 };
 
