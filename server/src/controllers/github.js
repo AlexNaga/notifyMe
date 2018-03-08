@@ -21,35 +21,28 @@ exports.githubGetOrgs = (req, res, next) => {
     // });
   });
 
-  // Get users repositories from GitHub
-  githubUser.repos((err, data, headers) => {
-    data.forEach(repo => {
-      // console.log(repo.url);
-    });
-  });
-
-  // request
-  //   .get('https://api.github.com/users/' + username + '/orgs')
-  //   .set('Authorization', 'token ' + req.session.accessToken)
-  //   .then(result => {
-  //     console.log('GitHub cb status code:', result.status);
-  //   })
-  //   .catch(err => {
-  //     console.log('GitHub cb status code:', err.status);
-  //   });
-
   // res.redirect('/auth/github');
 };
 
 exports.githubGetRepos = (req, res, next) => {
-  request
-    .get('https://api.github.com/user/repos')
-    .set('Authorization', 'token ' + req.session.accessToken)
-    .then(result => {
-      console.log('GitHub cb status code:', result.status);
-    })
-    .catch(err => {
-      console.log('GitHub cb status code:', err.status);
+  let username = req.session.username;
+  let client = github.client(req.session.accessToken);
+  let githubUser = client.me();
+
+  // Get users repositories from GitHub
+  githubUser.repos((err, data, headers) => {
+    res.status(200).json({
+      githubRepos: data.map(org => {
+        return {
+          url: org.url,
+        }
+      })
     });
-  res.redirect('/');
+
+    // data.forEach(org => {
+    //   console.log(org.url);
+    // });
+  });
+
+  // res.redirect('/auth/github');
 };
