@@ -4,14 +4,18 @@
 
 ### DB ###
 *.db
+uploads/*.png
+
+### Environment Variables ###
 *.env
 nodemon.json
-uploads/*.png
 
 ### Logs ###
 *.log
 npm-debug.log*
 
-### Dependency directories ###
+### Dependencies ###
 node_modules/
 jspm_packages/
+
+
