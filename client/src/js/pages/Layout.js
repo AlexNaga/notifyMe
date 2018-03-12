@@ -21,7 +21,7 @@ export default class Layout extends Component {
 
           <div className="column">
             <Body pageTitle={pageTitle} />
-            <a href="http://localhost:8000/auth/github" className="button is-success">Login</a>
+            <a href="http://localhost:8000/auth/github" className="button is-info">Login</a>
           </div>
         </div>
       </div >

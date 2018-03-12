@@ -11,19 +11,19 @@ import axios from 'axios';
 
 function Organization(props) {
   return <form>
-    <div className="field">
-      <input className="is-checkradio is-circle" id={'checkbox' + props.id} type="checkbox" name={'checkbox' + props.id} />
-      <label htmlFor={'checkbox' + props.id}>{props.name}</label>
+    <div className='field'>
+      <input className='is-checkradio is-circle' id={'checkbox' + props.id} type='checkbox' name={'checkbox' + props.id} />
+      <label className='title is-2' htmlFor={'checkbox' + props.id}>{props.name}</label>
     </div>
 
-    <div className="field">
-      <input className="is-checkradio" id={'checkradio' + props.id + '1'} type="checkbox" name={'checkradio' + props.id} />
-      <label htmlFor={'checkradio' + props.id + '1'}>Option 1</label>
-      <input className="is-checkradio" id={'checkradio' + props.id + '2'} type="checkbox" name={'checkradio' + props.id} />
-      <label htmlFor={'checkradio' + props.id + '2'}>Option 2</label>
-      <input className="is-checkradio" id={'checkradio' + props.id + '3'} type="checkbox" name={'checkradio' + props.id} />
+    <div className='field'>
+      <input className='is-checkradio' id={'checkradio' + props.id + '1'} type='checkbox' name={'checkradio' + props.id} />
+      <label htmlFor={'checkradio' + props.id + '1'}>Issues</label>
+      <input className='is-checkradio' id={'checkradio' + props.id + '2'} type='checkbox' name={'checkradio' + props.id} />
+      <label htmlFor={'checkradio' + props.id + '2'}>Release</label>
+      <input className='is-checkradio' id={'checkradio' + props.id + '3'} type='checkbox' name={'checkradio' + props.id} />
       <label htmlFor={'checkradio' + props.id + '3'}>Option 3</label>
-      <input className="is-checkradio" id={'checkradio' + props.id + '4'} type="checkbox" name={'checkradio' + props.id} />
+      <input className='is-checkradio' id={'checkradio' + props.id + '4'} type='checkbox' name={'checkradio' + props.id} />
       <label htmlFor={'checkradio' + props.id + '4'}>Option 4</label>
     </div>
     <br />
@@ -44,25 +44,29 @@ export default class Github extends Component {
   }
 
   render() {
-    const pageTitle = "Github page";
+    const pageTitle = 'Github page';
+    const pageSubTitle = 'Select which organizations to get notifications from.';
 
     return (
-      <div className="app">
+      <div className='app'>
         <Header />
 
-        <div className="columns">
-          <div className="column is-2">
+        <div className='columns'>
+          <div className='column is-2'>
             <Sidebar />
           </div>
 
-          <div className="column">
-            <Body pageTitle={pageTitle} />
+          <div className='column'>
+            <Body pageTitle={pageTitle} pageSubTitle={pageSubTitle} />
+            <br />
 
             <ul>
               {this.state.organizations.map((organization, key) =>
                 < Organization key={key} id={key} name={organization.name} />
               )}
             </ul>
+
+            <a className="button is-success">Save</a>
           </div>
         </div>
       </div >
