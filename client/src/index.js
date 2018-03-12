@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
-import registerServiceWorker from 'js/registerServiceWorker';
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 import Github from 'js/pages/Github';
 import Layout from 'js/pages/Layout';

@@ -8,5 +8,7 @@ exports.githubAuth = passport.authenticate('github', { scope: ['user', 'repo', '
 exports.githubCallback = (req, res, next) => {
   req.session.accessToken = req.user.accessToken;
   req.session.username = req.user.profile.username;
-  res.redirect('/github/repos');
+  console.log('Access token: ', req.session.accessToken);
+  
+  res.redirect('http://localhost:3000');
 };

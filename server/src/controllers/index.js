@@ -1,13 +1,14 @@
 exports.index = (req, res, next) => {
-  if (req.session.page_views) {
-    req.session.page_views++;
+  if (req.session.username) {
     res.status(200).json({
-      message: 'You visited this page ' + req.session.page_views + ' times',
+      message: 'Hello, ' + req.session.username,
       accessToken: req.session.accessToken
     });
   } else {
-    req.session.page_views = 1;
-    res.send('Welcome to this page for the first time!');
+    res.status(200).json({
+      message: 'Authentication failed. Please login!',
+      href: 'http://localhost:8000/login'
+    });
   }
 };
 

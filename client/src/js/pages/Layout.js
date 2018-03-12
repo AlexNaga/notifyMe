@@ -6,19 +6,7 @@ import Body from 'js/components/Body';
 import Header from 'js/components/Header';
 import Sidebar from 'js/components/Sidebar';
 
-import request from 'axios';
-
 export default class Layout extends Component {
-  handleClick() {
-    request.get('http://localhost:8000/auth/github')
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
-
   render() {
     const pageTitle = "Home page";
 
@@ -33,7 +21,7 @@ export default class Layout extends Component {
 
           <div className="column">
             <Body pageTitle={pageTitle} />
-            <a onClick={(e) => this.handleClick(e)} className="button is-success">Login</a>
+            <a href="http://localhost:8000/auth/github" className="button is-success">Login</a>
           </div>
         </div>
       </div >

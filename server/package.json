@@ -5,6 +5,7 @@
   "main": "app.js",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
     "dotenv": "^5.0.1",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
@@ -13,8 +14,7 @@
     "morgan": "^1.9.0",
     "octonode": "^0.9.1",
     "passport": "^0.4.0",
-    "passport-github2": "^0.1.11",
-    "superagent": "^3.8.2"
+    "passport-github2": "^0.1.11"
   },
   "devDependencies": {},
   "scripts": {

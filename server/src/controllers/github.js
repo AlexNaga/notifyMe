@@ -1,5 +1,4 @@
 const github = require('octonode');
-const request = require('superagent');
 
 exports.githubGetOrgs = (req, res, next) => {
   let username = req.session.username;

@@ -6,6 +6,7 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const session = require('express-session');
+const cors = require('cors')
 
 const GitHubStrategy = require('passport-github2').Strategy;
 
@@ -22,6 +23,7 @@ const webhookRoutes = require('./src/routes/webhooks');
 // );
 // mongoose.Promise = global.Promise;
 
+app.use(cors()); // CORS support
 app.use(logger('dev')); // Logs all requests to the terminal
 app.use(express.static(__dirname + '/public'));
 
@@ -65,13 +67,6 @@ passport.use(new GitHubStrategy({
     return cb(null, { profile: profile, accessToken: accessToken });
   }
 ));
-
-// CORS support
-app.use(function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  next();
-});
 
 // Routes
 app.use('/', indexRoutes);
