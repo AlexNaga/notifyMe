@@ -38,3 +38,19 @@ You will also see any lint errors in the console.
 
 Builds and minifys the app for production, to the `build` folder.  
 It correctly bundles React in production mode and optimizes the build for the best performance.
+
+Authorization Code Grant flow
+In the traditional approach for an application with server side rendering, the following authentication flow works well:
+
+User visits https://example.com.
+User clicks a link to login that points her browser to https://example.com/auth/login.
+Server redirects the browser to https://github.com/login/oauth/authorize.
+User is presented with the Github OAuth login page and logs in.
+Github redirects the browser to https://example.com/login/oauth/callback.
+Server sends a HTTP POST to Github.
+Github sends back a JSON reply with the access token, token type, expiration, and refresh token.
+Using the passport OAuth module, the following additional steps are performed:
+
+Server uses access token to request the Github user profile.
+Server populates the user session.
+Server redirects the browser to success page.
