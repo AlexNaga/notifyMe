@@ -16,8 +16,8 @@ export default class Sidebar extends Component {
           <li>
             <a>Manage Notifications</a>
             <ul>
-              <li><NavLink to="/slack" activeClassName="is-active">Slack</NavLink></li>
               <li><NavLink to="/github" activeClassName="is-active">Github</NavLink></li>
+              <li><NavLink to="/slack" activeClassName="is-active">Slack</NavLink></li>
             </ul>
           </li>
         </ul>
