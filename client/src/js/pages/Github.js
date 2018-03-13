@@ -12,19 +12,19 @@ import axios from 'axios';
 function Organization(props) {
   return <form>
     <div className='field'>
-      <input className='is-checkradio is-circle' id={'checkbox' + props.id} type='checkbox' name={'checkbox' + props.id} />
-      <label className='title is-2' htmlFor={'checkbox' + props.id}>{props.name}</label>
+      <input className='is-checkradio is-circle' id={'organization' + props.id} type='checkbox' name={'organization' + props.id} />
+      <label className='title is-2' htmlFor={'organization' + props.id}>{props.name}</label>
     </div>
 
     <div className='field'>
-      <input className='is-checkradio' id={'checkradio' + props.id + '1'} type='checkbox' name={'checkradio' + props.id} />
-      <label htmlFor={'checkradio' + props.id + '1'}>Issues</label>
-      <input className='is-checkradio' id={'checkradio' + props.id + '2'} type='checkbox' name={'checkradio' + props.id} />
-      <label htmlFor={'checkradio' + props.id + '2'}>Release</label>
-      <input className='is-checkradio' id={'checkradio' + props.id + '3'} type='checkbox' name={'checkradio' + props.id} />
-      <label htmlFor={'checkradio' + props.id + '3'}>Option 3</label>
-      <input className='is-checkradio' id={'checkradio' + props.id + '4'} type='checkbox' name={'checkradio' + props.id} />
-      <label htmlFor={'checkradio' + props.id + '4'}>Option 4</label>
+      <input className='is-checkradio' id={'issue' + props.id} type='checkbox' name='issue' />
+      <label htmlFor={'issue' + props.id}>Issues</label>
+      <input className='is-checkradio' id={'release' + props.id} type='checkbox' name='release' />
+      <label htmlFor={'release' + props.id}>Releases</label>
+      <input className='is-checkradio' id={'repository' + props.id} type='checkbox' name='repository' />
+      <label htmlFor={'repository' + props.id}>Repositories</label>
+      <input className='is-checkradio' id={'star' + props.id} type='checkbox' name='star' />
+      <label htmlFor={'star' + props.id}>Stars</label>
     </div>
     <br />
   </form>;

@@ -67,52 +67,20 @@ exports.registerWebhook = (req, res, next) => {
     });
 };
 
+// Receive a webhook
+exports.handleWebhook = (req, res, next) => {
+  console.log('Received a webhook');
+  console.log(res);
+}
+
+
 // Lists all webhooks
 exports.getWebhooks = (req, res, next) => {
-  Webhook.find()
-    .select('_id url createdAt updatedAt')
-    .exec()
-    .then(webhooks => {
-      res.status(200).json({
-        links: {
-          index: {
-            href: process.env.DOMAIN + 'api',
-            method: 'GET',
-            desc: 'Main entry point. Overview of routes.'
-          },
-          self: {
-            href: process.env.DOMAIN + 'api/webhooks',
-            method: 'GET',
-            desc: 'Route for listing all webhooks.'
-          },
-          register: {
-            href: process.env.DOMAIN + 'api/webhooks/register',
-            method: 'POST',
-            desc: 'Route for registering a new webhook.'
-          },
-          delete: {
-            href: process.env.DOMAIN + 'api/webhooks/:webhookId',
-            method: 'DELETE',
-            desc: 'Route for deleting a webhook.'
-          }
-        },
-        webhookCount: webhooks.length,
-        webhooks: webhooks.map(webhook => {
-          return {
-            _id: webhook._id,
-            href: webhook.url,
-            createdAt: webhook.createdAt,
-            updatedAt: webhook.updatedAt
-          }
-        })
-      });
-    })
-    .catch(err => {
-      res.status(500).json({
-        error: err
-      });
-    });
+  res.status(200).json({
+    message: 'Lists all webhooks.'
+  });
 };
+
 
 // Deletes a specific webhook
 exports.deleteWebhook = (req, res, next) => {

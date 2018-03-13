@@ -72,7 +72,7 @@ passport.use(new GitHubStrategy({
 app.use('/', indexRoutes);
 app.use('/auth', authRoutes);
 app.use('/github', githubRoutes);
-app.use('/api/webhooks', webhookRoutes);
+app.use('/webhook', webhookRoutes);
 
 // Error handling
 app.use((req, res, next) => {
