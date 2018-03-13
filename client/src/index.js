@@ -10,14 +10,14 @@ import Slack from 'js/pages/Slack';
 const root = document.getElementById('root');
 
 ReactDOM.render(
-    <Router>
-        <div>
-        <Route exact path="/" component={Index} />
-        <Route path="/settings" component={Settings} />
-        <Route path="/github" component={Github} />        
-        <Route path="/slack" component={Slack} />
-        </div>
-    </Router>,
-    root);
+  <Router>
+    <div>
+      <Route exact path="/" component={Index} />
+      <Route path="/settings" component={Settings} />
+      <Route path="/github" component={Github} />
+      <Route path="/slack" component={Slack} />
+    </div>
+  </Router>,
+  root);
 
 // registerServiceWorker();

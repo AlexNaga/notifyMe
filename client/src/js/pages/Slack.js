@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import 'css/index.css';
 import 'bulma/css/bulma.css'
 
@@ -12,15 +12,15 @@ export default class Slack extends Component {
 
     return (
       <div className="app">
-        <Header/>
+        <Header />
 
         <div className="columns">
           <div className="column is-2">
-            <Sidebar/>
+            <Sidebar />
           </div>
 
           <div className="column">
-            <Body pageTitle={pageTitle}/>
+            <Body pageTitle={pageTitle} />
           </div>
         </div>
       </div >

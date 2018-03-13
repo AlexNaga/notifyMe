@@ -12,5 +12,7 @@ exports.githubCallback = (req, res, next) => {
     accessToken: req.user.accessToken
   });
 
+  store.set('testUser2', { name: 'thisIsSentFromServer' });
+
   res.redirect('http://localhost:3000');
 };
