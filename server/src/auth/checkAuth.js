@@ -1,24 +1,14 @@
-// module.exports = (req, res, next) => {
-//   console.log(req.user);
-
-//   if (req.user) {
-//     return next();
-//   }
-//   // res.redirect('/login')
-//   return res.status(401).json({
-//     message: 'Authentication failed. You need to be logged in to access this resource.'
-//   });
-// };
+const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {
-  let username = 'user';
-
-  if (typeof (username) !== 'undefined') {
-    return next();
-  } else {
+  try {
+    const token = req.headers.authorization.split(' ')[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.userData = decoded;
+    next();
+  } catch (err) {
     return res.status(401).json({
-      message: 'Authentication failed. You need to be logged in to access this resource.',
-      href: "http://localhost:8000/login"
+      message: 'Authentication failed. You need to be logged in to access this resource.'
     });
   }
 };
