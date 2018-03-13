@@ -2,10 +2,10 @@ require('dotenv').load();
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const cors = require('cors')
 const logger = require('morgan');
 const mongoose = require('mongoose');
 const passport = require('passport');
-const cors = require('cors')
 
 const GitHubStrategy = require('passport-github2').Strategy;
 

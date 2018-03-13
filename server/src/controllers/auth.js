@@ -6,6 +6,7 @@ exports.githubAuth = passport.authenticate('github', { scope: ['user', 'repo', '
 
 // Recives a callback from GitHub
 exports.githubCallback = (req, res, next) => {
+  const io = req.app.get('socketio');
 
   // Get token
   request.post(process.env.DOMAIN + 'users/login', {
@@ -23,6 +24,7 @@ exports.githubCallback = (req, res, next) => {
     })
     .then((response) => {
       // console.log('Response', response);
+      io.emit('Emmiting a response');
     })
     .catch((err) => {
       console.log(err);
