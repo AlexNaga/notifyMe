@@ -17,7 +17,6 @@ export default class Index extends Component {
   }
 
   render() {
-
     const pageTitle = "Home page";
 
     return (

@@ -1,25 +1,24 @@
 const github = require('octonode');
-const session = require('express-session');
 
 exports.getGithubOrganizations = (req, res, next) => {
   console.log(req);
-  
-  let client = github.client(req.accessToken);
-  let githubUser = client.me();
 
-  // Get users organizations from GitHub
-  githubUser.orgs((err, data, headers) => {
-    res.status(200).json(data.map(organization => {
-      return {
-        url: organization.url,
-        name: organization.login,
-        reposUrl: organization.repos_url,
-        hooksUrl: organization.hooks_url,
-        image: organization.avatar_url
-      }
-    })
-    );
-  });
+  // let client = github.client(req.accessToken);
+  // let githubUser = client.me();
+
+  // // Get users organizations from GitHub
+  // githubUser.orgs((err, data, headers) => {
+  //   res.status(200).json(data.map(organization => {
+  //     return {
+  //       url: organization.url,
+  //       name: organization.login,
+  //       reposUrl: organization.repos_url,
+  //       hooksUrl: organization.hooks_url,
+  //       image: organization.avatar_url
+  //     }
+  //   })
+  //   );
+  // });
 };
 
 exports.getGithubRepos = (req, res, next) => {

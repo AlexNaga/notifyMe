@@ -4,11 +4,12 @@
   "description": "Interface repository for 1DV612 Assignment",
   "main": "app.js",
   "dependencies": {
+    "axios": "^0.18.0",
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
     "dotenv": "^5.0.1",
     "express": "^4.16.2",
-    "express-session": "^1.15.6",
+    "jsonwebtoken": "^8.2.0",
     "mongoose": "^5.0.4",
     "mongoose-timestamp": "^0.6.0",
     "morgan": "^1.9.0",

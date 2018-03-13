@@ -63,8 +63,13 @@ export default class Github extends Component {
   }
 
   componentDidMount() {
+    let token = localStorage.accessToken;
+    console.log('token:', token);
+    
     axios
-      .get('http://localhost:8000/github/organizations')
+      .get('http://localhost:8000/github/organizations', {
+        headers: { Authorization: "Bearer " + token }
+      })
       .then(res => {
         const organizations = res.data;
         this.setState({ organizations });

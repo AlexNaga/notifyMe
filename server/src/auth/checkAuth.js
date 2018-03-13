@@ -1,5 +1,3 @@
-const session = require('express-session');
-
 // module.exports = (req, res, next) => {
 //   console.log(req.user);
 
@@ -13,7 +11,7 @@ const session = require('express-session');
 // };
 
 module.exports = (req, res, next) => {
-  let username = req.session.username;
+  let username = 'user';
 
   if (typeof (username) !== 'undefined') {
     return next();
