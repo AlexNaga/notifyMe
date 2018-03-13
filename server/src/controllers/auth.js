@@ -6,18 +6,26 @@ exports.githubAuth = passport.authenticate('github', { scope: ['user', 'repo', '
 
 // Recives a callback from GitHub
 exports.githubCallback = (req, res, next) => {
-  request.post(process.env.DOMAIN + 'users', {
-    username: req.user.profile.username,
-    githubId: req.user.profile.id,
-    githubToken: req.user.accessToken,
-    jwtToken: '123456'
+
+  // Get token
+  request.post(process.env.DOMAIN + 'users/login', {
+    username: req.user.profile.username
   })
-    .then(response => {
-    })
-    .catch((error) => {
-      res.status(500).json({
-        error: err
+    .then((response) => {
+
+      // Save user to db
+      return request.post(process.env.DOMAIN + 'users', {
+        username: req.user.profile.username,
+        githubId: req.user.profile.id,
+        githubToken: req.user.accessToken,
+        jwtToken: response.data.token
       });
+    })
+    .then((response) => {
+      // console.log('Response', response);
+    })
+    .catch((err) => {
+      console.log(err);
     });
 
   res.redirect('http://localhost:3000');
