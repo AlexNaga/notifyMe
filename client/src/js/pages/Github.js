@@ -54,7 +54,7 @@ function Organization(props) {
 
 export default class Github extends Component {
   state = {
-    organizations: [],
+    organizations: []
   };
 
   constructor() {

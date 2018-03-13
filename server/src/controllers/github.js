@@ -1,9 +1,10 @@
 const github = require('octonode');
-const store = require('store');
+const session = require('express-session');
 
 exports.getGithubOrganizations = (req, res, next) => {
-  let localStorage = store.get('user');
-  let client = github.client(localStorage.accessToken);
+  console.log(req);
+  
+  let client = github.client(req.accessToken);
   let githubUser = client.me();
 
   // Get users organizations from GitHub

@@ -1,4 +1,4 @@
-const store = require('store');
+const session = require('express-session');
 
 // module.exports = (req, res, next) => {
 //   console.log(req.user);
@@ -13,9 +13,9 @@ const store = require('store');
 // };
 
 module.exports = (req, res, next) => {
-  let localStorage = store.get('user');
+  let username = req.session.username;
 
-  if (typeof (localStorage) !== 'undefined') {
+  if (typeof (username) !== 'undefined') {
     return next();
   } else {
     return res.status(401).json({
