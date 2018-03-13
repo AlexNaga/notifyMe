@@ -3,16 +3,24 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
 
-// Creates a user
-exports.createUser = (req, res, next) => {
-  User.findOneAndUpdate({ username: req.body.username }, { new: true })
+// Saves a user
+exports.saveUser = (req, res, next) => {
+  const updateParams = {
+    username: req.body.username,
+    githubId: req.body.githubId,
+    githubToken: req.body.githubToken,
+    jwtToken: req.body.jwtToken
+  };
+
+  // Dynamically add which params to update
+  // for (const param of req.body) {
+  //   updateParams[param.propName] = param.value;
+  // }
+
+  User.findOneAndUpdate({ username: req.body.username }, { $set: updateParams }, { new: true })
     .exec()
     .then(user => {
-      if (user.length >= 1) {
-        return res.status(409).json({
-          message: 'Username already exists.'
-        });
-      } else {
+      if (!user) {
         const user = new User({
           username: req.body.username,
           githubId: req.body.githubId,
@@ -23,15 +31,11 @@ exports.createUser = (req, res, next) => {
         user
           .save()
           .then(result => {
-            console.log(result);
-
             res.status(201).json({
-              message: 'Created user.'
+              message: 'User saved.'
             })
           })
           .catch(err => {
-            console.log(err);
-
             res.status(500).json({
               error: err
             })
@@ -219,7 +223,7 @@ exports.deleteUser = (req, res, next) => {
     .exec()
     .then(result => {
       res.status(200).json({
-        message: 'Deleted user.'
+        message: 'User deleted.'
       })
     })
     .catch(err => {

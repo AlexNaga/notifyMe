@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-const store = require('store');
 
 export default class Navbar extends Component {
   state = {
@@ -7,13 +6,7 @@ export default class Navbar extends Component {
   }
 
   componentDidMount() {
-    let user = store.get('user');
-    console.log(user);
 
-    store.set('testUser', { name: 'Alex' });
-    let testUser2 = store.get('testUser2');
-
-    console.log(testUser2);
   }
 
   render() {
@@ -21,11 +14,13 @@ export default class Navbar extends Component {
       <nav className='navbar is-transparent'>
         <div id='navbarExampleTransparentExample' className='navbar-menu'>
           <div className='navbar-start'>
+
+          </div>
+          <div className='navbar-end'>
             <p className='navbar-item'>
               Hello,
             </p>
-          </div>
-          <div className='navbar-end'>
+
             <div className='navbar-item'>
               <div className='field is-grouped'>
                 <p className='control'>

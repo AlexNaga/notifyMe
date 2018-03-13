@@ -12,19 +12,25 @@ export default class Sidebar extends Component {
             <NavLink exact to="/" activeClassName="is-active">Dashboard</NavLink>
           </li>
         </ul>
-        <p className="menu-label">Administration</p>
+        <p className="menu-label">Manage Notifications</p>
         <ul className="menu-list">
           <li>
-            <NavLink to="/settings" activeClassName="is-active">Settings</NavLink>
-          </li>
-          <li>
-            <a>Manage Notifications</a>
             <ul>
               <li>
-                <NavLink to="/github" activeClassName="is-active">Github</NavLink>
+                <NavLink to="/github" activeClassName="is-active">
+                  <span className='icon'>
+                    <i className='fab fa-github' />
+                  </span>
+                  <span>Github</span>
+                </NavLink>
               </li>
               <li>
-                <NavLink to="/slack" activeClassName="is-active">Slack</NavLink>
+                <NavLink to="/slack" activeClassName="is-active">
+                  <span className='icon'>
+                    <i className='fab fa-slack-hash' />
+                  </span>
+                  <span>Slack</span>
+                </NavLink>
               </li>
             </ul>
           </li>

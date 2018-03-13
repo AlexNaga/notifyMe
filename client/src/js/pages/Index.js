@@ -7,13 +7,9 @@ import Header from 'js/components/Header';
 import Navbar from 'js/components/Navbar';
 import Sidebar from 'js/components/Sidebar';
 
-const queryString = require('query-string');
-
 export default class Index extends Component {
   componentDidMount() {
-    const parsed = queryString.parse(window.location.search);
-    localStorage.setItem('accessToken', parsed.access_token);
-    console.log(localStorage.accessToken);
+    // localStorage.setItem('accessToken', parsed.access_token);
   }
 
   render() {

@@ -4,6 +4,7 @@ import 'bulma/css/bulma.css'
 
 import Body from 'js/components/Body';
 import Header from 'js/components/Header';
+import Navbar from 'js/components/Navbar';
 import Sidebar from 'js/components/Sidebar';
 
 export default class Slack extends Component {
@@ -20,6 +21,7 @@ export default class Slack extends Component {
           </div>
 
           <div className="column">
+            <Navbar />          
             <Body pageTitle={pageTitle} />
           </div>
         </div>

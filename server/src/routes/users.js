@@ -5,7 +5,7 @@ const checkAuth = require('../auth/checkAuth');
 const UsersController = require('../controllers/users');
 
 // Creates a user
-router.post('/create', UsersController.createUser);
+router.post('/', UsersController.saveUser);
 
 // Authenticates a user
 router.post('/login', UsersController.loginUser);
