@@ -12,11 +12,6 @@ exports.saveUser = (req, res, next) => {
     jwtToken: req.body.jwtToken
   };
 
-  // Dynamically add which params to update
-  // for (const param of req.body) {
-  //   updateParams[param.propName] = param.value;
-  // }
-
   User.findOneAndUpdate({ username: req.body.username }, { $set: updateParams }, { new: true })
     .exec()
     .then(user => {
@@ -32,7 +27,20 @@ exports.saveUser = (req, res, next) => {
           .save()
           .then(result => {
             res.status(201).json({
-              message: 'User saved.'
+              message: 'User created.'
+            })
+          })
+          .catch(err => {
+            res.status(500).json({
+              error: err
+            })
+          });
+      } else {
+        user
+          .save()
+          .then(result => {
+            res.status(201).json({
+              message: 'User updated.'
             })
           })
           .catch(err => {
@@ -46,112 +54,17 @@ exports.saveUser = (req, res, next) => {
 
 // Authenticates a user
 exports.loginUser = (req, res, next) => {
-  const username = req.body.user;
-
-  User.findOne({ user: username })
+  User.findOne({ username: req.body.username })
     .then(user => {
-      if (!user) {
-        return res.status(401).json({
-          message: 'Authentication failed.',
-          links: {
-            self: {
-              href: process.env.DOMAIN + 'api/users/login',
-              method: 'POST',
-              desc: 'Login an existing user with the following payload.',
-              body: {
-                user: 'String',
-                password: 'String'
-              }
-            },
-            signup: {
-              href: process.env.DOMAIN + 'api/users/signup',
-              method: 'POST',
-              desc: 'Create a new user with the following payload.',
-              body: {
-                user: 'String',
-                password: 'String'
-              }
-            }
-          }
+      if (user) {
+        return res.status(200).json({
+          message: 'Authentication is successful.'
+        });
+      } else {
+        res.status(401).json({
+          message: 'Authentication failed.'
         });
       }
-
-      bcrypt.compare(req.body.password, user.password, (err, result) => {
-        if (err) {
-          return res.status(401).json({
-            message: 'Authentication failed.',
-            links: {
-              self: {
-                href: process.env.DOMAIN + 'api/users/login',
-                method: 'POST',
-                desc: 'Login an existing user with the following payload.',
-                body: {
-                  user: 'String',
-                  password: 'String'
-                }
-              },
-              signup: {
-                href: process.env.DOMAIN + 'api/users/signup',
-                method: 'POST',
-                desc: 'Create a new user with the following payload.',
-                body: {
-                  user: 'String',
-                  password: 'String'
-                }
-              }
-            }
-          });
-        }
-
-        if (result) {
-          const token = jwt.sign(
-            {
-              user: username,
-              userId: user._id
-            },
-            process.env.JWT_KEY,
-            {
-              expiresIn: "4h"
-            }
-          );
-
-          return res.status(200).json({
-            message: "Authentication is successful.",
-            token: token,
-            links: {
-              index: {
-                href: process.env.DOMAIN + 'api',
-                method: 'GET',
-                desc: 'Main entry point. Overview of routes.'
-              }
-            }
-          });
-        }
-
-        res.status(401).json({
-          message: 'Authentication failed.',
-          links: {
-            self: {
-              href: process.env.DOMAIN + 'api/users/login',
-              method: 'POST',
-              desc: 'Login an existing user with the following payload.',
-              body: {
-                user: 'String',
-                password: 'String'
-              }
-            },
-            signup: {
-              href: process.env.DOMAIN + 'api/users/signup',
-              method: 'POST',
-              desc: 'Create a new user with the following payload.',
-              body: {
-                user: 'String',
-                password: 'String'
-              }
-            }
-          }
-        });
-      });
     })
     .catch(err => {
       res.status(500).json({
