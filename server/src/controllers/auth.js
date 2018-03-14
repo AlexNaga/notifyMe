@@ -13,7 +13,6 @@ exports.githubCallback = (req, res, next) => {
     username: req.user.profile.username
   })
     .then((response) => {
-
       // Save user to db
       return request.post(process.env.DOMAIN + 'users', {
         username: req.user.profile.username,
@@ -23,8 +22,8 @@ exports.githubCallback = (req, res, next) => {
       });
     })
     .then((response) => {
-      // console.log('Response', response);
-      io.emit('Emmiting a response');
+      let jsonObj = JSON.parse(response.config.data);
+      io.emit('token', jsonObj.jwtToken);
     })
     .catch((err) => {
       console.log(err);

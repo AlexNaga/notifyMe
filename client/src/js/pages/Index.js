@@ -7,9 +7,14 @@ import Header from 'js/components/Header';
 import Navbar from 'js/components/Navbar';
 import Sidebar from 'js/components/Sidebar';
 
+import io from 'socket.io-client';
+
 export default class Index extends Component {
   componentDidMount() {
-    // localStorage.setItem('accessToken', parsed.access_token);
+    const socket = io('ws://localhost:8000');
+    socket.on('token', (data) => {
+      localStorage.setItem('token', data);
+    });
   }
 
   render() {

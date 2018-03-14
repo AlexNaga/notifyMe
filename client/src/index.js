@@ -17,5 +17,3 @@ ReactDOM.render(
     </div>
   </Router>,
   root);
-
-// registerServiceWorker();
