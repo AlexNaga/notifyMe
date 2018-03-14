@@ -23,7 +23,6 @@ export default class Index extends Component {
       localStorage.setItem('username', token.username);
 
       this.setState({ username: token.username });
-      console.log('Username from state: ', this.state.username);      
     });
   }
 

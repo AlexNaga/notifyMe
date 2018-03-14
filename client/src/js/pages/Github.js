@@ -12,7 +12,7 @@ import Sidebar from 'js/components/Sidebar';
 import request from 'axios';
 
 function Organization(props) {
-  return <form>
+  return <div>
     <div className='field'>
       <input
         className='is-checkradio is-circle'
@@ -26,40 +26,42 @@ function Organization(props) {
       <input
         className='is-checkradio'
         id={'issue' + props.id}
-        type='checkbox'
-        name='issue' />
+        name='issue'
+        onChange={props.onChange}
+        type='checkbox' />
       <label htmlFor={'issue' + props.id}>Issues</label>
       <input
         className='is-checkradio'
         id={'release' + props.id}
-        type='checkbox'
-        name='release' />
+        name='release'
+        type='checkbox' />
       <label htmlFor={'release' + props.id}>Releases</label>
       <input
         className='is-checkradio'
         id={'repository' + props.id}
-        type='checkbox'
-        name='repository' />
+        name='repository'
+        type='checkbox' />
       <label htmlFor={'repository' + props.id}>Repositories</label>
       <input
         className='is-checkradio'
         id={'star' + props.id}
-        type='checkbox'
-        name='star' />
+        name='star'
+        type='checkbox' />
       <label htmlFor={'star' + props.id}>Stars</label>
     </div>
     <br />
-  </form>;
+  </div>
 }
 
 export default class Github extends Component {
   state = {
-    organizations: []
+    organizations: [],
+    issue: '',
   };
 
   constructor() {
     super();
-    this.state = { isLoading: true }
+    this.state = { isLoading: true };
   }
 
   componentDidMount() {
@@ -75,6 +77,27 @@ export default class Github extends Component {
         const organizations = res.data;
         this.setState({ organizations });
         this.setState({ isLoading: false });
+      });
+  }
+
+  onChange = (event) => {
+    // Because we named the inputs to match their corresponding values in state, it's
+    // super easy to update the state
+    const state = this.state
+    state[event.target.name] = event.target.value;
+    this.setState(state);
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    // get our form data out of state
+    const { issue } = this.state;
+    console.log(issue);
+    
+
+    request.post('http://localhost:8000/users/organizations', { issue })
+      .then((result) => {
+        console.log(result);
       });
   }
 
@@ -98,20 +121,13 @@ export default class Github extends Component {
             {this.state.isLoading ? <Spinner name='ball-clip-rotate' fadeIn='none' /> :
               <div id='organizationSettings'>
                 <ul>
-                  {this
-                    .state
-                    .organizations
-                    .map((organization, key) => < Organization key={
-                      key
+                  <form onSubmit={this.handleSubmit}>
+                    {this.state.organizations.map((organization, key) =>
+                      < Organization key={key} id={key} name={organization.name} onChange={this.onChange} />)
                     }
-                      id={
-                        key
-                      }
-                      name={
-                        organization.name
-                      } />)}
+                    <button className="button is-success" type="submit">Save</button>
+                  </form>
                 </ul>
-                <a className="button is-success">Save</a>
               </div>}
           </div>
         </div>

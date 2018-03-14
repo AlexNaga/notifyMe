@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-const GithubController = require('../controllers/github');
+const githubController = require('../controllers/github');
 const checkAuth = require('../auth/checkAuth');
 
-router.post('/organizations', GithubController.getGithubOrganizations);
+router.post('/organizations', githubController.getGithubOrganizations);
 
 module.exports = router;

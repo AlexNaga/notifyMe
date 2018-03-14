@@ -5,18 +5,21 @@ export default class Navbar extends Component {
     isLoggedIn: false,
   }
 
-  render() {
+  componentDidMount() {
     let username = '';
 
-    if (localStorage.username !== 'undefined') {
+    if (this.props.username !== 'undefined') {
       username = this.props.username;
     } else {
       username = localStorage.username;
     }
 
-    console.log('localstorage: ', localStorage.username);
-    console.log('props: ', this.props.username);
+    console.log(username);
+    
+    this.setState({ username: username });
+  }
 
+  render() {
     return (
       <nav className='navbar is-transparent'>
         <div id='navbarExampleTransparentExample' className='navbar-menu'>
@@ -25,7 +28,7 @@ export default class Navbar extends Component {
           </div>
           <div className='navbar-end'>
             <p className='navbar-item'>
-              Hello, {username}
+              Hello, {this.state.username}
             </p>
 
             <div className='navbar-item'>

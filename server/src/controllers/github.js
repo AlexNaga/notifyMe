@@ -4,7 +4,7 @@ const User = require('../models/user');
 
 exports.getGithubOrganizations = (req, res, next) => {
   const token = req.body.headers.Authorization.split(' ')[1];
-
+  
   User.findOne({ username: req.body.username })
     .then(user => {
       if (user && user.jwtToken === token) {
@@ -36,19 +36,7 @@ exports.getGithubOrganizations = (req, res, next) => {
     });
 };
 
-exports.getGithubRepos = (req, res, next) => {
-  let client = github.client(req.session.accessToken);
-  let githubUser = client.me();
-  var ghorg = client.org('1dv612-test3');
-
-  // Get users repositories from GitHub
-  ghorg.repos((err, data, headers) => {
-    res.status(200).json({
-      githubRepos: data.map(org => {
-        return {
-          url: org.url
-        }
-      })
-    });
-  });
+exports.saveGithubOrganizations = (req, res, next) => {
+  console.log('Save user settings to db');
+  
 };
