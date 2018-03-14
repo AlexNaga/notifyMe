@@ -9,7 +9,7 @@ import Header from 'js/components/Header';
 import Navbar from 'js/components/Navbar';
 import Sidebar from 'js/components/Sidebar';
 
-import axios from 'axios';
+import request from 'axios';
 
 function Organization(props) {
   return <form>
@@ -63,17 +63,18 @@ export default class Github extends Component {
   }
 
   componentDidMount() {
-    let token = localStorage.accessToken;
-    console.log('token:', token);
-    
-    axios
-      .get('http://localhost:8000/github/organizations', {
-        headers: { Authorization: "Bearer " + token }
+    let token = localStorage.token;
+    let username = localStorage.username;
+
+    request
+      .post('http://localhost:8000/github/organizations', {
+        headers: { Authorization: "Bearer " + token },
+        username: username
       })
       .then(res => {
         const organizations = res.data;
         this.setState({ organizations });
-        this.setState({ isLoading: false })
+        this.setState({ isLoading: false });
       });
   }
 

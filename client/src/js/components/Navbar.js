@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 
 export default class Navbar extends Component {
   state = {
-    isLoggedIn: false
+    isLoggedIn: false,
+    username: ''
   }
 
   componentDidMount() {
-
+    this.setState({ username: localStorage.username });
   }
 
   render() {
@@ -18,7 +19,7 @@ export default class Navbar extends Component {
           </div>
           <div className='navbar-end'>
             <p className='navbar-item'>
-              Hello,
+              Hello, {this.state.username}
             </p>
 
             <div className='navbar-item'>

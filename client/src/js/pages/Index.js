@@ -18,6 +18,7 @@ export default class Index extends Component {
 
       localStorage.setItem('token', data);
       localStorage.setItem('username', token.username);
+      // this.setState({ username: token.username });
     });
   }
 
