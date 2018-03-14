@@ -11,6 +11,9 @@ import io from 'socket.io-client';
 import jwt from 'jsonwebtoken';
 
 export default class Index extends Component {
+  state = {
+  }
+
   componentDidMount() {
     const socket = io('ws://localhost:8000');
     socket.on('token', (data) => {
@@ -18,7 +21,9 @@ export default class Index extends Component {
 
       localStorage.setItem('token', data);
       localStorage.setItem('username', token.username);
-      // this.setState({ username: token.username });
+
+      this.setState({ username: token.username });
+      console.log('Username from state: ', this.state.username);      
     });
   }
 
@@ -35,7 +40,7 @@ export default class Index extends Component {
           </div>
 
           <div className="column">
-            <Navbar />
+            <Navbar username={this.state.username} />
             <Body pageTitle={pageTitle} />
           </div>
         </div>

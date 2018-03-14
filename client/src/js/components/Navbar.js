@@ -3,14 +3,20 @@ import React, { Component } from 'react';
 export default class Navbar extends Component {
   state = {
     isLoggedIn: false,
-    username: ''
-  }
-
-  componentDidMount() {
-    this.setState({ username: localStorage.username });
   }
 
   render() {
+    let username = '';
+
+    if (localStorage.username !== 'undefined') {
+      username = this.props.username;
+    } else {
+      username = localStorage.username;
+    }
+
+    console.log('localstorage: ', localStorage.username);
+    console.log('props: ', this.props.username);
+
     return (
       <nav className='navbar is-transparent'>
         <div id='navbarExampleTransparentExample' className='navbar-menu'>
@@ -19,7 +25,7 @@ export default class Navbar extends Component {
           </div>
           <div className='navbar-end'>
             <p className='navbar-item'>
-              Hello, {this.state.username}
+              Hello, {username}
             </p>
 
             <div className='navbar-item'>
