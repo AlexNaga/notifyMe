@@ -10,45 +10,27 @@ import Navbar from 'js/components/Navbar';
 import Sidebar from 'js/components/Sidebar';
 
 import request from 'axios';
+import AutoForm from 'react-auto-form'
 
 function Organization(props) {
-  return <div>
-    <div className='field'>
-      <input
-        className='is-checkradio is-circle'
-        id={'organization' + props.id}
-        type='checkbox'
-        name={'organization' + props.id} />
-      <label className='title is-2' htmlFor={'organization' + props.id}>{props.name}</label>
-    </div>
+  return <div className='field'>
+    <input className='is-checkradio is-circle' type='checkbox' name={props.name} id={props.name} />
+    <label className='title is-2' htmlFor={props.name}>{props.name}</label>
+    <br />
+    <br />
 
-    <div className='field'>
-      <input
-        className='is-checkradio'
-        id={'issue' + props.id}
-        name='issue'
-        onChange={props.onChange}
-        type='checkbox' />
-      <label htmlFor={'issue' + props.id}>Issues</label>
-      <input
-        className='is-checkradio'
-        id={'release' + props.id}
-        name='release'
-        type='checkbox' />
-      <label htmlFor={'release' + props.id}>Releases</label>
-      <input
-        className='is-checkradio'
-        id={'repository' + props.id}
-        name='repository'
-        type='checkbox' />
-      <label htmlFor={'repository' + props.id}>Repositories</label>
-      <input
-        className='is-checkradio'
-        id={'star' + props.id}
-        name='star'
-        type='checkbox' />
-      <label htmlFor={'star' + props.id}>Stars</label>
-    </div>
+    <input className='is-checkradio' type='checkbox' name={props.name} value='issues' id={'issues' + props.id} />
+    <label htmlFor={'issues' + props.id}>Issues</label>
+
+    <input className='is-checkradio' type='checkbox' name={props.name} value='releases' id={'releases' + props.id} />
+    <label htmlFor={'releases' + props.id}>Releases</label>
+
+    <input className='is-checkradio' type='checkbox' name={props.name} value='repositories' id={'repositories' + props.id} />
+    <label htmlFor={'repositories' + props.id}>Repositories</label>
+
+    <input className='is-checkradio' type='checkbox' name={props.name} value='stars' id={'stars' + props.id} />
+    <label htmlFor={'stars' + props.id}>Stars</label>
+    <br />
     <br />
   </div>
 }
@@ -56,7 +38,6 @@ function Organization(props) {
 export default class Github extends Component {
   state = {
     organizations: [],
-    issue: '',
   };
 
   constructor() {
@@ -70,7 +51,7 @@ export default class Github extends Component {
 
     request
       .post('http://localhost:8000/github/organizations', {
-        headers: { Authorization: "Bearer " + token },
+        headers: { Authorization: 'Bearer ' + token },
         username: username
       })
       .then(res => {
@@ -80,22 +61,14 @@ export default class Github extends Component {
       });
   }
 
-  onChange = (event) => {
-    // Because we named the inputs to match their corresponding values in state, it's
-    // super easy to update the state
-    const state = this.state
-    state[event.target.name] = event.target.value;
-    this.setState(state);
+  _onChange = (event, name, data, change) => {
+    // console.log(name);
   }
 
-  handleSubmit = (event) => {
-    event.preventDefault();
-    // get our form data out of state
-    const { issue } = this.state;
-    console.log(issue);
-    
+  _onSubmit = (event, data) => {
+    console.log(data);
 
-    request.post('http://localhost:8000/users/organizations', { issue })
+    request.post('http://localhost:8000/users/organizations', { data })
       .then((result) => {
         console.log(result);
       });
@@ -121,12 +94,13 @@ export default class Github extends Component {
             {this.state.isLoading ? <Spinner name='ball-clip-rotate' fadeIn='none' /> :
               <div id='organizationSettings'>
                 <ul>
-                  <form onSubmit={this.handleSubmit}>
+                  <AutoForm onChange={this._onChange} onSubmit={this._onSubmit} trimOnSubmit>
                     {this.state.organizations.map((organization, key) =>
-                      < Organization key={key} id={key} name={organization.name} onChange={this.onChange} />)
-                    }
-                    <button className="button is-success" type="submit">Save</button>
-                  </form>
+                      < Organization key={key} id={key} name={organization.name} />
+                    )}
+
+                    <button className='button is-success' type='submit'>Save</button>
+                  </AutoForm>
                 </ul>
               </div>}
           </div>

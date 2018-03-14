@@ -4,7 +4,7 @@ const User = require('../models/user');
 
 exports.getGithubOrganizations = (req, res, next) => {
   const token = req.body.headers.Authorization.split(' ')[1];
-  
+
   User.findOne({ username: req.body.username })
     .then(user => {
       if (user && user.jwtToken === token) {
@@ -38,5 +38,6 @@ exports.getGithubOrganizations = (req, res, next) => {
 
 exports.saveGithubOrganizations = (req, res, next) => {
   console.log('Save user settings to db');
-  
+  console.log(req.body.data);
+
 };
