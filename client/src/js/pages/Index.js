@@ -8,12 +8,16 @@ import Navbar from 'js/components/Navbar';
 import Sidebar from 'js/components/Sidebar';
 
 import io from 'socket.io-client';
+import jwt from 'jsonwebtoken';
 
 export default class Index extends Component {
   componentDidMount() {
     const socket = io('ws://localhost:8000');
     socket.on('token', (data) => {
+      const token = jwt.decode(data);
+
       localStorage.setItem('token', data);
+      localStorage.setItem('username', token.username);
     });
   }
 
