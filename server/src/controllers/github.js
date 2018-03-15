@@ -42,12 +42,12 @@ exports.saveGithubOrganizations = (req, res, next) => {
   let eventsToSave = {};
 
   // Get the selected organizations
-  for (const key in formData) {
-    if (formData.hasOwnProperty(key)) {
-      const element = formData[key];
+  for (const organization in formData) {
+    if (formData.hasOwnProperty(organization)) {
+      const events = formData[organization];
 
-      if (element[0] === 'on') {
-        eventsToSave[key] = element;
+      if (events[0] === 'on') {
+        eventsToSave[organization] = events;
       }
     }
   }
@@ -103,14 +103,18 @@ exports.saveGithubOrganizations = (req, res, next) => {
 
 
 exports.createGithubHook = (username) => {
-  Webhook.find({ username: username })
+  Webhook.findOne({ username: username })
     .then(data => {
-      console.log('data: ', data);
+      for (const organization in data.events) {
+        if (data.events.hasOwnProperty(organization)) {
+          const events = data.events[organization];
+          console.log(organization);
+          console.log(events);
+        }
+      }
     })
     .catch(err => {
-      res.status(500).json({
-        error: err
-      })
+      console.log(err);
     })
 };
 
