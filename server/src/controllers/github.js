@@ -46,7 +46,10 @@ exports.saveGithubOrganizations = (req, res, next) => {
     if (formData.hasOwnProperty(organization)) {
       const events = formData[organization];
 
+      // Check if organization really is selected
       if (events[0] === 'on') {
+        // Remove first element status to clean up array
+        events.shift();
         eventsToSave[organization] = events;
       }
     }
@@ -108,8 +111,8 @@ exports.createGithubHook = (username) => {
       for (const organization in data.events) {
         if (data.events.hasOwnProperty(organization)) {
           const events = data.events[organization];
-          console.log(organization);
-          console.log(events);
+          // console.log(organization);
+          // console.log(events);
         }
       }
     })
