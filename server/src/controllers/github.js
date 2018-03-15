@@ -39,7 +39,7 @@ exports.getGithubOrganizations = (req, res, next) => {
 
 exports.saveGithubOrganizations = (req, res, next) => {
   let formData = req.body.data;
-  let result = [];
+  let eventsToSave = {};
 
   // Get the selected organizations
   for (const key in formData) {
@@ -47,7 +47,7 @@ exports.saveGithubOrganizations = (req, res, next) => {
       const element = formData[key];
 
       if (element[0] === 'on') {
-        console.log(key);
+        eventsToSave[key] = element;
       }
     }
   }
@@ -56,7 +56,7 @@ exports.saveGithubOrganizations = (req, res, next) => {
     username: req.body.username,
     url: 'http://localhost:1dv612',
     organizationName: '1dv612Update',
-    events: req.body.data
+    events: eventsToSave
   };
 
   Webhook.findOneAndUpdate({ username: req.body.username }, { $set: updateParams }, { new: true })
@@ -67,7 +67,7 @@ exports.saveGithubOrganizations = (req, res, next) => {
           username: req.body.username,
           url: 'http://localhost:1dv612',
           organizationName: '1dv612New',
-          events: req.body.data
+          events: eventsToSave
         });
 
         webhook
