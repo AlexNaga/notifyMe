@@ -6,17 +6,7 @@ export default class Navbar extends Component {
   }
 
   componentDidMount() {
-    let username = '';
-
-    if (this.props.username !== 'undefined') {
-      username = this.props.username;
-    } else {
-      username = localStorage.username;
-    }
-
-    console.log(username);
-    
-    this.setState({ username: username });
+    this.setState({ username: localStorage.username });
   }
 
   render() {
@@ -27,15 +17,19 @@ export default class Navbar extends Component {
 
           </div>
           <div className='navbar-end'>
-            <p className='navbar-item'>
-              Hello, {this.state.username}
-            </p>
+            {this.state.username ?
+              <p className='navbar-item'>
+                Hello, {this.state.username}
+              </p>
+              :
+              <p className='navbar-item'></p>
+            }
 
             <div className='navbar-item'>
               <div className='field is-grouped'>
                 <p className='control'>
 
-                  {this.state.isLoggedIn ?
+                  {this.state.username ?
                     <a className='button is-info' href='http://localhost:8000/auth/github'>
                       <span className='icon'>
                         <i className='fas fa-sign-out-alt' />

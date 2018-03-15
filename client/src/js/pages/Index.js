@@ -7,15 +7,16 @@ import Header from 'js/components/Header';
 import Navbar from 'js/components/Navbar';
 import Sidebar from 'js/components/Sidebar';
 
-import io from 'socket.io-client';
 import jwt from 'jsonwebtoken';
+import io from 'socket.io-client';
+const socket = io('ws://localhost:8000');
 
 export default class Index extends Component {
   state = {
+    username: '',
   }
 
   componentDidMount() {
-    const socket = io('ws://localhost:8000');
     socket.on('token', (data) => {
       const token = jwt.decode(data);
 
@@ -39,7 +40,7 @@ export default class Index extends Component {
           </div>
 
           <div className="column">
-            <Navbar username={this.state.username} />
+            <Navbar />
             <Body pageTitle={pageTitle} />
           </div>
         </div>

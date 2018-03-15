@@ -9,7 +9,7 @@ const GithubController = require('../controllers/github');
 router.post('/', UsersController.saveUser);
 
 // Authenticates a user
-router.post('/login', UsersController.loginUser);
+router.post('/login', UsersController.saveUser);
 
 // Deletes a specific user
 router.delete('/:username', checkAuth, UsersController.deleteUser);

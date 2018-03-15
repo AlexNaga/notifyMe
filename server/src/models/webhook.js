@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 const timestamp = require('mongoose-timestamp');
 
 const webhookSchema = mongoose.Schema({
-  _id: mongoose.Schema.Types.ObjectId,
-  url: { type: String, required: true, unique: true }
+  url: { type: String, required: true },
+  username: { type: String, required: true, unique: true }
 });
 
 webhookSchema.plugin(timestamp);

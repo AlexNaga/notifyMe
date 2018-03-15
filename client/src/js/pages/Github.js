@@ -14,12 +14,12 @@ import AutoForm from 'react-auto-form'
 
 function Organization(props) {
   return <div className='field'>
-    <input className='is-checkradio is-circle' type='checkbox' name={props.name} id={props.name} />
+    <input defaultChecked className='is-checkradio is-circle' type='checkbox' name={props.name} id={props.name} />
     <label className='title is-2' htmlFor={props.name}>{props.name}</label>
     <br />
     <br />
 
-    <input className='is-checkradio' type='checkbox' name={props.name} value='issues' id={'issues' + props.id} />
+    <input defaultChecked className='is-checkradio' type='checkbox' name={props.name} value='issues' id={'issues' + props.id} />
     <label htmlFor={'issues' + props.id}>Issues</label>
 
     <input className='is-checkradio' type='checkbox' name={props.name} value='releases' id={'releases' + props.id} />
@@ -28,7 +28,7 @@ function Organization(props) {
     <input className='is-checkradio' type='checkbox' name={props.name} value='repositories' id={'repositories' + props.id} />
     <label htmlFor={'repositories' + props.id}>Repositories</label>
 
-    <input className='is-checkradio' type='checkbox' name={props.name} value='stars' id={'stars' + props.id} />
+    <input defaultChecked className='is-checkradio' type='checkbox' name={props.name} value='stars' id={'stars' + props.id} />
     <label htmlFor={'stars' + props.id}>Stars</label>
     <br />
     <br />
@@ -58,19 +58,24 @@ export default class Github extends Component {
         const organizations = res.data;
         this.setState({ organizations });
         this.setState({ isLoading: false });
+      })
+      .catch(err => {
+        console.log(err);
+        // Show 'Not signed in' message to user
       });
   }
 
   _onChange = (event, name, data, change) => {
-    // console.log(name);
   }
 
   _onSubmit = (event, data) => {
-    console.log(data);
+    let username = localStorage.username;
 
-    request.post('http://localhost:8000/users/organizations', { data })
+    request.post('http://localhost:8000/users/organizations', {
+      data,
+      username: username
+    })
       .then((result) => {
-        console.log(result);
       });
   }
 

@@ -8,22 +8,16 @@ exports.githubAuth = passport.authenticate('github', { scope: ['user', 'repo', '
 exports.githubCallback = (req, res, next) => {
   const io = req.app.get('socketio');
 
-  // Get token
-  request.post(process.env.DOMAIN + 'users/login', {
-    username: req.user.profile.username
+  // Save user to db
+  request.post(process.env.DOMAIN + 'users', {
+    username: req.user.profile.username,
+    githubId: req.user.profile.id,
+    githubToken: req.user.accessToken
   })
     .then((response) => {
-      // Save user to db
-      return request.post(process.env.DOMAIN + 'users', {
-        username: req.user.profile.username,
-        githubId: req.user.profile.id,
-        githubToken: req.user.accessToken,
-        jwtToken: response.data.token
+      io.on('connection', (client) => {
+        client.emit('token', response.data.token);
       });
-    })
-    .then((response) => {
-      let jsonObj = JSON.parse(response.config.data);
-      io.emit('token', jsonObj.jwtToken);
     })
     .catch((err) => {
       console.log(err);
