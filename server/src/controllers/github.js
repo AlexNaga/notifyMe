@@ -38,13 +38,25 @@ exports.getGithubOrganizations = (req, res, next) => {
 };
 
 exports.saveGithubOrganizations = (req, res, next) => {
-  console.log(req.body.username);
-  console.log(req.body.data);
+  let formData = req.body.data;
+  let result = [];
 
+  // Get the selected organizations
+  for (const key in formData) {
+    if (formData.hasOwnProperty(key)) {
+      const element = formData[key];
+
+      if (element[0] === 'on') {
+        console.log(key);
+      }
+    }
+  }
 
   const updateParams = {
-    url: '1dv612',
-    username: req.body.username
+    username: req.body.username,
+    url: 'http://localhost:1dv612',
+    organizationName: '1dv612Update',
+    events: req.body.data
   };
 
   Webhook.findOneAndUpdate({ username: req.body.username }, { $set: updateParams }, { new: true })
@@ -52,8 +64,10 @@ exports.saveGithubOrganizations = (req, res, next) => {
     .then(webhook => {
       if (!webhook) {
         const webhook = new Webhook({
-          url: '1dv023',
-          username: req.body.username
+          username: req.body.username,
+          url: 'http://localhost:1dv612',
+          organizationName: '1dv612New',
+          events: req.body.data
         });
 
         webhook
@@ -74,8 +88,6 @@ exports.saveGithubOrganizations = (req, res, next) => {
         webhook
           .save()
           .then(result => {
-            console.log('Webhook updated');
-
             res.status(201).json({
               message: 'Webhook updated.'
             })
@@ -87,12 +99,4 @@ exports.saveGithubOrganizations = (req, res, next) => {
           });
       }
     });
-
-  // Object.entries(formData).forEach((webhook, index) => {
-  //   console.log(webhook);
-  // });
-
-  // Object.keys(formData).forEach((webhook, index) => {
-  //   console.log(webhook);
-  // });
 };
