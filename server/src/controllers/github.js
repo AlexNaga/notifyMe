@@ -46,11 +46,15 @@ exports.saveGithubOrganizations = (req, res, next) => {
     if (formData.hasOwnProperty(organization)) {
       const events = formData[organization];
 
-      // Check if organization really is selected
+      // Check if organization actually is selected
       if (events[0] === 'on') {
         // Remove first element status to clean up array
         events.shift();
-        eventsToSave[organization] = events;
+
+        // Check if any event actually is selected
+        if (events.length >= 1) {
+          eventsToSave[organization] = events;
+        }
       }
     }
   }
