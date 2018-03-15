@@ -2,7 +2,7 @@ const passport = require('passport');
 const request = require('axios');
 
 // Authenticate a user with GitHub
-exports.githubAuth = passport.authenticate('github', { scope: ['user', 'repo', 'admin: org', 'admin: org_hook'] });
+exports.githubAuth = passport.authenticate('github', { scope: ['user', 'admin:org', 'admin:org_hook'] });
 
 // Recives a callback from GitHub
 exports.githubCallback = (req, res, next) => {

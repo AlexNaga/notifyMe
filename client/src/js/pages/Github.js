@@ -14,7 +14,7 @@ import AutoForm from 'react-auto-form'
 
 function Organization(props) {
   return <div className='field'>
-    <input defaultChecked className='is-checkradio is-circle' type='checkbox' name={props.name} id={props.name} />
+    <input className='is-checkradio is-circle' type='checkbox' name={props.name} id={props.name} />
     <label className='title is-2' htmlFor={props.name}>{props.name}</label>
     <br />
     <br />
@@ -22,13 +22,13 @@ function Organization(props) {
     <input defaultChecked className='is-checkradio' type='checkbox' name={props.name} value='issues' id={'issues' + props.id} />
     <label htmlFor={'issues' + props.id}>Issues</label>
 
-    <input className='is-checkradio' type='checkbox' name={props.name} value='releases' id={'releases' + props.id} />
+    <input className='is-checkradio' type='checkbox' name={props.name} value='release' id={'releases' + props.id} />
     <label htmlFor={'releases' + props.id}>Releases</label>
 
-    <input className='is-checkradio' type='checkbox' name={props.name} value='repositories' id={'repositories' + props.id} />
+    <input className='is-checkradio' type='checkbox' name={props.name} value='repository' id={'repositories' + props.id} />
     <label htmlFor={'repositories' + props.id}>Repositories</label>
 
-    <input defaultChecked className='is-checkradio' type='checkbox' name={props.name} value='stars' id={'stars' + props.id} />
+    <input defaultChecked className='is-checkradio' type='checkbox' name={props.name} value='watch' id={'stars' + props.id} />
     <label htmlFor={'stars' + props.id}>Stars</label>
     <br />
     <br />
@@ -70,7 +70,7 @@ export default class Github extends Component {
 
   _onSubmit = (event, data) => {
     let username = localStorage.username;
-
+    
     request.post('http://localhost:8000/users/organizations', {
       data,
       username: username

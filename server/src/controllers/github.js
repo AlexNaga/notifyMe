@@ -110,13 +110,37 @@ exports.saveGithubOrganizations = (req, res, next) => {
 
 
 exports.createGithubHook = (username) => {
+  let githubToken = '';
+
+  User.findOne({ username: username })
+    .then(user => {
+      githubToken = user.githubToken;
+    });
+
+
   Webhook.findOne({ username: username })
     .then(data => {
       for (const organization in data.events) {
         if (data.events.hasOwnProperty(organization)) {
+          let client = github.client(githubToken);
+          let githubOrg = client.org(organization);
           const events = data.events[organization];
-          // console.log(organization);
-          // console.log(events);
+
+          githubOrg.hook(
+            {
+              'name': 'web',
+              'active': true,
+              'events': events,
+              'config': {
+                'url': 'http://stripe.notifyme.ultrahook.com',
+                'secret': process.env.GITHUB_WEBHOOK_SECRET,
+                'content_type': 'json'
+              }
+            },
+            (err, data, headers) => {
+              // console.log(data);
+              console.log(err);
+            });
         }
       }
     })
