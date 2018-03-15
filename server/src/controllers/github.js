@@ -54,8 +54,6 @@ exports.saveGithubOrganizations = (req, res, next) => {
 
   const updateParams = {
     username: req.body.username,
-    url: 'http://localhost:1dv612',
-    organizationName: '1dv612Update',
     events: eventsToSave
   };
 
@@ -65,15 +63,14 @@ exports.saveGithubOrganizations = (req, res, next) => {
       if (!webhook) {
         const webhook = new Webhook({
           username: req.body.username,
-          url: 'http://localhost:1dv612',
-          organizationName: '1dv612New',
           events: eventsToSave
         });
 
         webhook
           .save()
           .then(result => {
-            console.log('Webhook created');
+            // Then also create webhooks
+            exports.createGithubHook(req.body.username);
 
             res.status(201).json({
               message: 'Webhook created.'
@@ -88,6 +85,9 @@ exports.saveGithubOrganizations = (req, res, next) => {
         webhook
           .save()
           .then(result => {
+            // Then also create webhooks
+            exports.createGithubHook(req.body.username);
+
             res.status(201).json({
               message: 'Webhook updated.'
             })
@@ -100,3 +100,18 @@ exports.saveGithubOrganizations = (req, res, next) => {
       }
     });
 };
+
+
+exports.createGithubHook = (username) => {
+  Webhook.find({ username: username })
+    .then(data => {
+      console.log('data: ', data);
+    })
+    .catch(err => {
+      res.status(500).json({
+        error: err
+      })
+    })
+};
+
+//events.map(event => {

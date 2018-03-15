@@ -20,7 +20,9 @@ exports.githubCallback = (req, res, next) => {
       });
     })
     .catch((err) => {
-      console.log(err);
+      res.status(500).json({
+        error: err
+      })
     });
 
   res.redirect('http://localhost:3000');
