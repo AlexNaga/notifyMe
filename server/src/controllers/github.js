@@ -1,4 +1,5 @@
 const github = require('octonode');
+const request = require('axios');
 
 const User = require('../models/user');
 const Webhook = require('../models/webhook');
@@ -76,7 +77,7 @@ exports.saveGithubOrganizations = (req, res, next) => {
         webhook
           .save()
           .then(result => {
-            // Then also create webhooks
+            // Save and then also create webhook
             exports.createGithubHook(req.body.username);
 
             res.status(201).json({
@@ -92,7 +93,7 @@ exports.saveGithubOrganizations = (req, res, next) => {
         webhook
           .save()
           .then(result => {
-            // Then also create webhooks
+            // Update and then also create webhook
             exports.createGithubHook(req.body.username);
 
             res.status(201).json({
@@ -115,38 +116,58 @@ exports.createGithubHook = (username) => {
   User.findOne({ username: username })
     .then(user => {
       githubToken = user.githubToken;
-    });
-
+    })
 
   Webhook.findOne({ username: username })
     .then(data => {
       for (const organization in data.events) {
-        if (data.events.hasOwnProperty(organization)) {
-          let client = github.client(githubToken);
-          let githubOrg = client.org(organization);
+        const organizationExist = data.events.hasOwnProperty(organization);
+
+        if (organizationExist) {
+          const client = github.client(githubToken);
+          const githubOrg = client.org(organization);
           const events = data.events[organization];
 
-          githubOrg.hook(
-            {
-              'name': 'web',
-              'active': true,
-              'events': events,
-              'config': {
-                'url': 'http://stripe.notifyme.ultrahook.com',
-                'secret': process.env.GITHUB_WEBHOOK_SECRET,
-                'content_type': 'json'
-              }
-            },
+          let hookData = {
+            "name": "web",
+            "active": true,
+            "events": events,
+            "config": {
+              "url": "http://stripe.notifyme.ultrahook.com",
+              "secret": process.env.GITHUB_WEBHOOK_SECRET,
+              "content_type": "json"
+            }
+          };
+
+          // Try to create a new webhook
+          githubOrg.hook(hookData,
             (err, data, headers) => {
-              // console.log(data);
-              console.log(err);
+
+              // If webhook already exists
+              if (err && (err.statusCode === 404 || err.statusCode === 422)) {
+                let hookId = '';
+
+                // Get which webhook id to update
+                githubOrg.hooks((err, data, headers) => {
+                  if (data) {
+                    let url = data[0].url;
+                    console.log(url);
+                    console.log(githubToken);
+
+
+                  }
+
+                  if (err) {
+                    console.log(err);
+                  }
+                  console.log('Webhook already exist');
+                });
+              }
             });
         }
       }
     })
     .catch(err => {
-      console.log(err);
+      console.log('Error: could not found webhook.');
     })
 };
-
-//events.map(event => {
