@@ -39,92 +39,74 @@ exports.getGithubOrganizations = (req, res, next) => {
 };
 
 exports.saveGithubOrganizations = (req, res, next) => {
-  const url = 'https://api.github.com/orgs/1dv612-test3/hooks/24085652';
-  const params = {
-    events: ['repository']
+  let formData = req.body.data;
+  let eventsToSave = {};
+
+  // Get the selected organizations
+  for (const organization in formData) {
+    if (formData.hasOwnProperty(organization)) {
+      const events = formData[organization];
+
+      // Check if organization actually is selected
+      if (events[0] === 'on') {
+        // Remove first element status to clean up array
+        events.shift();
+
+        // Check if any event actually is selected
+        if (events.length >= 1) {
+          eventsToSave[organization] = events;
+        }
+      }
+    }
+  }
+
+  const updateParams = {
+    username: req.body.username,
+    events: eventsToSave
   };
 
-  request.patch(url, params, {
-    headers: {
-      'Authorization': 'token 388692fd3a54fc793059e9c2cd034ca812d67ec9'
-    }
-  })
-    .then((response) => {
-      console.log(response);
-    })
-    .catch((error) => {
-      console.log(error);
+  Webhook.findOneAndUpdate({ username: req.body.username }, { $set: updateParams }, { new: true })
+    .exec()
+    .then(webhook => {
+      if (!webhook) {
+        const webhook = new Webhook({
+          username: req.body.username,
+          events: eventsToSave
+        });
+
+        webhook
+          .save()
+          .then(result => {
+            // Save and then also create webhook
+            exports.createGithubHook(req.body.username);
+
+            res.status(201).json({
+              message: 'Webhook created.'
+            })
+          })
+          .catch(err => {
+            res.status(500).json({
+              error: err
+            })
+          });
+      } else {
+        webhook
+          .save()
+          .then(result => {
+            // Update and then also create webhook
+            exports.createGithubHook(req.body.username);
+
+            res.status(201).json({
+              message: 'Webhook updated.'
+            })
+          })
+          .catch(err => {
+            res.status(500).json({
+              error: err
+            })
+          });
+      }
     });
-
-
-  //   let formData = req.body.data;
-  //   let eventsToSave = {};
-
-  //   // Get the selected organizations
-  //   for (const organization in formData) {
-  //     if (formData.hasOwnProperty(organization)) {
-  //       const events = formData[organization];
-
-  //       // Check if organization actually is selected
-  //       if (events[0] === 'on') {
-  //         // Remove first element status to clean up array
-  //         events.shift();
-
-  //         // Check if any event actually is selected
-  //         if (events.length >= 1) {
-  //           eventsToSave[organization] = events;
-  //         }
-  //       }
-  //     }
-  //   }
-
-  //   const updateParams = {
-  //     username: req.body.username,
-  //     events: eventsToSave
-  //   };
-
-  //   Webhook.findOneAndUpdate({ username: req.body.username }, { $set: updateParams }, { new: true })
-  //     .exec()
-  //     .then(webhook => {
-  //       if (!webhook) {
-  //         const webhook = new Webhook({
-  //           username: req.body.username,
-  //           events: eventsToSave
-  //         });
-
-  //         webhook
-  //           .save()
-  //           .then(result => {
-  //             // Save and then also create webhook
-  //             exports.createGithubHook(req.body.username);
-
-  //             res.status(201).json({
-  //               message: 'Webhook created.'
-  //             })
-  //           })
-  //           .catch(err => {
-  //             res.status(500).json({
-  //               error: err
-  //             })
-  //           });
-  //       } else {
-  //         webhook
-  //           .save()
-  //           .then(result => {
-  //             // Update and then also create webhook
-  //             exports.createGithubHook(req.body.username);
-
-  //             res.status(201).json({
-  //               message: 'Webhook updated.'
-  //             })
-  //           })
-  //           .catch(err => {
-  //             res.status(500).json({
-  //               error: err
-  //             })
-  //           });
-  //       }
-  //     });
 };
 
 
@@ -142,38 +124,60 @@ exports.createGithubHook = (username) => {
         const organizationExist = data.events.hasOwnProperty(organization);
 
         if (organizationExist) {
+          const client = github.client(githubToken);
+          const githubOrg = client.org(organization);
           const events = data.events[organization];
 
           let hookData = {
-            'name': 'web',
-            'active': true,
-            'events': events,
-            'config': {
-              'url': 'http://stripe.notifyme.ultrahook.com',
-              'secret': process.env.GITHUB_WEBHOOK_SECRET,
-              'content_type': 'json'
+            "name": "web",
+            "active": true,
+            "events": events,
+            "config": {
+              "url": "http://stripe.notifyme.ultrahook.com",
+              "secret": process.env.GITHUB_WEBHOOK_SECRET,
+              "content_type": "json"
             }
           };
 
-          console.log(hookData);
+          // Try to create a new webhook
+          githubOrg.hook(hookData,
+            (err, data, headers) => {
 
+              // If webhook already exists
+              if (err && (err.statusCode === 404 || err.statusCode === 422)) {
+                let hookId = '';
+                const url = 'https://api.github.com/orgs/' + organization + '/hooks';
 
-          console.log('Send POST');
-          request.post('https://api.github.com/orgs/1dv612-test3/hooks', {
-            Authorization: 'token ' + githubToken,
-            hookData
-          })
-            .then(function (response) {
-              console.log(response);
-            })
-            .catch(function (error) {
-              console.log(error);
+                // Get which webhook id to update
+                request.get(url, {
+                  headers: {
+                    'Authorization': 'token ' + githubToken
+                  }
+                })
+                  .then((response) => {
+                    const url = response.data[0].url;
+
+                    request.patch(url, { 'events': events }, {
+                      headers: {
+                        'Authorization': 'token ' + githubToken
+                      }
+                    })
+                      .then((response) => {
+                        console.log(response);
+                      })
+                      .catch((err) => {
+                        console.log(err);
+                      });
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              }
             });
-
         }
       }
     })
     .catch(err => {
-      console.log('Error: Could not find webhook.');
+      console.log(err);
     })
 };
