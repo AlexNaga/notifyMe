@@ -52,13 +52,7 @@ exports.saveGithubOrganizations = (req, res, next) => {
 
       // Check if organization actually is selected
       if (events[0] === 'on') {
-        // Remove first element status to clean up array
-        events.shift();
-
-        // Check if any event actually is selected
-        if (events.length >= 1) {
-          eventsToSave[organization] = events;
-        }
+        eventsToSave[organization] = events;
       }
     }
   }
@@ -124,86 +118,105 @@ exports.createGithubHook = (username) => {
   Webhook.findOne({ username: username })
     .then(data => {
       for (const organization in data.events) {
-        const eventsExist = data.events.hasOwnProperty(organization);
-        console.log(eventsExist);
+        const orgSelected = data.events.hasOwnProperty(organization);
 
-        if (eventsExist) {
+        const client = new GitHub({
+          token: githubToken
+        });
+
+        if (orgSelected) {
           let events = data.events[organization];
-          const client = new GitHub({
-            token: githubToken
-          });
+          const eventCount = events.length;
 
-          // Check if webhook already exist
-          client.get('/orgs/' + organization + '/hooks')
-            .then(response => {
-              const hooks = response.body;
-              const hookExist = hooks.length >= 1;
+          // Check if any event actually is selected
+          if (eventCount < 2) {
+            console.log('No event selected');
 
-              console.log('exists: ', hookExist);
+            // Check if webhook already exist
+            client.get('/orgs/' + organization + '/hooks')
+              .then(response => {
+                const hooks = response.body;
+                const hookExist = hooks.length >= 1;
 
-              if (hookExist) {
-                hooks.map(hook => {
-                  const localHookUrl = process.env.WEBHOOK_URL;
-                  const fetchedHookUrl = hook.config.url;
+                if (hookExist) {
+                  hooks.map(hook => {
+                    console.log(hook);
+                    const localHookUrl = process.env.WEBHOOK_URL;
+                    const fetchedHookUrl = hook.config.url;
 
-                  // Get the correct hook to edit
-                  if (localHookUrl === fetchedHookUrl) {
-                    // Update webhook with new events
-                    client.patch(hook.url, { events })
-                      .then((response) => {
-                        console.log('Webhook updated with new events');
-                      });
-                  }
-                })
-              } else {
-                let hookData = {
-                  'name': 'web',
-                  'active': true,
-                  'events': events,
-                  'config': {
-                    'url': process.env.WEBHOOK_URL,
-                    'secret': process.env.GITHUB_WEBHOOK_SECRET,
-                    'content_type': 'json'
-                  }
-                };
-
-                // Create a new webhook
-                client.post('orgs/' + organization + '/hooks', hookData)
-                  .then((response) => {
-                    console.log(response.body);
-
-                  })
-                  .catch(err => {
-                    console.log(err);
-
+                    // Get the correct hook to delete
+                    if (localHookUrl === fetchedHookUrl) {
+                      client.del(hook.url)
+                        .then((response) => {
+                          console.log('Webhook deleted');
+                        })
+                        .catch(err => {
+                          console.log(err.body);
+                        });
+                    }
                   });
-              }
-            })
-            .catch(err => {
-              console.log('Error caught');
-            });
-        } else {
-          // Remove events from webhook
-          client.get('/orgs/' + organization + '/hooks')
-            .then(response => {
-              const hooks = response.body;
+                }
+              });
 
-              hooks.map(hook => {
-                const localHookUrl = process.env.WEBHOOK_URL;
-                const fetchedHookUrl = hook.config.url;
+            return;
+          } else {
+            console.log('Event(s) selected');
+            events.shift();
 
-                // Get the correct hook to edit
-                if (localHookUrl === fetchedHookUrl) {
-                  let events = [];
+            // Check if webhook already exist
+            client.get('/orgs/' + organization + '/hooks')
+              .then(response => {
+                const hooks = response.body;
+                const hookExist = hooks.length >= 1;
 
-                  // Update webhook with empty list
-                  client.patch(hook.url, { events })
+                if (hookExist) {
+                  hooks.map(hook => {
+                    const localHookUrl = process.env.WEBHOOK_URL;
+                    const fetchedHookUrl = hook.config.url;
+
+                    // Get the correct hook to edit
+                    if (localHookUrl === fetchedHookUrl) {
+                      console.log('Found notifyMe hook');
+
+                      // Update webhook with new events
+                      client.patch(hook.url, { events })
+                        .then((response) => {
+                          console.log('Webhook updated with new events');
+                        })
+                        .catch(err => {
+                          console.log(err.body);
+                        });
+                    }
+                  })
+                } else {
+                  let hookData = {
+                    'name': 'web',
+                    'active': true,
+                    'events': events,
+                    'config': {
+                      'url': process.env.WEBHOOK_URL,
+                      'secret': process.env.GITHUB_WEBHOOK_SECRET,
+                      'content_type': 'json'
+                    }
+                  };
+
+                  // Create a new webhook
+                  client.post('orgs/' + organization + '/hooks', hookData)
                     .then((response) => {
-                      console.log('Removed events from webhook');
+                      console.log(response.body);
+
+                    })
+                    .catch(err => {
+                      console.log(err);
                     });
                 }
+
               })
-            })
+              .catch(err => {
+                console.log('Error caught');
+                console.log(err);
+              });
+          }
         }
       }
     })
