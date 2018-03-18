@@ -135,12 +135,13 @@ exports.createGithubHook = (username) => {
             // Check if webhook already exist
             client.get('/orgs/' + organization + '/hooks')
               .then(response => {
+                console.log('Inside get hooks');
+
                 const hooks = response.body;
                 const hookExist = hooks.length >= 1;
 
                 if (hookExist) {
                   hooks.map(hook => {
-                    console.log(hook);
                     const localHookUrl = process.env.WEBHOOK_URL;
                     const fetchedHookUrl = hook.config.url;
 
@@ -176,7 +177,6 @@ exports.createGithubHook = (username) => {
 
                     // Get the correct hook to edit
                     if (localHookUrl === fetchedHookUrl) {
-                      console.log('Found notifyMe hook');
 
                       // Update webhook with new events
                       client.patch(hook.url, { events })
@@ -203,14 +203,11 @@ exports.createGithubHook = (username) => {
                   // Create a new webhook
                   client.post('orgs/' + organization + '/hooks', hookData)
                     .then((response) => {
-                      console.log(response.body);
-
                     })
                     .catch(err => {
                       console.log(err);
                     });
                 }
-
               })
               .catch(err => {
                 console.log('Error caught');
@@ -222,6 +219,5 @@ exports.createGithubHook = (username) => {
     })
     .catch(err => {
       console.log('Could not create webhook');
-      console.log(err);
     })
 };

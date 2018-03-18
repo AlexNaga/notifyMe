@@ -76,6 +76,7 @@ export default class Github extends Component {
       username: username
     })
       .then((result) => {
+        console.log(result);
       });
   }
 
