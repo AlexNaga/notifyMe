@@ -8,12 +8,14 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 
 const GitHubStrategy = require('passport-github2').Strategy;
+const GithubWebHook = require('express-github-webhook');
+const webhookHandler = GithubWebHook({ path: '/webhook', secret: process.env.GITHUB_WEBHOOK_SECRET });
 
 const indexRoutes = require('./src/routes/index');
 const authRoutes = require('./src/routes/auth');
 const githubRoutes = require('./src/routes/github');
 const userRoutes = require('./src/routes/users');
-const webhookRoutes = require('./src/routes/webhooks');
+//const webhookRoutes = require('./src/routes/webhooks');
 
 mongoose.connect(
   'mongodb://' + process.env.MONGO_ATLAS_USERNAME +
@@ -29,11 +31,12 @@ app.use(express.static(__dirname + '/public'));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-// app.use(session({
-//   resave: false,
-//   saveUninitialized: false,
-//   secret: process.env.SESSION_SECRET
-// }));
+app.use(webhookHandler);
+
+// Webhook handler
+webhookHandler.on('*', function (event, repo, data) {
+  console.log(event);
+});
 
 // Passport config
 app.use(passport.initialize());
@@ -73,7 +76,7 @@ app.use('/', indexRoutes);
 app.use('/auth', authRoutes);
 app.use('/github', githubRoutes);
 app.use('/users', userRoutes);
-app.use('/webhook', webhookRoutes);
+//app.use('/webhook', webhookRoutes);
 
 // Error handling
 app.use((req, res, next) => {

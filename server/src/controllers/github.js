@@ -1,5 +1,4 @@
-const github = require('octonode');
-const request = require('axios');
+const GitHub = require('octocat');
 
 const User = require('../models/user');
 const Webhook = require('../models/webhook');
@@ -10,21 +9,25 @@ exports.getGithubOrganizations = (req, res, next) => {
   User.findOne({ username: req.body.username })
     .then(user => {
       if (user && user.jwtToken === token) {
-        let client = github.client(user.githubToken);
-        let githubUser = client.me();
-
-        // Get users organizations from GitHub
-        githubUser.orgs((err, data, headers) => {
-          res.status(200).json(data.map(organization => {
-            return {
-              url: organization.url,
-              name: organization.login,
-              reposUrl: organization.repos_url,
-              hooksUrl: organization.hooks_url,
-              image: organization.avatar_url
-            }
-          }));
+        const client = new GitHub({
+          token: user.githubToken
         });
+
+        const githubUser = client.me();
+
+        // List organizations of the authenticated user
+        githubUser.orgs()
+          .then((orgs) => {
+            res.status(200).json(orgs.list.map(organization => {
+              return {
+                url: organization.url,
+                name: organization.login,
+                reposUrl: organization.repos_url,
+                hooksUrl: organization.hooks_url,
+                image: organization.avatar_url
+              }
+            }));
+          })
       } else {
         res.status(401).json({
           message: 'The token is invalid.'
@@ -121,63 +124,43 @@ exports.createGithubHook = (username) => {
   Webhook.findOne({ username: username })
     .then(data => {
       for (const organization in data.events) {
-        const organizationExist = data.events.hasOwnProperty(organization);
+        const eventsExist = data.events.hasOwnProperty(organization);
+        console.log(eventsExist);
 
-        if (organizationExist) {
-          const client = github.client(githubToken);
-          const githubOrg = client.org(organization);
+        if (eventsExist) {
+          const client = new GitHub({
+            token: githubToken
+          });
+
+          // Check if webhook already exist
+          client.get('/orgs/' + organization + '/hooks')
+            .then(response => {
+              const hooks = response.body;
+
+              hooks.map(hook => {
+                const localHookUrl = process.env.WEBHOOK_URL;
+                const fetchedHookUrl = hook.config.url;
+
+                // Get the correct hook to edit
+                if (localHookUrl === fetchedHookUrl) {
+                  console.log(hook);
+
+                }
+              })
+            })
+            .catch(err => {
+              console.log('Error caught');
+            });
+
           const events = data.events[organization];
 
-          let hookData = {
-            "name": "web",
-            "active": true,
-            "events": events,
-            "config": {
-              "url": "http://stripe.notifyme.ultrahook.com",
-              "secret": process.env.GITHUB_WEBHOOK_SECRET,
-              "content_type": "json"
-            }
-          };
-
-          // Try to create a new webhook
-          githubOrg.hook(hookData,
-            (err, data, headers) => {
-
-              // If webhook already exists
-              if (err && (err.statusCode === 404 || err.statusCode === 422)) {
-                let hookId = '';
-                const url = 'https://api.github.com/orgs/' + organization + '/hooks';
-
-                // Get which webhook id to update
-                request.get(url, {
-                  headers: {
-                    'Authorization': 'token ' + githubToken
-                  }
-                })
-                  .then((response) => {
-                    const url = response.data[0].url;
-
-                    request.patch(url, { 'events': events }, {
-                      headers: {
-                        'Authorization': 'token ' + githubToken
-                      }
-                    })
-                      .then((response) => {
-                        console.log(response);
-                      })
-                      .catch((err) => {
-                        console.log(err);
-                      });
-                  })
-                  .catch((err) => {
-                    console.log(err);
-                  });
-              }
-            });
+        } else {
+          // Just update webhook with no events OR just delete the webhook
         }
       }
     })
     .catch(err => {
+      console.log('Could not create webhook');
       console.log(err);
     })
 };

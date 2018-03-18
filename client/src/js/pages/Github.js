@@ -19,7 +19,7 @@ function Organization(props) {
     <br />
     <br />
 
-    <input defaultChecked className='is-checkradio' type='checkbox' name={props.name} value='issues' id={'issues' + props.id} />
+    <input className='is-checkradio' type='checkbox' name={props.name} value='issues' id={'issues' + props.id} />
     <label htmlFor={'issues' + props.id}>Issues</label>
 
     <input className='is-checkradio' type='checkbox' name={props.name} value='release' id={'releases' + props.id} />
@@ -28,7 +28,7 @@ function Organization(props) {
     <input className='is-checkradio' type='checkbox' name={props.name} value='repository' id={'repositories' + props.id} />
     <label htmlFor={'repositories' + props.id}>Repositories</label>
 
-    <input defaultChecked className='is-checkradio' type='checkbox' name={props.name} value='watch' id={'stars' + props.id} />
+    <input className='is-checkradio' type='checkbox' name={props.name} value='watch' id={'stars' + props.id} />
     <label htmlFor={'stars' + props.id}>Stars</label>
     <br />
     <br />
@@ -70,7 +70,7 @@ export default class Github extends Component {
 
   _onSubmit = (event, data) => {
     let username = localStorage.username;
-    
+
     request.post('http://localhost:8000/users/organizations', {
       data,
       username: username
