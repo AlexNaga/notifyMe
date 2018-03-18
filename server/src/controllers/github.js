@@ -128,6 +128,7 @@ exports.createGithubHook = (username) => {
         console.log(eventsExist);
 
         if (eventsExist) {
+          const events = data.events[organization];
           const client = new GitHub({
             token: githubToken
           });
@@ -143,17 +144,18 @@ exports.createGithubHook = (username) => {
 
                 // Get the correct hook to edit
                 if (localHookUrl === fetchedHookUrl) {
-                  console.log(hook);
-
+                  // Update webhook with new events
+                  client.patch(hook.url, { events })
+                    .then((response) => {
+                      console.log(response.body);
+                    });
                 }
               })
             })
             .catch(err => {
+              console.log(err);
               console.log('Error caught');
             });
-
-          const events = data.events[organization];
-
         } else {
           // Just update webhook with no events OR just delete the webhook
         }
