@@ -128,12 +128,62 @@ exports.createGithubHook = (username) => {
         console.log(eventsExist);
 
         if (eventsExist) {
-          const events = data.events[organization];
+          let events = data.events[organization];
           const client = new GitHub({
             token: githubToken
           });
 
           // Check if webhook already exist
+          client.get('/orgs/' + organization + '/hooks')
+            .then(response => {
+              const hooks = response.body;
+              const hookExist = hooks.length >= 1;
+
+              console.log('exists: ', hookExist);
+
+              if (hookExist) {
+                hooks.map(hook => {
+                  const localHookUrl = process.env.WEBHOOK_URL;
+                  const fetchedHookUrl = hook.config.url;
+
+                  // Get the correct hook to edit
+                  if (localHookUrl === fetchedHookUrl) {
+                    // Update webhook with new events
+                    client.patch(hook.url, { events })
+                      .then((response) => {
+                        console.log('Webhook updated with new events');
+                      });
+                  }
+                })
+              } else {
+                let hookData = {
+                  'name': 'web',
+                  'active': true,
+                  'events': events,
+                  'config': {
+                    'url': process.env.WEBHOOK_URL,
+                    'secret': process.env.GITHUB_WEBHOOK_SECRET,
+                    'content_type': 'json'
+                  }
+                };
+
+                // Create a new webhook
+                client.post('orgs/' + organization + '/hooks', hookData)
+                  .then((response) => {
+                    console.log(response.body);
+
+                  })
+                  .catch(err => {
+                    console.log(err);
+
+                  });
+              }
+            })
+            .catch(err => {
+              console.log('Error caught');
+            });
+        } else {
+          // Remove events from webhook
           client.get('/orgs/' + organization + '/hooks')
             .then(response => {
               const hooks = response.body;
@@ -144,20 +194,16 @@ exports.createGithubHook = (username) => {
 
                 // Get the correct hook to edit
                 if (localHookUrl === fetchedHookUrl) {
-                  // Update webhook with new events
+                  let events = [];
+
+                  // Update webhook with empty list
                   client.patch(hook.url, { events })
                     .then((response) => {
-                      console.log(response.body);
+                      console.log('Removed events from webhook');
                     });
                 }
               })
             })
-            .catch(err => {
-              console.log(err);
-              console.log('Error caught');
-            });
-        } else {
-          // Just update webhook with no events OR just delete the webhook
         }
       }
     })
