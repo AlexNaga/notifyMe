@@ -34,8 +34,8 @@ app.use(bodyParser.json());
 app.use(webhookHandler);
 
 // Webhook handler
-webhookHandler.on('*', function (event, repo, data) {
-  console.log(event);
+webhookHandler.on('watch', function (repo, data) {
+  console.log(data);
 });
 
 // Passport config

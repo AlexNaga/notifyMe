@@ -110,11 +110,13 @@ exports.saveGithubOrganizations = (req, res, next) => {
 exports.createGithubHook = (username) => {
   let githubToken = '';
 
+  // Get GitHub access token from the db
   User.findOne({ username: username })
     .then(user => {
       githubToken = user.githubToken;
     })
 
+  // Get saved webhook data from the db
   Webhook.findOne({ username: username })
     .then(data => {
       for (const organization in data.events) {
@@ -130,13 +132,10 @@ exports.createGithubHook = (username) => {
 
           // Check if any event actually is selected
           if (eventCount < 2) {
-            console.log('No event selected');
 
             // Check if webhook already exist
             client.get('/orgs/' + organization + '/hooks')
               .then(response => {
-                console.log('Inside get hooks');
-
                 const hooks = response.body;
                 const hookExist = hooks.length >= 1;
 
@@ -161,7 +160,6 @@ exports.createGithubHook = (username) => {
 
             return;
           } else {
-            console.log('Event(s) selected');
             events.shift();
 
             // Check if webhook already exist
@@ -181,7 +179,7 @@ exports.createGithubHook = (username) => {
                       // Update webhook with new events
                       client.patch(hook.url, { events })
                         .then((response) => {
-                          console.log('Webhook updated with new events');
+                          console.log('Webhook updated with event(s): ', events.join(', '));
                         })
                         .catch(err => {
                           console.log(err.body);
@@ -210,8 +208,9 @@ exports.createGithubHook = (username) => {
                 }
               })
               .catch(err => {
-                console.log('Error caught');
-                console.log(err);
+                // Try request again
+                // To avoid a loop, it might be good to add a "try limit" in the future
+                exports.createGithubHook(username);
               });
           }
         }
