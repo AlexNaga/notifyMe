@@ -33,9 +33,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(webhookHandler);
 
-// Webhook handler
+// Webhook handlers
 webhookHandler.on('watch', function (repo, data) {
   console.log(data);
+  console.log(repo);
+  
 });
 
 // Passport config
