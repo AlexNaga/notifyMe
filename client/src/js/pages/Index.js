@@ -18,7 +18,9 @@ const socket = io('ws://localhost:8000');
 
 function Event(props) {
   console.log(props);
+  const action = props.action;
   const date = props.date;
+  const event = props.event;
   const icon = props.icon;
   const repo = props.repo;
   const text = props.text;
@@ -41,7 +43,7 @@ function Event(props) {
                 <i className={icon + ' is-size-5'} ></i>
               </p>
               <p>
-                {text}:
+                {event + ' '}{action}:
                   <Link target='_blank' href={url}>
                   <strong>{' ' + repo}</strong>
                 </Link>
@@ -96,6 +98,7 @@ export default class Index extends Component {
 
             {this.state.events.map((event, key) =>
               < Event key={key}
+                action={event.action}
                 date={event.date}
                 event={event.event}
                 icon={event.icon}
