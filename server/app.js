@@ -42,7 +42,24 @@ webhookHandler.on('issues', function (repo, data) {
 });
 
 webhookHandler.on('release', function (repo, data) {
-  console.log(repo);
+  console.log(data.release.html_url);
+  let date = moment().format("dddd, MMMM Do YYYY, HH:mm:ss"); // Sunday, March 11th 2018, 18:14:21
+
+  const eventInfo = {
+    event: 'release',
+    date: date,
+    repo_name: data.repository.full_name,
+    repo_url: data.release.html_url,
+    icon: 'fas fa-check',
+    text: 'New release created',
+    user: {
+      username: data.sender.login,
+      image: data.sender.avatar_url
+    }
+  };
+
+  const io = app.get('socketio');
+  io.emit('event', eventInfo);
 });
 
 webhookHandler.on('repository', function (repo, data) {

@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Content } from 'reactbulma';
-import { Icon } from 'reactbulma'
 import { Image } from 'reactbulma';
-import { Level } from 'reactbulma'
 import { Link } from 'reactbulma'
 import { Media } from 'reactbulma';
 
@@ -40,25 +38,21 @@ function Event(props) {
                 <strong>{user.username}</strong> <small>{date}</small>
               </p>
               <p>
+                <i className={icon + ' is-size-5'} ></i>
+              </p>
+              <p>
                 {text}:
                   <Link target='_blank' href={url}>
                   <strong>{' ' + repo}</strong>
                 </Link>
               </p>
             </Content>
-            <Level mobile>
-              <Level.Left>
-                <Level.Item>
-                  <Icon small><i className={icon} /></Icon>
-                </Level.Item>
-              </Level.Left>
-            </Level>
           </Media.Content>
         </Media>
       </div>
     </div>
     <br />
-  </div>
+  </div >
 }
 
 export default class Index extends Component {
@@ -77,6 +71,8 @@ export default class Index extends Component {
     });
 
     socket.on('event', (data) => {
+      console.log(data);
+      
       const event = data;
       this.setState({ events: [...this.state.events, event] });
     });
@@ -102,6 +98,7 @@ export default class Index extends Component {
               < Event key={key}
                 date={event.date}
                 event={event.event}
+                icon={event.icon}
                 repo={event.repo_name}
                 text={event.text}
                 url={event.repo_url}
