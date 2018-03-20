@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Box } from 'reactbulma'
 import { Content } from 'reactbulma';
 import { Icon } from 'reactbulma'
 import { Image } from 'reactbulma';
@@ -25,34 +24,46 @@ const socket = io('ws://localhost:8000');
 function Event(props) {
   console.log(props);
   const event = props.event.event;
+  const date = props.event.date;
   const repo = props.event.repo;
   const user = props.event.user;
 
-  return <div>
-    <Box>
-      <Media>
-        <Media.Left>
-          <Image is='64x64' src={user.image} alt="Image" />
-        </Media.Left>
-        <Media.Content>
-          <Content>
-            <p>
-              <strong>{user.username}</strong> <small>31m</small>
-              <br />
-              Starred repository: {repo}
-            </p>
-          </Content>
-          <Level mobile>
-            <Level.Left>
-              <Level.Item>
-                <Icon small><i className="fa fa-heart" /></Icon>
-              </Level.Item>
-            </Level.Left>
-          </Level>
-        </Media.Content>
-      </Media>
-    </Box>
-  </div>
+  return <div className='columns'>
+    <div className='column is-narrow'>
+      <div className='box'>
+        <Media>
+          <Media.Left>
+            <Image is='64x64' src={user.image} alt='Image' />
+          </Media.Left>
+          <Media.Content>
+            <Content>
+              <p>
+                <strong>{user.username}</strong>   <small>{date}</small>
+                <br />
+                Starred repository: {repo}
+              </p>
+            </Content>
+            <Level mobile>
+              <Level.Left>
+                <Level.Item>
+                  <Icon small><i className='fas fa-exclamation' /></Icon>
+                </Level.Item>
+                <Level.Item>
+                  <Icon small><i className='fas fa-check' /></Icon>
+                </Level.Item>
+                <Level.Item>
+                  <Icon small><i className='fas fa-plus' /></Icon>
+                </Level.Item>
+                <Level.Item>
+                  <Icon small><i className='fas fa-star' /></Icon>
+                </Level.Item>
+              </Level.Left>
+            </Level>
+          </Media.Content>
+        </Media>
+      </div>
+    </div>
+  </div >
 }
 
 export default class Index extends Component {
@@ -60,6 +71,7 @@ export default class Index extends Component {
     username: '',
     event: {
       event: '',
+      date: '',
       repo: '',
       user: {
         username: '',
@@ -80,25 +92,25 @@ export default class Index extends Component {
 
     socket.on('event', (data) => {
       console.log(data);
-      
+
       const event = data;
-      // this.setState({ event });
+      this.setState({ event });
     });
   }
 
   render() {
-    const pageTitle = "Dashboard";
+    const pageTitle = 'Dashboard';
 
     return (
-      <div className="app">
+      <div className='app'>
         <Header />
 
-        <div className="columns">
-          <div className="column is-2">
+        <div className='columns'>
+          <div className='column is-2'>
             <Sidebar />
           </div>
 
-          <div className="column">
+          <div className='column'>
             <Navbar />
             <Body pageTitle={pageTitle} />
 

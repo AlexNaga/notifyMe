@@ -52,7 +52,7 @@ webhookHandler.on('watch', function (repo, data) {
   };
 
   const io = app.get('socketio');
-  io.emit('event', data);
+  io.emit('event', eventInfo);
 });
 
 
