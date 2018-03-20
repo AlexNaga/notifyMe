@@ -37,6 +37,18 @@ app.use(webhookHandler);
 
 
 // Webhook handlers
+webhookHandler.on('issues', function (repo, data) {
+  console.log(repo);
+});
+
+webhookHandler.on('release', function (repo, data) {
+  console.log(repo);  
+});
+
+webhookHandler.on('repository', function (repo, data) {
+  console.log(repo);  
+});
+
 webhookHandler.on('watch', function (repo, data) {
   console.log(repo);
   let date = moment().format("dddd, MMMM Do YYYY, HH:mm:ss"); // Sunday, March 11th 2018, 18:14:21
@@ -45,6 +57,7 @@ webhookHandler.on('watch', function (repo, data) {
     event: 'watch',
     date: date,
     repo: data.repository.full_name,
+    icon: 'fas fa-star',
     user: {
       username: data.sender.login,
       image: data.sender.avatar_url
@@ -54,7 +67,6 @@ webhookHandler.on('watch', function (repo, data) {
   const io = app.get('socketio');
   io.emit('event', eventInfo);
 });
-
 
 // Passport config
 app.use(passport.initialize());
