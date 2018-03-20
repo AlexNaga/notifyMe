@@ -42,22 +42,24 @@ webhookHandler.on('issues', function (repo, data) {
 });
 
 webhookHandler.on('release', function (repo, data) {
-  console.log(repo);  
+  console.log(repo);
 });
 
 webhookHandler.on('repository', function (repo, data) {
-  console.log(repo);  
+  console.log(repo);
 });
 
 webhookHandler.on('watch', function (repo, data) {
-  console.log(repo);
+  console.log(data.repository.html_url);
   let date = moment().format("dddd, MMMM Do YYYY, HH:mm:ss"); // Sunday, March 11th 2018, 18:14:21
 
   const eventInfo = {
     event: 'watch',
     date: date,
-    repo: data.repository.full_name,
+    repo_name: data.repository.full_name,
+    repo_url: data.repository.html_url,
     icon: 'fas fa-star',
+    text: 'Starred repository',
     user: {
       username: data.sender.login,
       image: data.sender.avatar_url
