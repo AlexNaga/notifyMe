@@ -1,4 +1,4 @@
-require('dotenv').load();
+const dotenv = require('dotenv').load();
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
@@ -6,6 +6,8 @@ const cors = require('cors')
 const logger = require('morgan');
 const mongoose = require('mongoose');
 const passport = require('passport');
+const moment = require('moment');
+moment().format(); // For formatting dates
 
 const GitHubStrategy = require('passport-github2').Strategy;
 const GithubWebHook = require('express-github-webhook');
@@ -15,7 +17,7 @@ const indexRoutes = require('./src/routes/index');
 const authRoutes = require('./src/routes/auth');
 const githubRoutes = require('./src/routes/github');
 const userRoutes = require('./src/routes/users');
-//const webhookRoutes = require('./src/routes/webhooks');
+
 
 mongoose.connect(
   'mongodb://' + process.env.MONGO_ATLAS_USERNAME +
@@ -33,16 +35,26 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(webhookHandler);
 
+
 // Webhook handlers
 webhookHandler.on('watch', function (repo, data) {
   console.log(repo);
+  let date = moment().format("dddd, MMMM Do YYYY, HH:mm:ss"); // Sunday, March 11th 2018, 18:14:21
+
+  const eventInfo = {
+    event: 'watch',
+    date: date,
+    repo: data.repository.full_name,
+    user: {
+      username: data.sender.login,
+      image: data.sender.avatar_url
+    }
+  };
 
   const io = app.get('socketio');
-
-  io.on('connection', (socket) => {
-    socket.emit('event', repo);
-  });
+  io.emit('event', data);
 });
+
 
 // Passport config
 app.use(passport.initialize());
@@ -65,12 +77,13 @@ passport.use(new GitHubStrategy({
   }
 ));
 
+
 // Routes
 app.use('/', indexRoutes);
 app.use('/auth', authRoutes);
 app.use('/github', githubRoutes);
 app.use('/users', userRoutes);
-//app.use('/webhook', webhookRoutes);
+
 
 // Error handling
 app.use((req, res, next) => {

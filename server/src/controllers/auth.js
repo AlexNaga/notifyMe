@@ -15,10 +15,10 @@ exports.githubCallback = (req, res, next) => {
     githubToken: req.user.accessToken
   })
     .then((response) => {
-      io.in('event').emit('message', 'Awesome event!');
-      // io.on('connection', (socket) => {
-      //   socket.emit('token', response.data.token);
-      // });
+
+      io.on('connection', (socket) => {
+        socket.emit('token', response.data.token);
+      });
     })
     .catch((err) => {
       res.status(500).json({

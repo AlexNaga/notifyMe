@@ -1,4 +1,15 @@
 import React, { Component } from 'react';
+import { Box } from 'reactbulma'
+import { Content } from 'reactbulma';
+import { Icon } from 'reactbulma'
+import { Image } from 'reactbulma';
+import { Level } from 'reactbulma'
+import { Media } from 'reactbulma';
+
+// import { Card } from 'reactbulma';
+// import { SubTitle } from 'reactbulma';
+// import { Title } from 'reactbulma';
+
 import 'css/index.css';
 import 'bulma/css/bulma.css'
 
@@ -11,9 +22,50 @@ import jwt from 'jsonwebtoken';
 import io from 'socket.io-client';
 const socket = io('ws://localhost:8000');
 
+function Event(props) {
+  console.log(props);
+  const event = props.event.event;
+  const repo = props.event.repo;
+  const user = props.event.user;
+
+  return <div>
+    <Box>
+      <Media>
+        <Media.Left>
+          <Image is='64x64' src={user.image} alt="Image" />
+        </Media.Left>
+        <Media.Content>
+          <Content>
+            <p>
+              <strong>{user.username}</strong> <small>31m</small>
+              <br />
+              Starred repository: {repo}
+            </p>
+          </Content>
+          <Level mobile>
+            <Level.Left>
+              <Level.Item>
+                <Icon small><i className="fa fa-heart" /></Icon>
+              </Level.Item>
+            </Level.Left>
+          </Level>
+        </Media.Content>
+      </Media>
+    </Box>
+  </div>
+}
+
 export default class Index extends Component {
   state = {
     username: '',
+    event: {
+      event: '',
+      repo: '',
+      user: {
+        username: '',
+        image: ''
+      }
+    },
   }
 
   componentDidMount() {
@@ -28,6 +80,9 @@ export default class Index extends Component {
 
     socket.on('event', (data) => {
       console.log(data);
+      
+      const event = data;
+      // this.setState({ event });
     });
   }
 
@@ -46,6 +101,11 @@ export default class Index extends Component {
           <div className="column">
             <Navbar />
             <Body pageTitle={pageTitle} />
+
+            {
+              < Event event={this.state.event} />
+            }
+
           </div>
         </div>
       </div >
