@@ -84,7 +84,7 @@ export default class Github extends Component {
   }
 
   render() {
-    const pageTitle = 'Github page';
+    const pageTitle = 'Github Settings';
     const pageSubTitle = 'Select which organizations to get notifications from.';
 
     return (

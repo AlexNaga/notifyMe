@@ -25,10 +25,14 @@ export default class Index extends Component {
 
       this.setState({ username: token.username });
     });
+
+    socket.on('event', (data) => {
+      console.log(data);
+    });
   }
 
   render() {
-    const pageTitle = "Home page";
+    const pageTitle = "Dashboard";
 
     return (
       <div className="app">

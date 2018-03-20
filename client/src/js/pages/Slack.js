@@ -9,7 +9,7 @@ import Sidebar from 'js/components/Sidebar';
 
 export default class Slack extends Component {
   render() {
-    const pageTitle = "Slack page";
+    const pageTitle = "Slack Settings";
 
     return (
       <div className="app">

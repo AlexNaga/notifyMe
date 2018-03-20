@@ -9,10 +9,23 @@ export default class Navbar extends Component {
     this.setState({ username: localStorage.username });
   }
 
+  _onClick = (event, data) => {
+    if (window.localStorage) {
+      window.localStorage.clear();
+    }
+
+    if (window.sessionStorage) {
+      window.sessionStorage.clear();
+    }
+
+    this.setState({ username: '' });
+    window.location = ''; // To refresh the page
+  }
+
   render() {
     return (
       <nav className="navbar is-transparent">
-        <div id className="navbar-menu">
+        <div className="navbar-menu">
           <div className="navbar-start">
           </div>
           <div className="navbar-end">
@@ -35,7 +48,7 @@ export default class Navbar extends Component {
               <p className='control'>
 
                 {this.state.username ?
-                  <a className='button is-info' href='http://localhost:8000/auth/github'>
+                  <a className='button is-info' onClick={this._onClick}>
                     <span className='icon'>
                       <i className='fas fa-sign-out-alt' />
                     </span>

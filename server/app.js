@@ -35,9 +35,13 @@ app.use(webhookHandler);
 
 // Webhook handlers
 webhookHandler.on('watch', function (repo, data) {
-  console.log(data);
   console.log(repo);
-  
+
+  const io = app.get('socketio');
+
+  io.on('connection', (socket) => {
+    socket.emit('event', repo);
+  });
 });
 
 // Passport config
@@ -50,18 +54,6 @@ passport.serializeUser((user, cb) => {
 passport.deserializeUser((obj, cb) => {
   cb(null, obj);
 });
-
-// Code for MongoDB.
-// Store the user ID then load it from the DB when deserializing.
-// passport.serializeUser(function (user, done) {
-//   done(null, user.id);
-// });
-
-// passport.deserializeUser(function (id, done) {
-//   User.findById(id, function (err, user) {
-//     done(err, user);
-//   });
-// });
 
 passport.use(new GitHubStrategy({
   clientID: process.env.GITHUB_CLIENT_ID,
