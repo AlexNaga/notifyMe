@@ -24,15 +24,15 @@ export default class Navbar extends Component {
 
   render() {
     return (
-      <nav className="navbar is-transparent">
-        <div className="navbar-menu">
-          <div className="navbar-start">
+      <nav className='navbar is-transparent'>
+        <div className='navbar-menu'>
+          <div className='navbar-start'>
           </div>
-          <div className="navbar-end">
+          <div className='navbar-end'>
           </div>
         </div>
-        <div className="navbar-brand">
-          <div className="navbar-burger right">
+        <div className='navbar-brand'>
+          <div className='navbar-burger right'>
           </div>
 
           {this.state.username ?

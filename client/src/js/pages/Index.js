@@ -50,6 +50,7 @@ export default class Index extends Component {
           <div className='column'>
             <Navbar />
             <Body title={title} subTitle={subTitle} />
+            <br />
 
             {this.state.events.map((event, key) =>
               < Event key={key} event={event} />

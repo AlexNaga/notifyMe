@@ -6,17 +6,18 @@ const cors = require('cors')
 const logger = require('morgan');
 const mongoose = require('mongoose');
 const passport = require('passport');
+const request = require('axios');
 const moment = require('moment');
-moment().format(); // For formatting dates
 
 const GitHubStrategy = require('passport-github2').Strategy;
 const GithubWebHook = require('express-github-webhook');
-const webhookHandler = GithubWebHook({ path: '/webhook', secret: process.env.GITHUB_WEBHOOK_SECRET });
+const webhookHandler = GithubWebHook({ path: '/webhook/github', secret: process.env.GITHUB_WEBHOOK_SECRET });
 
 const indexRoutes = require('./src/routes/index');
 const authRoutes = require('./src/routes/auth');
 const githubRoutes = require('./src/routes/github');
 const userRoutes = require('./src/routes/users');
+const webhookRoutes = require('./src/routes/webhook');
 
 
 mongoose.connect(
@@ -55,6 +56,14 @@ webhookHandler.on('issues', function (repo, data) {
 
   const io = app.get('socketio');
   io.emit('event', eventInfo);
+
+  request.post(process.env.WEBHOOK_DISCORD_URL, {
+    username: eventInfo.user.username,
+    avatar_url: eventInfo.user.image,
+    content: eventInfo.event +
+      ' ' + eventInfo.action +
+      ': ' + eventInfo.repo_name
+  })
 });
 
 webhookHandler.on('release', function (repo, data) {
@@ -75,6 +84,14 @@ webhookHandler.on('release', function (repo, data) {
 
   const io = app.get('socketio');
   io.emit('event', eventInfo);
+
+  request.post(process.env.WEBHOOK_DISCORD_URL, {
+    username: eventInfo.user.username,
+    avatar_url: eventInfo.user.image,
+    content: eventInfo.event +
+      ' ' + eventInfo.action +
+      ': ' + eventInfo.repo_name
+  })
 });
 
 webhookHandler.on('repository', function (repo, data) {
@@ -95,14 +112,22 @@ webhookHandler.on('repository', function (repo, data) {
 
   const io = app.get('socketio');
   io.emit('event', eventInfo);
+
+  request.post(process.env.WEBHOOK_DISCORD_URL, {
+    username: eventInfo.user.username,
+    avatar_url: eventInfo.user.image,
+    content: eventInfo.event +
+      ' ' + eventInfo.action +
+      ': ' + eventInfo.repo_name
+  })
 });
 
-webhookHandler.on('watch', function (repo, data) {  
+webhookHandler.on('watch', function (repo, data) {
   let date = moment().format("dddd, MMMM Do YYYY, HH:mm:ss"); // Sunday, March 11th 2018, 18:14:21
 
   const eventInfo = {
     event: 'Repository',
-    action: 'starred',    
+    action: 'starred',
     date: date,
     repo_name: data.repository.full_name,
     url: data.repository.html_url,
@@ -115,6 +140,14 @@ webhookHandler.on('watch', function (repo, data) {
 
   const io = app.get('socketio');
   io.emit('event', eventInfo);
+
+  request.post(process.env.WEBHOOK_DISCORD_URL, {
+    username: eventInfo.user.username,
+    avatar_url: eventInfo.user.image,
+    content: eventInfo.event +
+      ' ' + eventInfo.action +
+      ': ' + eventInfo.repo_name
+  })
 });
 
 
@@ -145,6 +178,7 @@ app.use('/', indexRoutes);
 app.use('/auth', authRoutes);
 app.use('/github', githubRoutes);
 app.use('/users', userRoutes);
+app.use('/webhook', webhookRoutes);
 
 
 // Error handling
