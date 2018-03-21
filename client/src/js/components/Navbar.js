@@ -19,7 +19,7 @@ export default class Navbar extends Component {
     }
 
     this.setState({ username: '' });
-    window.location = ''; // To refresh the page
+    // window.location = ''; // To refresh the page
   }
 
   render() {

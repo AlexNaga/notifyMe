@@ -10,7 +10,7 @@ import Sidebar from 'js/components/Sidebar';
 export default class Discord extends Component {
   render() {
     const title = 'Discord';
-    const subTitle = 'Create a temporary account to view the Discord channel.';
+    const subTitle = 'Create a guest account to view the Discord channel.';
 
     return (
       <div className='app'>
@@ -26,7 +26,7 @@ export default class Discord extends Component {
             <Body title={title} subTitle={subTitle} />
             <br />
             <br />
-            <a className='button is-info' href='https://discord.gg/UBbqPM9' target='_blank'>
+            <a className='button is-info' href='https://discord.gg/UBbqPM9' target='_blank' rel='noopener noreferrer'>
               <span className='icon'>
                 <i className='fas fa-external-link-square-alt' />
               </span>

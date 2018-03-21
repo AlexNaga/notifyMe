@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Message } from 'reactbulma'
 
 import Body from 'js/components/Body';
 import Header from 'js/components/Header';
@@ -23,6 +24,7 @@ export default class Github extends Component {
     super(props);
     this.state = {
       isLoading: true,
+      error: false
     };
   }
 
@@ -41,8 +43,8 @@ export default class Github extends Component {
         this.setState({ isLoading: false });
       })
       .catch(err => {
-        console.log(err);
-        // Show 'Not signed in' message to user
+        this.setState({ error: true });
+        // this.setState({ isLoading: false });
       });
   }
 
@@ -78,6 +80,23 @@ export default class Github extends Component {
             <Body title={title} subTitle={subTitle} />
             <br />
 
+            {this.state.error ?
+              <div className='columns'>
+                <div className='column is-narrow'>
+                  <Message warning>
+                    <Message.Header>
+                      <p>Authentication failed</p>
+                    </Message.Header>
+                    <Message.Body>
+                      You need to be logged in to access this resource.
+                    </Message.Body>
+                  </Message>
+                </div>
+              </div>
+            :
+              <div></div>
+            }
+
             {this.state.isLoading ? <Spinner name='ball-clip-rotate' fadeIn='none' /> :
               <div id='organizationSettings'>
                 <ul>
@@ -89,7 +108,8 @@ export default class Github extends Component {
                     <button className='button is-success' type='submit'>Save</button>
                   </AutoForm>
                 </ul>
-              </div>}
+              </div>
+            }
 
           </div>
         </div>

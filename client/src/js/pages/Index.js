@@ -15,16 +15,19 @@ const socket = io('ws://localhost:8000');
 
 export default class Index extends Component {
   state = {
-    events: []
+    events: [],
+    token: '',
+    username: '',
   }
 
   componentDidMount() {
     socket.on('token', (data) => {
       const token = jwt.decode(data);
 
-      localStorage.setItem('token', data);
-      localStorage.setItem('username', token.username);
+      // localStorage.setItem('token', data);
+      // localStorage.setItem('username', token.username);
 
+      this.setState({ token: data });
       this.setState({ username: token.username });
     });
 
