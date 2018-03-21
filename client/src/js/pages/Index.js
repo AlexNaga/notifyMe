@@ -17,13 +17,11 @@ import io from 'socket.io-client';
 const socket = io('ws://localhost:8000');
 
 function Event(props) {
-  console.log(props);
   const action = props.action;
   const date = props.date;
   const event = props.event;
   const icon = props.icon;
   const repo = props.repo;
-  const text = props.text;
   const url = props.url;
   const user = props.user;
 
@@ -73,8 +71,6 @@ export default class Index extends Component {
     });
 
     socket.on('event', (data) => {
-      console.log(data);
-      
       const event = data;
       this.setState({ events: [...this.state.events, event] });
     });
@@ -104,7 +100,7 @@ export default class Index extends Component {
                 icon={event.icon}
                 repo={event.repo_name}
                 text={event.text}
-                url={event.repo_url}
+                url={event.url}
                 user={event.user}
               />
             )}

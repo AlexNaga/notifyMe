@@ -38,16 +38,15 @@ app.use(webhookHandler);
 
 // Webhook handlers
 webhookHandler.on('issues', function (repo, data) {
-  console.log(data.release.html_url);
   let date = moment().format("dddd, MMMM Do YYYY, HH:mm:ss"); // Sunday, March 11th 2018, 18:14:21
 
   const eventInfo = {
-    event: 'release',
+    event: 'Issue',
+    action: data.action,
     date: date,
     repo_name: data.repository.full_name,
-    repo_url: data.release.html_url,
+    url: data.issue.html_url,
     icon: 'fas fa-exclamation',
-    text: 'New issue created',
     user: {
       username: data.sender.login,
       image: data.sender.avatar_url
@@ -55,11 +54,10 @@ webhookHandler.on('issues', function (repo, data) {
   };
 
   const io = app.get('socketio');
-  io.emit('event', data);
+  io.emit('event', eventInfo);
 });
 
 webhookHandler.on('release', function (repo, data) {
-  console.log(data.release.html_url);
   let date = moment().format("dddd, MMMM Do YYYY, HH:mm:ss"); // Sunday, March 11th 2018, 18:14:21
 
   const eventInfo = {
@@ -67,7 +65,7 @@ webhookHandler.on('release', function (repo, data) {
     action: data.action,
     date: date,
     repo_name: data.repository.full_name,
-    repo_url: data.release.html_url,
+    url: data.release.html_url,
     icon: 'fas fa-check',
     user: {
       username: data.sender.login,
@@ -80,20 +78,15 @@ webhookHandler.on('release', function (repo, data) {
 });
 
 webhookHandler.on('repository', function (repo, data) {
-  console.log(repo);
-});
-
-webhookHandler.on('watch', function (repo, data) {
-  console.log(data.repository.html_url);
   let date = moment().format("dddd, MMMM Do YYYY, HH:mm:ss"); // Sunday, March 11th 2018, 18:14:21
 
   const eventInfo = {
-    event: 'watch',
+    event: 'Repository',
+    action: data.action,
     date: date,
     repo_name: data.repository.full_name,
-    repo_url: data.repository.html_url,
-    icon: 'fas fa-star',
-    text: 'Starred repository',
+    url: data.repository.html_url,
+    icon: 'fas fa-plus',
     user: {
       username: data.sender.login,
       image: data.sender.avatar_url
@@ -103,6 +96,27 @@ webhookHandler.on('watch', function (repo, data) {
   const io = app.get('socketio');
   io.emit('event', eventInfo);
 });
+
+webhookHandler.on('watch', function (repo, data) {  
+  let date = moment().format("dddd, MMMM Do YYYY, HH:mm:ss"); // Sunday, March 11th 2018, 18:14:21
+
+  const eventInfo = {
+    event: 'Repository',
+    action: 'starred',    
+    date: date,
+    repo_name: data.repository.full_name,
+    url: data.repository.html_url,
+    icon: 'fas fa-star',
+    user: {
+      username: data.sender.login,
+      image: data.sender.avatar_url
+    }
+  };
+
+  const io = app.get('socketio');
+  io.emit('event', eventInfo);
+});
+
 
 // Passport config
 app.use(passport.initialize());
