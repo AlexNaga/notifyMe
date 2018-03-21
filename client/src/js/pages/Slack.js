@@ -9,7 +9,8 @@ import Sidebar from 'js/components/Sidebar';
 
 export default class Slack extends Component {
   render() {
-    const pageTitle = "Slack Settings";
+    const title = "Slack Settings";
+    const subTitle = 'Select which organizations to get notifications from.';    
 
     return (
       <div className="app">
@@ -22,7 +23,7 @@ export default class Slack extends Component {
 
           <div className="column">
             <Navbar />          
-            <Body pageTitle={pageTitle} />
+            <Body title={title} subTitle={subTitle} />
           </div>
         </div>
       </div >

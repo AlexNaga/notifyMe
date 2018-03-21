@@ -1,8 +1,4 @@
 import React, { Component } from 'react';
-import { Content } from 'reactbulma';
-import { Image } from 'reactbulma';
-import { Link } from 'reactbulma'
-import { Media } from 'reactbulma';
 
 import 'css/index.css';
 import 'bulma/css/bulma.css'
@@ -11,49 +7,11 @@ import Body from 'js/components/Body';
 import Header from 'js/components/Header';
 import Navbar from 'js/components/Navbar';
 import Sidebar from 'js/components/Sidebar';
+import Event from 'js/components/Event';
 
 import jwt from 'jsonwebtoken';
 import io from 'socket.io-client';
 const socket = io('ws://localhost:8000');
-
-function Event(props) {
-  const action = props.action;
-  const date = props.date;
-  const event = props.event;
-  const icon = props.icon;
-  const repo = props.repo;
-  const url = props.url;
-  const user = props.user;
-
-  return <div className='columns'>
-    <div className='column is-narrow'>
-      <div className='box'>
-        <Media>
-          <Media.Left>
-            <Image is='64x64' src={user.image} alt='Image' />
-          </Media.Left>
-          <Media.Content>
-            <Content>
-              <p>
-                <strong>{user.username}</strong> <small>{date}</small>
-              </p>
-              <p>
-                <i className={icon + ' is-size-5'} ></i>
-              </p>
-              <p>
-                {event + ' '}{action}:
-                  <Link target='_blank' href={url}>
-                  <strong>{' ' + repo}</strong>
-                </Link>
-              </p>
-            </Content>
-          </Media.Content>
-        </Media>
-      </div>
-    </div>
-    <br />
-  </div >
-}
 
 export default class Index extends Component {
   state = {
