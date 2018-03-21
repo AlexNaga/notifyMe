@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import 'bulma/css/bulma.css'
 import 'css/bulma-checkradio.min.css';
 import 'css/index.css';
@@ -12,27 +13,52 @@ import Sidebar from 'js/components/Sidebar';
 import request from 'axios';
 import AutoForm from 'react-auto-form'
 
-function Organization(props) {
-  return <div className='field'>
-    <input className='is-checkradio is-circle' type='checkbox' name={props.name} id={props.name} />
-    <label className='title is-2' htmlFor={props.name}>{props.name}</label>
-    <br />
-    <br />
+class Organization extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isActive: false,
+    };
+  }
 
-    <input className='is-checkradio' type='checkbox' name={props.name} value='issues' id={'issues' + props.id} />
-    <label htmlFor={'issues' + props.id}>Issues</label>
+  _onChange = (event, name, data, change) => {
+    let checkboxes = ReactDOM.findDOMNode(this.refs.checkboxes)
 
-    <input className='is-checkradio' type='checkbox' name={props.name} value='release' id={'releases' + props.id} />
-    <label htmlFor={'releases' + props.id}>Releases</label>
+    for (const checkbox in checkboxes.children) {
+      if (checkboxes.children.hasOwnProperty(checkbox)) {
+        const element = checkboxes.children[checkbox];
+        element.disabled = this.state.isActive;
+      }
+    }
 
-    <input className='is-checkradio' type='checkbox' name={props.name} value='repository' id={'repositories' + props.id} />
-    <label htmlFor={'repositories' + props.id}>Repositories</label>
+    this.setState(prevState => ({
+      isActive: !prevState.isActive
+    }));
+  }
 
-    <input className='is-checkradio' type='checkbox' name={props.name} value='watch' id={'stars' + props.id} />
-    <label htmlFor={'stars' + props.id}>Stars</label>
-    <br />
-    <br />
-  </div>
+  render() {
+    return <div className='field'>
+      <input className='is-checkradio is-circle' type='checkbox' name={this.props.name} id={this.props.name} onChange={this._onChange} />
+      <label className='title is-2' htmlFor={this.props.name}>{this.props.name}</label>
+      <br />
+      <br />
+      <div ref='checkboxes'>
+        <input className='is-checkradio' type='checkbox' name={this.props.name} value='issues' id={'issues' + this.props.id} disabled />
+        <label htmlFor={'issues' + this.props.id}>Issues</label>
+
+        <input className='is-checkradio' type='checkbox' name={this.props.name} value='release' id={'releases' + this.props.id} disabled />
+        <label htmlFor={'releases' + this.props.id}>Releases</label>
+
+        <input className='is-checkradio' type='checkbox' name={this.props.name} value='repository' id={'repositories' + this.props.id} disabled />
+        <label htmlFor={'repositories' + this.props.id}>Repositories</label>
+
+        <input className='is-checkradio' type='checkbox' name={this.props.name} value='watch' id={'stars' + this.props.id} disabled />
+        <label htmlFor={'stars' + this.props.id}>Stars</label>
+      </div>
+      <br />
+      <br />
+    </div >
+  }
 }
 
 export default class Github extends Component {
@@ -40,9 +66,11 @@ export default class Github extends Component {
     organizations: [],
   };
 
-  constructor() {
-    super();
-    this.state = { isLoading: true };
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: true,
+    };
   }
 
   componentDidMount() {
@@ -63,9 +91,6 @@ export default class Github extends Component {
         console.log(err);
         // Show 'Not signed in' message to user
       });
-  }
-
-  _onChange = (event, name, data, change) => {
   }
 
   _onSubmit = (event, data) => {
@@ -103,7 +128,7 @@ export default class Github extends Component {
             {this.state.isLoading ? <Spinner name='ball-clip-rotate' fadeIn='none' /> :
               <div id='organizationSettings'>
                 <ul>
-                  <AutoForm onChange={this._onChange} onSubmit={this._onSubmit} trimOnSubmit>
+                  <AutoForm onSubmit={this._onSubmit} trimOnSubmit >
                     {this.state.organizations.map((organization, key) =>
                       < Organization key={key} id={key} name={organization.name} />
                     )}
@@ -112,6 +137,7 @@ export default class Github extends Component {
                   </AutoForm>
                 </ul>
               </div>}
+
           </div>
         </div>
       </div >
