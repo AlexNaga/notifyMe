@@ -6,13 +6,13 @@ import { Media } from 'reactbulma';
 
 export default class Event extends Component {
   render() {
-    const action = this.props.action;
-    const date = this.props.date;
-    const event = this.props.event;
-    const icon = this.props.icon;
-    const repo = this.props.repo;
-    const url = this.props.url;
-    const user = this.props.user;
+    const action = this.props.event.action;
+    const date = this.props.event.date;
+    const event = this.props.event.event;
+    const icon = this.props.event.icon;
+    const repo = this.props.event.repo_name;
+    const url = this.props.event.url;
+    const user = this.props.event.user;
 
     return <div className='columns'>
       <div className='column is-narrow'>

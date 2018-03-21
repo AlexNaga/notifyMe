@@ -66,7 +66,7 @@ webhookHandler.on('release', function (repo, data) {
     date: date,
     repo_name: data.repository.full_name,
     url: data.release.html_url,
-    icon: 'fas fa-check',
+    icon: 'fas fa-tag',
     user: {
       username: data.sender.login,
       image: data.sender.avatar_url

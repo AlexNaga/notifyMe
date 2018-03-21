@@ -35,7 +35,8 @@ export default class Index extends Component {
   }
 
   render() {
-    const pageTitle = 'Dashboard';
+    const title = 'Dashboard';
+    const subTitle = 'Real-time notifications from Github.'
 
     return (
       <div className='app'>
@@ -48,19 +49,10 @@ export default class Index extends Component {
 
           <div className='column'>
             <Navbar />
-            <Body pageTitle={pageTitle} />
+            <Body title={title} subTitle={subTitle} />
 
             {this.state.events.map((event, key) =>
-              < Event key={key}
-                action={event.action}
-                date={event.date}
-                event={event.event}
-                icon={event.icon}
-                repo={event.repo_name}
-                text={event.text}
-                url={event.url}
-                user={event.user}
-              />
+              < Event key={key} event={event} />
             )}
           </div>
         </div>
