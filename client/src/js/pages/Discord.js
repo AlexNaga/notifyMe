@@ -17,7 +17,7 @@ export default class Discord extends Component {
         <Header />
 
         <div className='columns'>
-          <div className='column is-2'>
+          <div className='column is-2-desktop is-3-tablet'>
             <Sidebar />
           </div>
 

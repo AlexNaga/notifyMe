@@ -68,7 +68,7 @@ export default class Github extends Component {
       <div className='app'>
         <Header />
         <div className='columns'>
-          <div className='column is-2'>
+          <div className='column is-2-desktop is-3-tablet'>
             <Sidebar />
           </div>
 
