@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Button } from 'reactbulma'
 import { Message } from 'reactbulma'
 
 import Body from 'js/components/Body';
@@ -24,7 +25,8 @@ export default class Github extends Component {
     super(props);
     this.state = {
       isLoading: true,
-      error: false
+      error: false,
+      showOrganizations: false,
     };
   }
 
@@ -39,12 +41,13 @@ export default class Github extends Component {
       })
       .then(res => {
         const organizations = res.data;
-        this.setState({ organizations });
         this.setState({ isLoading: false });
+        this.setState({ organizations });
+        this.setState({ showOrganizations: true });
       })
       .catch(err => {
         this.setState({ error: true });
-        // this.setState({ isLoading: false });
+        this.setState({ isLoading: false });
       });
   }
 
@@ -55,12 +58,6 @@ export default class Github extends Component {
       data,
       username: username
     })
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   }
 
   render() {
@@ -93,11 +90,9 @@ export default class Github extends Component {
                   </Message>
                 </div>
               </div>
-            :
-              <div></div>
-            }
+              : <div></div>}
 
-            {this.state.isLoading ? <Spinner name='ball-clip-rotate' fadeIn='none' /> :
+            {this.state.showOrganizations ?
               <div id='organizationSettings'>
                 <ul>
                   <AutoForm onSubmit={this._onSubmit} trimOnSubmit >
@@ -105,11 +100,18 @@ export default class Github extends Component {
                       < Organization key={key} id={key} name={organization.name} />
                     )}
 
-                    <button className='button is-success' type='submit'>Save</button>
+                    <Button success type='submit'>
+                      <span className='icon'>
+                        <i className='fas fa-sign-in-alt' />
+                      </span>
+                      <span>Save</span>
+                    </Button>
                   </AutoForm>
                 </ul>
               </div>
-            }
+              : <div></div>}
+
+            {this.state.isLoading ? <Spinner name='ball-clip-rotate' fadeIn='none' /> : <div> </div>}
 
           </div>
         </div>

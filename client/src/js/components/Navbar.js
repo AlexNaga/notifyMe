@@ -1,25 +1,54 @@
 import React, { Component } from 'react';
+import { Button } from 'reactbulma'
+
+import jwt from 'jsonwebtoken';
+import io from 'socket.io-client';
+const socket = io('ws://localhost:8000');
 
 export default class Navbar extends Component {
   state = {
-    isLoggedIn: false,
+    username: '',
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: localStorage.username,
+    };
   }
 
   componentDidMount() {
-    this.setState({ username: localStorage.username });
+    let params = (new URL(document.location)).searchParams;
+    let token = params.get('token');
+
+    if (token) {
+      const tokenDecoded = jwt.decode(token);
+
+      this.setState({ isLoggedIn: true });
+      this.setState({ username: tokenDecoded.username });
+
+      localStorage.setItem('token', token);
+      localStorage.setItem('username', tokenDecoded.username);
+      window.history.pushState({}, document.title, '/');
+    }
+
+    socket.on('event', (data) => {
+      const event = data;
+      this.setState({ events: [...this.state.events, event] });
+    });
   }
 
-  _onClick = (event, data) => {
+  onLogin = (event, data) => {
+    window.location = 'http://localhost:8000/auth/github';
+  }
+
+  onLogout = (event, data) => {
     if (window.localStorage) {
       window.localStorage.clear();
     }
 
-    if (window.sessionStorage) {
-      window.sessionStorage.clear();
-    }
-
     this.setState({ username: '' });
-    // window.location = ''; // To refresh the page
+    window.location = '/';
   }
 
   render() {
@@ -48,19 +77,19 @@ export default class Navbar extends Component {
               <p className='control'>
 
                 {this.state.username ?
-                  <a className='button is-info' onClick={this._onClick}>
+                  <Button info onClick={this.onLogout}>
                     <span className='icon'>
                       <i className='fas fa-sign-out-alt' />
                     </span>
                     <span>Logout</span>
-                  </a>
+                  </Button>
                   :
-                  <a className='button is-info' href='http://localhost:8000/auth/github'>
+                  <Button info onClick={this.onLogin}>
                     <span className='icon'>
                       <i className='fas fa-sign-in-alt' />
                     </span>
                     <span>Login</span>
-                  </a>
+                  </Button>
                 }
 
               </p>
