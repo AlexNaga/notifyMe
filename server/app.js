@@ -62,7 +62,8 @@ webhookHandler.on('issues', function (repo, data) {
     avatar_url: eventInfo.user.image,
     content: eventInfo.event +
       ' ' + eventInfo.action +
-      ': ' + eventInfo.repo_name
+      ': [' + eventInfo.repo_name +
+      '](' + eventInfo.url + ')'
   })
 });
 
@@ -90,7 +91,8 @@ webhookHandler.on('release', function (repo, data) {
     avatar_url: eventInfo.user.image,
     content: eventInfo.event +
       ' ' + eventInfo.action +
-      ': ' + eventInfo.repo_name
+      ': [' + eventInfo.repo_name +
+      '](' + eventInfo.url + ')'
   })
 });
 
@@ -118,7 +120,8 @@ webhookHandler.on('repository', function (repo, data) {
     avatar_url: eventInfo.user.image,
     content: eventInfo.event +
       ' ' + eventInfo.action +
-      ': ' + eventInfo.repo_name
+      ': [' + eventInfo.repo_name +
+      '](' + eventInfo.url + ')'
   })
 });
 
@@ -146,7 +149,8 @@ webhookHandler.on('watch', function (repo, data) {
     avatar_url: eventInfo.user.image,
     content: eventInfo.event +
       ' ' + eventInfo.action +
-      ': ' + eventInfo.repo_name
+      ': [' + eventInfo.repo_name +
+      '](' + eventInfo.url + ')'
   })
 });
 
