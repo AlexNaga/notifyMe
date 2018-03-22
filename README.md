@@ -47,4 +47,5 @@ You can find the assignment [here.](https://coursepress.gitbooks.io/1dv612/conte
 ## Deploying the Application
 1. Open up the terminal in the client folder.
 2. Build the application for production by typing `npm run build`
-3. Copy the build folder to the server folder by typing ``
+3. Copy the build folder to the server folder by typing `mv build/ ../server/public/`
+4. The application is now ready to deploy.
