@@ -15,7 +15,7 @@ import io from 'socket.io-client';
 let socket = io('ws://' + window.location.host);
 
 // If HTTPS
-if (window.location.protocol == "https:") {
+if (window.location.protocol === 'https:') {
   socket = io('wss://' + window.location.host);
 }
 
