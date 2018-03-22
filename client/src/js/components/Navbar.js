@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { Button } from 'reactbulma'
 
 import jwt from 'jsonwebtoken';
-import io from 'socket.io-client';
-const socket = io('ws://localhost:8000');
 
 export default class Navbar extends Component {
   state = {
@@ -31,11 +29,6 @@ export default class Navbar extends Component {
       localStorage.setItem('username', tokenDecoded.username);
       window.history.pushState({}, document.title, '/');
     }
-
-    socket.on('event', (data) => {
-      const event = data;
-      this.setState({ events: [...this.state.events, event] });
-    });
   }
 
   onLogin = (event, data) => {

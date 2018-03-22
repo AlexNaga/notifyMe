@@ -9,9 +9,19 @@ import Navbar from 'js/components/Navbar';
 import Sidebar from 'js/components/Sidebar';
 import Event from 'js/components/Event';
 
+import io from 'socket.io-client';
+const socket = io('ws://localhost:8000');
+
 export default class Index extends Component {
   state = {
     events: [],
+  }
+
+  componentDidMount() {
+    socket.on('event', (data) => {
+      const event = data;
+      this.setState({ events: [...this.state.events, event] });
+    });
   }
 
   render() {
