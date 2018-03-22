@@ -15,12 +15,12 @@ You can find the assignment [here.](https://coursepress.gitbooks.io/1dv612/conte
   1. Open up the terminal in the server folder.
   2. Install the required dependencies by typing `npm install`
   3. Create the environment variables by typing
-```
-echo '{
-  NODE_PATH="src/"
-  REACT_APP_DOMAIN="https://alexnaga.se/"
-}' > .env
-```
+  ```
+  echo '{
+    NODE_PATH="src/"
+    REACT_APP_DOMAIN="https://alexnaga.se/"
+  }' > .env
+  ```
   3. Start the application by typing `npm start`
   4. The application is now running at [http://localhost:8000](http://localhost:8000)
 
