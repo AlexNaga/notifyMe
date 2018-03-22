@@ -14,21 +14,23 @@ You can find the assignment [here.](https://coursepress.gitbooks.io/1dv612/conte
   ### Starting the server
   1. Open up the terminal in the server folder.
   2. Install the required dependencies by typing `npm install`
-  3. Create the environment variables by typing
-  ```
-  echo '{
-    NODE_PATH="src/"
-    REACT_APP_DOMAIN="https://alexnaga.se/"
-  }' > .env
-  ```
-  3. Start the application by typing `npm start`
-  4. The application is now running at [http://localhost:8000](http://localhost:8000)
+  3. Create the environment variables by typing
+
+  4. Start the application by typing `npm start`
+  5. The application is now running at [http://localhost:8000](http://localhost:8000)
 
   ### Starting the client
   1. Open up the terminal in the client folder.
   2. Install the required dependencies by typing `npm install`
-  3. Start the application by typing `npm start`
-  4. The application is now running at [http://localhost:3000](http://localhost:3000)
+  3. Create the environment variables by typing
+  ```bash
+  echo '{
+    NODE_PATH="src/"
+    REACT_APP_DOMAIN="localhost:3000"
+  }' > .env
+  ```
+  4. Start the application by typing `npm start`  
+  5. The application is now running at [http://localhost:3000](http://localhost:3000)
   
 ## Deploying the Application
 1. Open up the terminal in the client folder.
