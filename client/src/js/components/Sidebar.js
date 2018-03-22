@@ -12,7 +12,7 @@ export default class Sidebar extends Component {
               <span className='icon'>
                 <i className='fas fa-home' />
               </span>
-              <span>Dashboard</span>
+              <span>&nbsp;Dashboard</span>
             </NavLink>
           </li>
           <li>
@@ -20,7 +20,7 @@ export default class Sidebar extends Component {
               <span className='icon'>
                 <i className='fab fa-slack-hash' />
               </span>
-              <span>Discord</span>
+              <span>&nbsp;Discord</span>
             </NavLink>
           </li>
         </ul>
@@ -33,7 +33,7 @@ export default class Sidebar extends Component {
                   <span className='icon'>
                     <i className='fab fa-github' />
                   </span>
-                  <span>Github</span>
+                  <span>&nbsp;Github</span>
                 </NavLink>
               </li>
             </ul>

@@ -30,6 +30,7 @@
 }
 
 .app-sidebar {
+  padding-left: 5px;
 }
 
 @keyframes app-logo-swing {

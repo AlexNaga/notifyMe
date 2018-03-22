@@ -33,7 +33,7 @@ export default class Index extends Component {
         <Header />
 
         <div className='columns'>
-          <div className='column is-2'>
+          <div className='column is-2-desktop is-3-tablet'>
             <Sidebar />
           </div>
 
@@ -45,6 +45,7 @@ export default class Index extends Component {
             {this.state.events.map((event, key) =>
               < Event key={key} event={event} />
             )}
+
           </div>
         </div>
       </div >
