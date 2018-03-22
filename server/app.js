@@ -13,9 +13,9 @@ const GitHubStrategy = require('passport-github2').Strategy;
 const GithubWebHook = require('express-github-webhook');
 const webhookHandler = GithubWebHook({ path: '/webhook/github', secret: process.env.GITHUB_WEBHOOK_SECRET });
 
-const indexRoutes = require('./src/routes/index');
 const authRoutes = require('./src/routes/auth');
 const githubRoutes = require('./src/routes/github');
+const loginRoutes = require('./src/routes/login');
 const userRoutes = require('./src/routes/users');
 const webhookRoutes = require('./src/routes/webhook');
 
@@ -178,9 +178,9 @@ passport.use(new GitHubStrategy({
 
 
 // Routes
-app.use('/', indexRoutes);
 app.use('/auth', authRoutes);
 app.use('/github', githubRoutes);
+app.use('/login', loginRoutes);
 app.use('/users', userRoutes);
 app.use('/webhook', webhookRoutes);
 

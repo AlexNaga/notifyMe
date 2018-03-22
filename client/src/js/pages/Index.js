@@ -10,7 +10,14 @@ import Sidebar from 'js/components/Sidebar';
 import Event from 'js/components/Event';
 
 import io from 'socket.io-client';
-const socket = io('ws://localhost:8000');
+
+// If localhost
+let socket = io('ws://' + window.location.host);
+
+// If HTTPS
+if (window.location.protocol == "https:") {
+  socket = io('wss://' + window.location.host);
+}
 
 export default class Index extends Component {
   state = {
