@@ -119,8 +119,6 @@ exports.createGithubHook = (username) => {
   // Get saved webhook data from the db
   Webhook.findOne({ username: username })
     .then(data => {
-      console.log(process.env.WEBHOOK_URL);
-      
       for (const organization in data.events) {
         const orgSelected = data.events.hasOwnProperty(organization);
 
@@ -143,7 +141,7 @@ exports.createGithubHook = (username) => {
 
                 if (hookExist) {
                   hooks.map(hook => {
-                    const localHookUrl = process.env.WEBHOOK_URL;
+                    const localHookUrl = process.env.SERVER_DOMAIN;
                     const fetchedHookUrl = hook.config.url;
 
                     // Get the correct hook to delete
@@ -173,7 +171,7 @@ exports.createGithubHook = (username) => {
 
                 if (hookExist) {
                   hooks.map(hook => {
-                    const localHookUrl = process.env.WEBHOOK_URL;
+                    const localHookUrl = process.env.SERVER_DOMAIN + '/webhook';
                     const fetchedHookUrl = hook.config.url;
 
                     // Get the correct hook to edit
@@ -195,7 +193,7 @@ exports.createGithubHook = (username) => {
                     'active': true,
                     'events': events,
                     'config': {
-                      'url': process.env.WEBHOOK_URL,
+                      'url': process.env.SERVER_DOMAIN + '/webhook',
                       'secret': process.env.GITHUB_WEBHOOK_SECRET,
                       'content_type': 'json'
                     }
