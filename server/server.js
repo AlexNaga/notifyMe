@@ -18,7 +18,7 @@ app.set('socketio', io);
 server.listen(port);
 
 // Redirect from HTTP to HTTPS
-http.createServer(function (req, res) {
+http.createServer((req, res) => {
   res.writeHead(301, { 'Location': 'https://' + req.headers['host'] + req.url });
   res.end();
 }).listen(80);
