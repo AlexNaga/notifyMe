@@ -8,13 +8,13 @@ exports.githubAuth = passport.authenticate('github', { scope: ['read:user', 'rea
 exports.githubCallback = (req, res, next) => {
 
   // Save user to db
-  request.post(process.env.DOMAIN + 'users', {
+  request.post(process.env.SERVER_DOMAIN + '/users', {
     username: req.user.profile.username,
     githubId: req.user.profile.id,
     githubToken: req.user.accessToken
   })
     .then((response) => {
-      res.redirect('http://159.65.123.46:3000/' + '?token=' + response.data.token);
+      res.redirect(process.env.CLIENT_DOMAIN + '/?token=' + response.data.token);
     })
     .catch((err) => {
       res.status(500).json({

@@ -12,7 +12,7 @@ import Event from 'js/components/Event';
 import io from 'socket.io-client';
 
 // If localhost
-let socket = io('ws://159.65.123.46:8000');
+let socket = io(process.env.SERVER_DOMAIN);
 
 // If HTTPS
 if (window.location.protocol === 'https:') {
