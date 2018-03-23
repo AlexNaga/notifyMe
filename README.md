@@ -18,7 +18,6 @@ You can find the assignment [here.](https://coursepress.gitbooks.io/1dv612/conte
   ```bash
   echo '{
     SERVER_DOMAIN="localhost:8000"
-    CLIENT_DOMAIN="localhost:3000"
     GITHUB_CLIENT_ID="YOUR_GITHUB_CLIENT_ID"
     GITHUB_CLIENT_SECRET="YOUR_GITHUB_SECRET"
     GITHUB_WEBHOOK_SECRET="A_RANDOM_SECRET"
@@ -38,7 +37,7 @@ You can find the assignment [here.](https://coursepress.gitbooks.io/1dv612/conte
   ```bash
   echo '{
     NODE_PATH="src/"
-    REACT_APP_DOMAIN="localhost:3000"
+    REACT_APP_SERVER_DOMAIN="localhost:3000"
   }' > .env
   ```
   4. Start the application by typing `npm start`  
