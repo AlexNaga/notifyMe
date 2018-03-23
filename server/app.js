@@ -185,7 +185,8 @@ app.use('/users', userRoutes);
 
 // Error handling
 app.use((req, res, next) => {
-  res.redirect(process.env.SERVER_DOMAIN);
+  // res.redirect(process.env.SERVER_DOMAIN);
+  res.sendFile(__dirname + '/public/index.html')
 })
 
 app.use((err, req, res, next) => {
