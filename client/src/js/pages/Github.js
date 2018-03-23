@@ -32,7 +32,7 @@ export default class Github extends Component {
     let username = localStorage.username;
 
     request
-      .post(process.env.SERVER_DOMAIN + '/github/organizations', {
+      .post(process.env.REACT_APP_SERVER_DOMAIN + '/github/organizations', {
         headers: { Authorization: 'Bearer ' + token },
         username: username
       })
@@ -51,7 +51,7 @@ export default class Github extends Component {
   _onSubmit = (event, data) => {
     let username = localStorage.username;
 
-    request.post(process.env.SERVER_DOMAIN + '/users/organizations', {
+    request.post(process.env.REACT_APP_SERVER_DOMAIN + '/users/organizations', {
       data,
       username: username
     })
