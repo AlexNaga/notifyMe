@@ -1,3 +1,4 @@
+const http = require('http');
 const https = require('https');
 const app = require('./app');
 const fs = require('fs');
@@ -15,3 +16,9 @@ const io = require('socket.io').listen(server);
 
 app.set('socketio', io);
 server.listen(port);
+
+// Redirect from HTTP to HTTPS
+http.createServer(function (req, res) {
+  res.writeHead(301, { 'Location': 'https://' + req.headers['host'] + req.url });
+  res.end();
+}).listen(80);
