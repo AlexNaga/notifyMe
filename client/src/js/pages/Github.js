@@ -17,15 +17,12 @@ import request from 'axios';
 import AutoForm from 'react-auto-form'
 
 export default class Github extends Component {
-  state = {
-    organizations: [],
-  };
-
   constructor(props) {
     super(props);
     this.state = {
       isLoading: true,
       error: false,
+      organizations: [],
       showOrganizations: false,
     };
   }
@@ -35,7 +32,7 @@ export default class Github extends Component {
     let username = localStorage.username;
 
     request
-      .post(process.env.REACT_APP_DOMAIN + 'github/organizations', {
+      .post(window.location.host + '/api/github/organizations', {
         headers: { Authorization: 'Bearer ' + token },
         username: username
       })
@@ -54,7 +51,7 @@ export default class Github extends Component {
   _onSubmit = (event, data) => {
     let username = localStorage.username;
 
-    request.post(process.env.REACT_APP_DOMAIN + 'users/organizations', {
+    request.post(window.location.host + '/api/users/organizations', {
       data,
       username: username
     })

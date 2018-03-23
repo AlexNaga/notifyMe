@@ -19,7 +19,7 @@ if (window.location.protocol === 'https:') {
   socket = io('wss://' + window.location.host);
 }
 
-export default class Index extends Component {
+export default class Dashboard extends Component {
   state = {
     events: [],
   }
