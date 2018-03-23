@@ -119,6 +119,8 @@ exports.createGithubHook = (username) => {
   // Get saved webhook data from the db
   Webhook.findOne({ username: username })
     .then(data => {
+      console.log(process.env.WEBHOOK_URL);
+      
       for (const organization in data.events) {
         const orgSelected = data.events.hasOwnProperty(organization);
 
@@ -160,6 +162,7 @@ exports.createGithubHook = (username) => {
 
             return;
           } else {
+            // Remove first item in array ['on']
             events.shift();
 
             // Check if webhook already exist
@@ -208,8 +211,6 @@ exports.createGithubHook = (username) => {
                 }
               })
               .catch(err => {
-                // Try request again
-                // To avoid a loop, it might be good to add a "try limit" in the future
                 exports.createGithubHook(username);
               });
           }
