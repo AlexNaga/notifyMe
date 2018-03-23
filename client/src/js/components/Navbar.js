@@ -32,7 +32,7 @@ export default class Navbar extends Component {
   }
 
   onLogin = (event, data) => {
-    window.location = process.env.REACT_APP_DOMAIN + 'auth/github';
+    window.location = 'http://159.65.123.46:8000/auth/github';
   }
 
   onLogout = (event, data) => {
