@@ -202,6 +202,7 @@ exports.createGithubHook = (username) => {
                   // Create a new webhook
                   client.post('orgs/' + organization + '/hooks', hookData)
                     .then((response) => {
+                      console.log('Webhook created with event(s): ', events.join(', '));
                     })
                     .catch(err => {
                       console.log(err);
