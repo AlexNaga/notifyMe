@@ -185,9 +185,7 @@ app.use('/users', userRoutes);
 
 // Error handling
 app.use((req, res, next) => {
-  const err = new Error('The resource could not be found.');
-  err.status = 404;
-  next(err);
+  res.redirect(process.env.SERVER_DOMAIN);
 })
 
 app.use((err, req, res, next) => {
