@@ -14,7 +14,7 @@ exports.githubCallback = (req, res, next) => {
     githubToken: req.user.accessToken
   })
     .then((response) => {
-      res.redirect('http://159.65.123.46:3000' + '?token=' + response.data.token);
+      res.redirect('http://159.65.123.46:3000/' + '?token=' + response.data.token);
     })
     .catch((err) => {
       res.status(500).json({
