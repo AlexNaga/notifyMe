@@ -169,7 +169,7 @@ passport.deserializeUser((obj, cb) => {
 passport.use(new GitHubStrategy({
   clientID: process.env.GITHUB_CLIENT_ID,
   clientSecret: process.env.GITHUB_CLIENT_SECRET,
-  callbackURL: process.env.SERVER_DOMAIN + '/auth/github/callback'
+  callbackURL: 'http://159.65.123.46:8000/auth/github/callback'
 },
   (accessToken, refreshToken, profile, cb) => {
     return cb(null, { profile: profile, accessToken: accessToken });

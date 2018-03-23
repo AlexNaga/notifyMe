@@ -12,7 +12,7 @@ import Event from 'js/components/Event';
 import io from 'socket.io-client';
 
 // If localhost
-let socket = io(process.env.SERVER_DOMAIN);
+let socket = io(process.env.REACT_APP_SERVER_DOMAIN);
 
 // If HTTPS
 if (window.location.protocol === 'https:') {
