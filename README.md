@@ -17,14 +17,14 @@ You can find the assignment [here.](https://coursepress.gitbooks.io/1dv612/conte
   3. Create the environment variables by typing the following
   ```bash
   echo '{
-    DOMAIN="localhost:8000/"
+    SERVER_DOMAIN="localhost:8000"
+    CLIENT_DOMAIN="localhost:3000"
     GITHUB_CLIENT_ID="YOUR_GITHUB_CLIENT_ID"
     GITHUB_CLIENT_SECRET="YOUR_GITHUB_SECRET"
     GITHUB_WEBHOOK_SECRET="A_RANDOM_SECRET"
     MONGO_ATLAS_USERNAME="YOUR_MONGODB_USERNAME"
     MONGO_ATLAS_PASSWORD="YOUR_MONGODB_PASSWORD"
     JWT_SECRET="A_RANDOM_SECRET"
-    WEBHOOK_URL="localhost:8000"
     WEBHOOK_DISCORD_URL="https://discordapp.com/api/webhooks/426058275583295489/x05E9NRWo-T9Et3cohcznhHBDk0WTeg56R_3cBqLhE0A665ooa4hZSWrX7PtV4L4mUDl"
   }' > .env
   ```
