@@ -11,12 +11,12 @@ import Event from 'js/components/Event';
 
 import io from 'socket.io-client';
 
-// If localhost
-let socket = io(window.location.host);
-
 // If HTTPS
-if (window.location.protocol === 'https:') {
-  socket = io('wss://' + window.location.host);
+let socket = io('wss://' + window.location.host);
+
+// If HTTP
+if (window.location.protocol === 'http:') {
+  socket = io('ws://' + window.location.host);
 }
 
 export default class Dashboard extends Component {
