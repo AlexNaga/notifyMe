@@ -185,8 +185,16 @@ app.use('/users', userRoutes);
 
 // Error handling
 app.use((req, res, next) => {
-  // res.redirect(process.env.SERVER_DOMAIN);
-  res.sendFile(__dirname + '/public/index.html')
+  let url = req.originalUrl.split('/')[1].split('?')[0];
+  console.log(url);
+
+  if (url === 'github' || url === 'discord') {
+    res.sendFile(__dirname + '/public/index.html');
+  } else {
+    const err = new Error('The resource could not be found.');
+    err.status = 404;
+    next(err);
+  }
 })
 
 app.use((err, req, res, next) => {

@@ -22,3 +22,5 @@ http.createServer((req, res) => {
   res.writeHead(301, { 'Location': 'https://' + req.headers['host'] + req.url });
   res.end();
 }).listen(80);
+
+console.log('The server is now running at: ', process.env.SERVER_DOMAIN);
