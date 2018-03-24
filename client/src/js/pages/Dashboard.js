@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import io from 'socket.io-client';
 
 import 'css/index.css';
 import 'bulma/css/bulma.css'
@@ -8,8 +9,6 @@ import Header from 'js/components/Header';
 import Navbar from 'js/components/Navbar';
 import Sidebar from 'js/components/Sidebar';
 import Event from 'js/components/Event';
-
-import io from 'socket.io-client';
 
 // If HTTPS
 let socket = io('wss://' + window.location.host);
@@ -22,12 +21,21 @@ if (window.location.protocol === 'http:') {
 export default class Dashboard extends Component {
   state = {
     events: [],
+    isAnimationActive: false,
   }
 
   componentDidMount() {
     socket.on('event', (data) => {
       const event = data;
       this.setState({ events: [...this.state.events, event] });
+      this.triggerAnimation();
+    });
+  }
+
+  triggerAnimation = () => {
+    this.setState({ isAnimationActive: true }, () => {
+      const self = this;
+      setTimeout(() => self.setState({ isAnimationActive: false }), 1000);
     });
   }
 
@@ -37,7 +45,7 @@ export default class Dashboard extends Component {
 
     return (
       <div className='app'>
-        <Header />
+        <Header isAnimationActive={this.state.isAnimationActive}/>
 
         <div className='columns'>
           <div className='column is-2-desktop is-3-tablet'>
@@ -49,10 +57,11 @@ export default class Dashboard extends Component {
             <div className='app-body'>
               <BodyTitle title={title} subTitle={subTitle} />
 
-              {this.state.events.map((event, key) =>
-                < Event key={key} event={event} />
-              )}
-
+              {
+                this.state.events.map((event, key) =>
+                  < Event key={key} event={event} />
+                )
+              }
             </div>
           </div>
         </div>

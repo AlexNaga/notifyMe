@@ -91,24 +91,26 @@ export default class Github extends Component {
                   : <div></div>
               }
 
-              {this.state.showOrganizations ?
-                <div id='organizationSettings'>
-                  <ul>
-                    <AutoForm onSubmit={this._onSubmit} trimOnSubmit >
-                      {this.state.organizations.map((organization, key) =>
-                        < Organization key={key} id={key} name={organization.name} />
-                      )}
+              {
+                this.state.showOrganizations ?
+                  <div id='organizationSettings'>
+                    <ul>
+                      <AutoForm onSubmit={this._onSubmit} trimOnSubmit >
+                        {this.state.organizations.map((organization, key) =>
+                          < Organization key={key} id={key} name={organization.name} />
+                        )}
 
-                      <Button success type='submit'>
-                        <span className='icon'>
-                          <i className='fas fa-sign-in-alt' />
-                        </span>
-                        <span>Save</span>
-                      </Button>
-                    </AutoForm>
-                  </ul>
-                </div>
-                : <div></div>}
+                        <Button success type='submit'>
+                          <span className='icon'>
+                            <i className='fas fa-sign-in-alt' />
+                          </span>
+                          <span>Save</span>
+                        </Button>
+                      </AutoForm>
+                    </ul>
+                  </div>
+                  : <div></div>
+              }
 
               {this.state.isLoading ? <Spinner name='ball-clip-rotate' fadeIn='none' /> : <div> </div>}
 
