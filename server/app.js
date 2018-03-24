@@ -186,7 +186,6 @@ app.use('/users', userRoutes);
 // Error handling
 app.use((req, res, next) => {
   let url = req.originalUrl.split('/')[1].split('?')[0];
-  console.log(url);
 
   if (url === 'github' || url === 'discord') {
     res.sendFile(__dirname + '/public/index.html');

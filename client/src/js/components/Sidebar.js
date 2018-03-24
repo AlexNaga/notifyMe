@@ -5,7 +5,7 @@ export default class Sidebar extends Component {
   render() {
     return (
       <aside className='app-sidebar menu'>
-        <p className='menu-label'>General</p>
+        <p className='menu-label'>&nbsp;General</p>
         <ul className='menu-list'>
           <li>
             <NavLink exact to='/' activeClassName='is-active'>
@@ -24,7 +24,7 @@ export default class Sidebar extends Component {
             </NavLink>
           </li>
         </ul>
-        <p className='menu-label'>Manage Notifications</p>
+        <p className='menu-label'>&nbsp;Manage Notifications</p>
         <ul className='menu-list'>
           <li>
             <ul>

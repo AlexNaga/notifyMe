@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import 'css/index.css';
 import 'bulma/css/bulma.css'
 
-import Body from 'js/components/Body';
+import BodyTitle from 'js/components/BodyTitle';
 import Header from 'js/components/Header';
 import Navbar from 'js/components/Navbar';
 import Sidebar from 'js/components/Sidebar';
@@ -46,13 +46,14 @@ export default class Dashboard extends Component {
 
           <div className='column'>
             <Navbar />
-            <Body title={title} subTitle={subTitle} />
-            <br />
+            <div className='app-body'>
+              <BodyTitle title={title} subTitle={subTitle} />
 
-            {this.state.events.map((event, key) =>
-              < Event key={key} event={event} />
-            )}
+              {this.state.events.map((event, key) =>
+                < Event key={key} event={event} />
+              )}
 
+            </div>
           </div>
         </div>
       </div >

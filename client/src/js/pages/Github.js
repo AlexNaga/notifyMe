@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button } from 'reactbulma'
 import { Message } from 'reactbulma'
 
-import Body from 'js/components/Body';
+import BodyTitle from 'js/components/BodyTitle';
 import Header from 'js/components/Header';
 import Navbar from 'js/components/Navbar';
 import Sidebar from 'js/components/Sidebar';
@@ -71,45 +71,48 @@ export default class Github extends Component {
 
           <div className='column'>
             <Navbar />
-            <Body title={title} subTitle={subTitle} />
-            <br />
-
-            {this.state.error ?
-              <div className='columns'>
-                <div className='column is-narrow'>
-                  <Message warning>
-                    <Message.Header>
-                      <p>Authentication failed</p>
-                    </Message.Header>
-                    <Message.Body>
-                      You need to be logged in to access this resource.
+            <div className='app-body'>
+              <BodyTitle title={title} subTitle={subTitle} />
+              <br />
+              {
+                this.state.error ?
+                  <div className='columns'>
+                    <div className='column is-narrow'>
+                      <Message warning>
+                        <Message.Header>
+                          <p>Authentication failed</p>
+                        </Message.Header>
+                        <Message.Body>
+                          You need to be logged in to access this resource.
                     </Message.Body>
-                  </Message>
+                      </Message>
+                    </div>
+                  </div>
+                  : <div></div>
+              }
+
+              {this.state.showOrganizations ?
+                <div id='organizationSettings'>
+                  <ul>
+                    <AutoForm onSubmit={this._onSubmit} trimOnSubmit >
+                      {this.state.organizations.map((organization, key) =>
+                        < Organization key={key} id={key} name={organization.name} />
+                      )}
+
+                      <Button success type='submit'>
+                        <span className='icon'>
+                          <i className='fas fa-sign-in-alt' />
+                        </span>
+                        <span>Save</span>
+                      </Button>
+                    </AutoForm>
+                  </ul>
                 </div>
-              </div>
-              : <div></div>}
+                : <div></div>}
 
-            {this.state.showOrganizations ?
-              <div id='organizationSettings'>
-                <ul>
-                  <AutoForm onSubmit={this._onSubmit} trimOnSubmit >
-                    {this.state.organizations.map((organization, key) =>
-                      < Organization key={key} id={key} name={organization.name} />
-                    )}
+              {this.state.isLoading ? <Spinner name='ball-clip-rotate' fadeIn='none' /> : <div> </div>}
 
-                    <Button success type='submit'>
-                      <span className='icon'>
-                        <i className='fas fa-sign-in-alt' />
-                      </span>
-                      <span>Save</span>
-                    </Button>
-                  </AutoForm>
-                </ul>
-              </div>
-              : <div></div>}
-
-            {this.state.isLoading ? <Spinner name='ball-clip-rotate' fadeIn='none' /> : <div> </div>}
-
+            </div>
           </div>
         </div>
       </div >

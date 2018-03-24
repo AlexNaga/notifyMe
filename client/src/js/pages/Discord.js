@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import 'css/index.css';
 import 'bulma/css/bulma.css'
 
-import Body from 'js/components/Body';
+import BodyTitle from 'js/components/BodyTitle';
 import Header from 'js/components/Header';
 import Navbar from 'js/components/Navbar';
 import Sidebar from 'js/components/Sidebar';
@@ -23,15 +23,18 @@ export default class Discord extends Component {
 
           <div className='column'>
             <Navbar />
-            <Body title={title} subTitle={subTitle} />
-            <br />
-            <br />
-            <a className='button is-info' href='https://discord.gg/UBbqPM9' target='_blank' rel='noopener noreferrer'>
-              <span className='icon'>
-                <i className='fas fa-external-link-square-alt' />
-              </span>
-              <span>View Discord channel</span>
-            </a>
+            <div className='app-body'>
+              <BodyTitle title={title} subTitle={subTitle} />
+              <br />
+              <br />
+              <a className='button is-info' href='https://discord.gg/UBbqPM9' target='_blank' rel='noopener noreferrer'>
+                <span className='icon'>
+                  <i className='fas fa-external-link-square-alt' />
+                </span>
+                <span>View Discord channel</span>
+              </a>
+
+            </div>
           </div>
         </div>
       </div >
