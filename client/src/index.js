@@ -2,6 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
+import 'bulma/css/bulma.css'
+import 'css/index.css';
+
 import Dashboard from 'js/pages/Dashboard';
 import Github from 'js/pages/Github';
 import Discord from 'js/pages/Discord';

@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import 'css/index.css';
-import 'bulma/css/bulma.css'
 
 import BodyTitle from 'js/components/BodyTitle';
 import Header from 'js/components/Header';

@@ -9,9 +9,7 @@ import Sidebar from 'js/components/Sidebar';
 import Organization from 'js/components/Organization';
 
 import Spinner from 'react-spinkit';
-import 'bulma/css/bulma.css'
 import 'css/bulma-checkradio.min.css';
-import 'css/index.css';
 
 import request from 'axios';
 import AutoForm from 'react-auto-form'

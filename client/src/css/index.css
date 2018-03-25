@@ -1,3 +1,9 @@
+/* Fix for overflow on mobile devices */
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+}
+
 .app {
 }
 
@@ -21,7 +27,7 @@
   font-size: 1.5em;
 }
 
-/* For phones and tablets */
+/* For mobile devices and tablets */
 @media screen and (max-width: 769px) {
   .app-body {
     padding-left: 10px;
@@ -36,6 +42,7 @@
   }
 }
 
+/* Rotate logo */
 @keyframes load8 {
   0% {
     transform: rotate(0deg);

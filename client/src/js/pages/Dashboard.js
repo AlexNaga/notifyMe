@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
 
-import 'css/index.css';
-import 'bulma/css/bulma.css'
-
 import BodyTitle from 'js/components/BodyTitle';
 import Header from 'js/components/Header';
 import Navbar from 'js/components/Navbar';
@@ -45,7 +42,7 @@ export default class Dashboard extends Component {
 
     return (
       <div className='app'>
-        <Header isAnimationActive={this.state.isAnimationActive}/>
+        <Header isAnimationActive={this.state.isAnimationActive} />
 
         <div className='columns'>
           <div className='column is-2-desktop is-3-tablet'>
@@ -56,6 +53,7 @@ export default class Dashboard extends Component {
             <Navbar />
             <div className='app-body'>
               <BodyTitle title={title} subTitle={subTitle} />
+              <br />
 
               {
                 this.state.events.map((event, key) =>
