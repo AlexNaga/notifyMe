@@ -13,14 +13,14 @@ export default class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isAnimationActive: false,
+      isLogoClicked: false,
     };
   }
 
   triggerAnimation = () => {
-    this.setState({ isAnimationActive: true }, () => {
+    this.setState({ isLogoClicked: true }, () => {
       const self = this;
-      setTimeout(() => self.setState({ isAnimationActive: false }), 1000);
+      setTimeout(() => self.setState({ isLogoClicked: false }), 1000);
     });
   }
 
@@ -35,7 +35,7 @@ export default class Header extends Component {
             :
             <div>
               {
-                this.state.isAnimationActive ?
+                this.state.isLogoClicked ?
                   <StyleRoot>
                     <i className='app-logo fas fa-bell' style={styles.animation}></i>
                   </StyleRoot>

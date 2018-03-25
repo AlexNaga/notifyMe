@@ -3,7 +3,7 @@ const https = require('https');
 const app = require('./app');
 const fs = require('fs');
 
-const sslPath = '/etc/letsencrypt/live/alexnaga.se/';
+const sslPath = '/etc/letsencrypt/live/alexnaga.se-0002/';
 
 const options = {
   key: fs.readFileSync(sslPath + 'privkey.pem'),
