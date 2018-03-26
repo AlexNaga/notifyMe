@@ -7,7 +7,4 @@ const EventController = require('../controllers/events');
 // Save an event
 router.post('/', EventController.saveEvent);
 
-// Get the ten newest events
-// router.get('/', EventController.getEvents);
-
 module.exports = router;

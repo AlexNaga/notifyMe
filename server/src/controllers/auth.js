@@ -14,7 +14,7 @@ exports.githubCallback = (req, res, next) => {
     githubToken: req.user.accessToken
   })
     .then((response) => {
-      res.redirect(process.env.SERVER_DOMAIN + '/?token=' + response.data.token);
+      res.redirect('http://localhost:3000/?token=' + response.data.token);
     })
     .catch((err) => {
       res.status(500).json({

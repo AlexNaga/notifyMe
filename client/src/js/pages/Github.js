@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
 import { Button } from 'reactbulma'
 import { Message } from 'reactbulma'
+import AutoForm from 'react-auto-form'
+import Spinner from 'react-spinkit';
+import request from 'axios';
+import 'css/bulma-checkradio.min.css';
 
 import BodyTitle from 'js/components/BodyTitle';
 import Header from 'js/components/Header';
 import Navbar from 'js/components/Navbar';
 import Sidebar from 'js/components/Sidebar';
 import Organization from 'js/components/Organization';
-
-import Spinner from 'react-spinkit';
-import 'css/bulma-checkradio.min.css';
-
-import request from 'axios';
-import AutoForm from 'react-auto-form'
 
 export default class Github extends Component {
   constructor(props) {
@@ -29,21 +27,26 @@ export default class Github extends Component {
     let token = localStorage.token;
     let username = localStorage.username;
 
-    request
-      .post(process.env.REACT_APP_SERVER_DOMAIN + '/github/organizations', {
-        headers: { Authorization: 'Bearer ' + token },
-        username: username
-      })
-      .then(res => {
-        const organizations = res.data;
-        this.setState({ isLoading: false });
-        this.setState({ organizations });
-        this.setState({ showOrganizations: true });
-      })
-      .catch(err => {
-        this.setState({ error: true });
-        this.setState({ isLoading: false });
-      });
+    if (username) {
+      request
+        .post(process.env.REACT_APP_SERVER_DOMAIN + '/github/organizations', {
+          headers: { Authorization: 'Bearer ' + token },
+          username: username
+        })
+        .then(res => {
+          const organizations = res.data;
+          this.setState({ isLoading: false });
+          this.setState({ organizations });
+          this.setState({ showOrganizations: true });
+        })
+        .catch(err => {
+          this.setState({ isLoading: false });
+          this.setState({ error: true });
+        });
+    } else {
+      this.setState({ isLoading: false });
+      this.setState({ error: true });
+    }
   }
 
   _onSubmit = (event, data) => {

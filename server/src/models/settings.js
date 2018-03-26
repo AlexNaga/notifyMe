@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 const timestamp = require('mongoose-timestamp');
 
-const webhookSchema = mongoose.Schema({
+const settingsSchema = mongoose.Schema({
   username: { type: String, required: true, unique: true },
   events: {}
 });
 
-webhookSchema.plugin(timestamp);
+settingsSchema.plugin(timestamp);
 
-module.exports = mongoose.model('Webhook', webhookSchema);
+module.exports = mongoose.model('Settings', settingsSchema);

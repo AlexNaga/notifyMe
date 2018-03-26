@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const Event = require('../models/event');
+const User = require('../models/user');
 
 // Save an event
 exports.saveEvent = (req, res, next) => {
@@ -31,5 +32,36 @@ exports.saveEvent = (req, res, next) => {
       res.status(500).json({
         error: err
       })
+    });
+};
+
+exports.getEvents = (req, res, next) => {
+  const token = req.body.headers.Authorization.split(' ')[1];
+
+  User.findOne({ username: req.body.username })
+    .exec()
+    .then(user => {
+      if (user && user.jwtToken === token) {
+        Event.find()
+          .sort({ date: -1 })
+          .exec()
+          .then(result => {
+            res.status(200).json(result.map(event => {
+              return {
+                event: event
+              }
+            }));
+          })
+          .catch();
+      } else {
+        res.status(401).json({
+          message: 'The token is invalid.'
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({
+        error: err
+      });
     });
 };

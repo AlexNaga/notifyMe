@@ -1,7 +1,7 @@
 const GitHub = require('octocat');
 
 const User = require('../models/user');
-const Webhook = require('../models/webhook');
+const Settings = require('../models/settings');
 
 exports.getGithubOrganizations = (req, res, next) => {
   const token = req.body.headers.Authorization.split(' ')[1];
@@ -62,23 +62,23 @@ exports.saveGithubOrganizations = (req, res, next) => {
     events: eventsToSave
   };
 
-  Webhook.findOneAndUpdate({ username: req.body.username }, { $set: updateParams }, { new: true })
+  Settings.findOneAndUpdate({ username: req.body.username }, { $set: updateParams }, { new: true })
     .exec()
-    .then(webhook => {
-      if (!webhook) {
-        const webhook = new Webhook({
+    .then(settings => {
+      if (!settings) {
+        const settings = new Settings({
           username: req.body.username,
           events: eventsToSave
         });
 
-        webhook
+        settings
           .save()
           .then(result => {
             // Save and then also create webhook
             exports.createGithubHook(req.body.username);
 
             res.status(201).json({
-              message: 'Webhook created.'
+              message: 'Settings saved.'
             })
           })
           .catch(err => {
@@ -87,14 +87,14 @@ exports.saveGithubOrganizations = (req, res, next) => {
             })
           });
       } else {
-        webhook
+        settings
           .save()
           .then(result => {
             // Update and then also create webhook
             exports.createGithubHook(req.body.username);
 
             res.status(201).json({
-              message: 'Webhook updated.'
+              message: 'Settings updated.'
             })
           })
           .catch(err => {
@@ -117,7 +117,7 @@ exports.createGithubHook = (username) => {
     })
 
   // Get saved webhook data from the db
-  Webhook.findOne({ username: username })
+  Settings.findOne({ username: username })
     .then(data => {
       for (const organization in data.events) {
         const orgSelected = data.events.hasOwnProperty(organization);
@@ -148,7 +148,7 @@ exports.createGithubHook = (username) => {
                     if (localHookUrl === fetchedHookUrl) {
                       client.del(hook.url)
                         .then((response) => {
-                          console.log('Webhook deleted');
+                          console.log('Settings deleted');
                         })
                         .catch(err => {
                           console.log(err.body);
@@ -180,7 +180,7 @@ exports.createGithubHook = (username) => {
                       // Update webhook with new events
                       client.patch(hook.url, { events })
                         .then((response) => {
-                          console.log('Webhook updated with event(s): ', events.join(', '));
+                          console.log('Settings updated with event(s): ', events.join(', '));
                         })
                         .catch(err => {
                           console.log(err.body);
@@ -202,7 +202,7 @@ exports.createGithubHook = (username) => {
                   // Create a new webhook
                   client.post('orgs/' + organization + '/hooks', hookData)
                     .then((response) => {
-                      console.log('Webhook created with event(s): ', events.join(', '));
+                      console.log('Settings created with event(s): ', events.join(', '));
                     })
                     .catch(err => {
                       console.log(err);

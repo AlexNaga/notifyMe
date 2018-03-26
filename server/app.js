@@ -189,7 +189,7 @@ passport.deserializeUser((obj, cb) => {
 passport.use(new GitHubStrategy({
   clientID: process.env.GITHUB_CLIENT_ID,
   clientSecret: process.env.GITHUB_CLIENT_SECRET,
-  callbackURL: 'http://stripe.notifyme.ultrahook.com'
+  callbackURL: process.env.SERVER_DOMAIN + '/auth/github/callback'
 },
   (accessToken, refreshToken, profile, cb) => {
     return cb(null, { profile: profile, accessToken: accessToken });
