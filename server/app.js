@@ -14,6 +14,7 @@ const GithubWebHook = require('express-github-webhook');
 const webhookHandler = GithubWebHook({ path: '/webhook', secret: process.env.GITHUB_WEBHOOK_SECRET });
 
 const authRoutes = require('./src/routes/auth');
+const eventRoutes = require('./src/routes/events');
 const githubRoutes = require('./src/routes/github');
 const loginRoutes = require('./src/routes/login');
 const userRoutes = require('./src/routes/users');
@@ -23,7 +24,7 @@ mongoose.connect(
   'mongodb://' + process.env.MONGO_ATLAS_USERNAME +
   ':' + process.env.MONGO_ATLAS_PASSWORD +
   '@rest-api-shard-00-00-wgaf2.mongodb.net:27017,rest-api-shard-00-01-wgaf2.mongodb.net:27017,rest-api-shard-00-02-wgaf2.mongodb.net:27017/test?ssl=true&replicaSet=rest-api-shard-0&authSource=admin'
-  // , () => { mongoose.connection.db.dropDatabase(); }
+  //, () => { mongoose.connection.db.dropDatabase(); }
 );
 mongoose.Promise = global.Promise;
 
@@ -53,9 +54,11 @@ webhookHandler.on('issues', function (repo, data) {
     }
   };
 
+  // Send event to client
   const io = app.get('socketio');
   io.emit('event', eventInfo);
 
+  // Send event to Discord
   request.post(process.env.WEBHOOK_DISCORD_URL, {
     username: eventInfo.user.username,
     avatar_url: eventInfo.user.image,
@@ -82,9 +85,11 @@ webhookHandler.on('release', function (repo, data) {
     }
   };
 
+  // Send event to client
   const io = app.get('socketio');
   io.emit('event', eventInfo);
 
+  // Send event to Discord
   request.post(process.env.WEBHOOK_DISCORD_URL, {
     username: eventInfo.user.username,
     avatar_url: eventInfo.user.image,
@@ -111,9 +116,11 @@ webhookHandler.on('repository', function (repo, data) {
     }
   };
 
+  // Send event to client
   const io = app.get('socketio');
   io.emit('event', eventInfo);
 
+  // Send event to Discord
   request.post(process.env.WEBHOOK_DISCORD_URL, {
     username: eventInfo.user.username,
     avatar_url: eventInfo.user.image,
@@ -140,9 +147,11 @@ webhookHandler.on('watch', function (repo, data) {
     }
   };
 
+  // Send event to client
   const io = app.get('socketio');
   io.emit('event', eventInfo);
 
+  // Send event to Discord
   request.post(process.env.WEBHOOK_DISCORD_URL, {
     username: eventInfo.user.username,
     avatar_url: eventInfo.user.image,
@@ -151,6 +160,17 @@ webhookHandler.on('watch', function (repo, data) {
       ': [' + eventInfo.repo_name +
       '](' + eventInfo.url + ')'
   })
+
+  // Save event to db
+  request.post(process.env.SERVER_DOMAIN + '/events', {
+    event: eventInfo
+  })
+    .then((response) => {
+      console.log('Save event to db: ', response);
+    })
+    .catch((err) => {
+      console.log('Error in app.js: ', err);
+    });
 });
 
 
@@ -168,7 +188,7 @@ passport.deserializeUser((obj, cb) => {
 passport.use(new GitHubStrategy({
   clientID: process.env.GITHUB_CLIENT_ID,
   clientSecret: process.env.GITHUB_CLIENT_SECRET,
-  callbackURL: process.env.SERVER_DOMAIN + '/auth/github/callback'
+  callbackURL: 'http://stripe.notifyme.ultrahook.com'
 },
   (accessToken, refreshToken, profile, cb) => {
     return cb(null, { profile: profile, accessToken: accessToken });
@@ -178,6 +198,7 @@ passport.use(new GitHubStrategy({
 
 // Routes
 app.use('/auth', authRoutes);
+app.use('/events', eventRoutes);
 app.use('/github', githubRoutes);
 app.use('/login', loginRoutes);
 app.use('/users', userRoutes);
