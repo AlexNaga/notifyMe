@@ -1,21 +1,22 @@
 const mongoose = require('mongoose');
-const jwt = require('jsonwebtoken');
 
 const Event = require('../models/event');
 
 // Save an event
 exports.saveEvent = (req, res, next) => {
+  const eventInfo = req.body.event;
+
   const event = new Event({
-    signedInUser: req.body.signedInUser,
-    event: req.body.event,
-    action: req.body.action,
-    date: req.body.date,
-    repo_name: req.body.repo_name,
-    url: req.body.url,
-    icon: req.body.icon,
+    event: eventInfo.event,
+    action: eventInfo.action,
+    date: eventInfo.date,
+    organization: eventInfo.organization,
+    repo_name: eventInfo.repo_name,
+    url: eventInfo.url,
+    icon: eventInfo.icon,
     user: {
-      username: req.body.user.username,
-      image: req.body.user.image
+      username: eventInfo.user.username,
+      image: eventInfo.user.image
     }
   });
 

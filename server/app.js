@@ -138,6 +138,7 @@ webhookHandler.on('watch', function (repo, data) {
     event: 'Repository',
     action: 'starred',
     date: date,
+    organization: data.organization.login,
     repo_name: data.repository.full_name,
     url: data.repository.html_url,
     icon: 'fas fa-star',
@@ -166,10 +167,10 @@ webhookHandler.on('watch', function (repo, data) {
     event: eventInfo
   })
     .then((response) => {
-      console.log('Save event to db: ', response);
+      console.log('Success in app.js: ', response.data);
     })
     .catch((err) => {
-      console.log('Error in app.js: ', err);
+      console.log('Error in app.js: ', err.response.data);
     });
 });
 

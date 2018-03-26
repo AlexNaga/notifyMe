@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 const timestamp = require('mongoose-timestamp');
 
 const eventSchema = mongoose.Schema({
-  signedInUser: { type: String, required: true },
   event: { type: String, required: true },
   action: { type: String, required: true },
   date: { type: String, required: true },
+  organization: { type: String, required: true },
   repo_name: { type: String, required: true },
   url: { type: String, required: true },
   icon: { type: String, required: true },
