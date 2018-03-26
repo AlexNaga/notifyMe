@@ -1,3 +1,4 @@
+const moment = require('moment');
 const mongoose = require('mongoose');
 
 const Event = require('../models/event');
@@ -42,7 +43,10 @@ exports.getEvents = (req, res, next) => {
     .exec()
     .then(user => {
       if (user && user.jwtToken === token) {
-        Event.find()
+        let lastVisit = moment(user.lastVisit, "dddd, MMMM Do YYYY, HH:mm:ss");
+
+        // Only get events since last visit
+        Event.find({ createdAt: { $gte: lastVisit } })
           .sort({ date: -1 })
           .exec()
           .then(result => {
@@ -52,7 +56,9 @@ exports.getEvents = (req, res, next) => {
               }
             }));
           })
-          .catch();
+          .catch(err => {
+            console.log(err);
+          });
       } else {
         res.status(401).json({
           message: 'The token is invalid.'
