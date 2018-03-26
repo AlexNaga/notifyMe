@@ -6,7 +6,7 @@ const userSchema = mongoose.Schema({
   githubId: { type: String, required: true },
   githubToken: { type: String, required: true },
   jwtToken: { type: String, required: true },
-  lastVisit: { type: String, required: true }
+  lastVisit: { type: String }
 });
 
 userSchema.plugin(timestamp);

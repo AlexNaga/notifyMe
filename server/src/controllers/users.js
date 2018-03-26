@@ -93,6 +93,7 @@ exports.deleteUser = (req, res, next) => {
     });
 };
 
+
 // Saves timestamp for last visit
 exports.lastVisit = (req, res, next) => {
   const updateParams = { lastVisit: req.body.lastVisit };
