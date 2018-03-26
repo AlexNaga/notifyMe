@@ -48,9 +48,10 @@ export default class Dashboard extends Component {
         })
         .then(res => {
           const events = res.data;
-          events.map(event => {
+
+          events.forEach(event => {
             this.setState({ events: [...this.state.events, event.event] });
-          })
+          });
 
           this.setState({ isLoading: false });
           this.setState({ showEvents: true });
