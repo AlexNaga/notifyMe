@@ -76,39 +76,6 @@ exports.saveUser = (req, res, next) => {
     });
 };
 
-// // Authenticates a user
-// exports.loginUser = (req, res, next) => {
-//   User.findOne({ username: req.body.username })
-//     .then(user => {
-//       if (user) {
-//         const token = jwt.sign(
-//           {
-//             username: user.username,
-//             githubUserId: user.githubId
-//           },
-//           process.env.JWT_SECRET,
-//           {
-//             expiresIn: "1h"
-//           }
-//         );
-
-//         return res.status(200).json({
-//           message: 'Authentication is successful.',
-//           token: token
-//         });
-//       } else {
-//         res.status(401).json({
-//           message: 'Authentication failed.'
-//         });
-//       }
-//     })
-//     .catch(err => {
-//       res.status(500).json({
-//         error: err
-//       });
-//     });
-// };
-
 
 // Deletes a specific user
 exports.deleteUser = (req, res, next) => {
@@ -125,3 +92,18 @@ exports.deleteUser = (req, res, next) => {
       })
     });
 };
+
+// Saves timestamp for last visit
+exports.lastVisit = (req, res, next) => {
+  const updateParams = { lastVisit: req.body.lastVisit };
+
+  User.findOneAndUpdate({ username: req.body.username }, { $set: updateParams })
+    .exec()
+    .then(user => {
+    })
+    .catch(err => {
+      res.status(500).json({
+        error: err
+      })
+    });
+}

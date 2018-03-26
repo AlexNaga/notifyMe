@@ -12,6 +12,9 @@ router.post('/', UserController.saveUser);
 // Authenticate a user
 router.post('/login', UserController.saveUser);
 
+// Save user last visit
+router.post('/logout', UserController.lastVisit);
+
 // Delete a specific user
 router.delete('/:username', checkAuth, UserController.deleteUser);
 
