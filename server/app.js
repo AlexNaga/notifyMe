@@ -29,9 +29,10 @@ mongoose.connect(
 mongoose.Promise = global.Promise;
 
 app.use(cors()); // CORS support
-app.use(logger('dev')); // Logs all requests to the terminal
+app.use(logger('dev', {
+  skip: (req, res) => { return req.url === '/logout'; } // Logs requests to the terminal
+}));
 app.use(express.static(__dirname + '/public'));
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(webhookHandler);

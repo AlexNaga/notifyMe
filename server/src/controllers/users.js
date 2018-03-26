@@ -100,6 +100,9 @@ exports.lastVisit = (req, res, next) => {
   User.findOneAndUpdate({ username: req.body.username }, { $set: updateParams })
     .exec()
     .then(user => {
+      res.status(200).json({
+        message: 'Bye bye!'
+      })
     })
     .catch(err => {
       res.status(500).json({
