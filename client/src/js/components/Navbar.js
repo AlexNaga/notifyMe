@@ -17,21 +17,6 @@ export default class Navbar extends Component {
     };
   }
 
-  saveBeforeClose = () => {
-    if (this.state.username) {
-      let date = moment().format("dddd, MMMM Do YYYY, HH:mm:ss"); // Sunday, March 11th 2018, 18:14:21
-
-      request.post(process.env.REACT_APP_SERVER_DOMAIN + '/users/logout', {
-        username: this.state.username,
-        lastVisit: date
-      })
-        .then((response) => {
-        })
-        .catch((err) => {
-        });
-    }
-  }
-
   componentDidMount() {
     let params = (new URL(document.location)).searchParams;
     let token = params.get('token');
@@ -53,8 +38,6 @@ export default class Navbar extends Component {
   }
 
   onLogout = (event, data) => {
-    this.saveBeforeClose();
-
     if (window.localStorage) {
       window.localStorage.clear();
     }
