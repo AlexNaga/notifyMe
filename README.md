@@ -7,6 +7,8 @@ This repository was created for the course 1DV612: Web Application Architectures
 
 You can find the assignment [here.](https://coursepress.gitbooks.io/1dv612/content/assignments/assignment-2)
 
+A live demo of this application can be found at [https://notifyme.alexnaga.se](https://notifyme.alexnaga.se)
+
 ## Running the Application
 1. Clone this repository or download the [.zip](https://github.com/1dv612/an222zd-examination/archive/master.zip) file.
 2. Extract folder to preferred location.
