@@ -23,7 +23,7 @@ export default class Navbar extends Component {
     if (this.state.username) {
       let date = moment().format("dddd, MMMM Do YYYY, HH:mm:ss"); // Sunday, March 11th 2018, 18:14:21
 
-      request.post('http://localhost:8000/users/logout', {
+      request.post(process.env.SERVER_DOMAIN + '/users/logout', {
         username: this.state.username,
         lastVisit: date
       })

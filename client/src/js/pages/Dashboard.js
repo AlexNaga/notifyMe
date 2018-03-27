@@ -11,13 +11,12 @@ import Sidebar from 'js/components/Sidebar';
 import Event from 'js/components/Event';
 
 // If HTTPS
-//let socket = io('wss://' + window.location.host);
-let socket = io('ws://localhost:8000');
+let socket = io('wss://' + window.location.host);
 
 // If HTTP
-//if (window.location.protocol === 'http:') {
-//  socket = io('ws://' + window.location.host);
-//}
+if (window.location.protocol === 'http:') {
+ socket = io('ws://' + window.location.host);
+}
 
 export default class Dashboard extends Component {
   constructor(props) {
