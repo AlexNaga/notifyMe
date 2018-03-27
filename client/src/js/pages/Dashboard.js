@@ -48,17 +48,17 @@ export default class Dashboard extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener('beforeunload', this.saveBeforeClose);
-
-    socket.on('event', (data) => {
-      const event = data;
-      this.setState({ events: [...this.state.events, event] });
-      this.triggerAnimation();
-    });
-
     this.cancelSource = request.CancelToken.source();
 
     if (localStorage.username) {
+      window.addEventListener('beforeunload', this.saveBeforeClose);
+
+      socket.on('event', (data) => {
+        const event = data;
+        this.setState({ events: [...this.state.events, event] });
+        this.triggerAnimation();
+      });
+
       this.setState({ username: localStorage.username });
       this.fetchEvents();
     } else {
