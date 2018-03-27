@@ -9,6 +9,6 @@ const userSchema = mongoose.Schema({
   lastVisit: { type: String }
 });
 
-userSchema.plugin(timestamp);
+userSchema.plugin(timeStamp);
 
 module.exports = mongoose.model('User', userSchema);

@@ -6,6 +6,6 @@ const settingsSchema = mongoose.Schema({
   events: {}
 });
 
-settingsSchema.plugin(timestamp);
+settingsSchema.plugin(timeStamp);
 
 module.exports = mongoose.model('Settings', settingsSchema);
