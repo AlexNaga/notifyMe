@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const timestamp = require('mongoose-timestamp');
+const timeStamp = require('mongoose-timestamp');
+const timeZone = require('mongoose-timezone');
 
 const settingsSchema = mongoose.Schema({
   username: { type: String, required: true, unique: true },
@@ -7,5 +8,6 @@ const settingsSchema = mongoose.Schema({
 });
 
 settingsSchema.plugin(timestamp);
+settingsSchema.plugin(timeZone);
 
 module.exports = mongoose.model('Settings', settingsSchema);
