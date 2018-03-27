@@ -23,8 +23,8 @@ export default class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: localStorage.username,
-      token: localStorage.token,
+      username: '',
+      token: '',
       isLoading: true,
       error: false,
       events: [],
@@ -41,7 +41,8 @@ export default class Dashboard extends Component {
 
     this.cancelSource = request.CancelToken.source();
 
-    if (this.state.username) {
+    if (localStorage.username) {
+      this.setState({ username: localStorage.username });
       this.fetchEvents();
     } else {
       this.setState({ isLoading: false });
@@ -56,8 +57,8 @@ export default class Dashboard extends Component {
   fetchEvents = () => {
     request
       .post(process.env.REACT_APP_SERVER_DOMAIN + '/users/events', {
-        headers: { Authorization: 'Bearer ' + this.state.token },
-        username: this.state.username
+        headers: { Authorization: 'Bearer ' + localStorage.token },
+        username: localStorage.username
       }, {
           cancelToken: this.cancelSource.token
         })
