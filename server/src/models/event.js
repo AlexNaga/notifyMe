@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const timeStamp = require('mongoose-timestamp');
-const timeZone = require('mongoose-timezone');
 
 const eventSchema = mongoose.Schema({
   event: { type: String, required: true },
@@ -17,6 +16,5 @@ const eventSchema = mongoose.Schema({
 });
 
 eventSchema.plugin(timestamp);
-eventSchema.plugin(timeZone);
 
 module.exports = mongoose.model('Event', eventSchema);
