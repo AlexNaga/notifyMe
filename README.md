@@ -1,6 +1,4 @@
-# 1DV612: Assignment
-
-Interface repository for 1DV612 Assignment
+# notifyMe
 
 ## About
 This repository was created for the course 1DV612: Web Application Architectures and Frameworks. Linnaeus University, Sweden.
