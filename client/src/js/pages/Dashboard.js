@@ -15,7 +15,7 @@ let socket = io('wss://' + window.location.host);
 
 // If HTTP
 if (window.location.protocol === 'http:') {
- socket = io('ws://' + window.location.host);
+  socket = io('ws://' + window.location.host);
 }
 
 export default class Dashboard extends Component {
@@ -31,7 +31,24 @@ export default class Dashboard extends Component {
     };
   }
 
+  saveBeforeClose = () => {
+    if (this.state.username) {
+      let date = moment().format("dddd, MMMM Do YYYY, HH:mm:ss"); // Sunday, March 11th 2018, 18:14:21
+
+      request.post(process.env.REACT_APP_SERVER_DOMAIN + '/users/logout', {
+        username: this.state.username,
+        lastVisit: date
+      })
+        .then((response) => {
+        })
+        .catch((err) => {
+        });
+    }
+  }
+
   componentDidMount() {
+    window.addEventListener('beforeunload', this.saveBeforeClose);
+
     socket.on('event', (data) => {
       const event = data;
       this.setState({ events: [...this.state.events, event] });
@@ -50,7 +67,9 @@ export default class Dashboard extends Component {
   }
 
   componentWillUnmount() {
-    this.cancelSource.cancel()
+    this.cancelSource.cancel();
+    this.saveBeforeClose();
+    window.removeEventListener('beforeunload', this.saveBeforeClose);
   }
 
   fetchEvents = () => {

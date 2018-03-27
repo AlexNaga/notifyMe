@@ -15,11 +15,9 @@ export default class Navbar extends Component {
     this.state = {
       username: localStorage.username,
     };
-
-    this.saveBeforeClose = this.saveBeforeClose.bind(this);
   }
 
-  saveBeforeClose() {
+  saveBeforeClose = () => {
     if (this.state.username) {
       let date = moment().format("dddd, MMMM Do YYYY, HH:mm:ss"); // Sunday, March 11th 2018, 18:14:21
 
@@ -48,13 +46,6 @@ export default class Navbar extends Component {
       localStorage.setItem('username', tokenDecoded.username);
       window.history.pushState({}, document.title, '/');
     }
-
-    window.addEventListener('beforeunload', this.saveBeforeClose);
-  }
-
-  componentWillUnmount() {
-    this.saveBeforeClose();
-    window.removeEventListener('beforeunload', this.saveBeforeClose);
   }
 
   onLogin = (event, data) => {
