@@ -10,13 +10,13 @@ You can find the assignment [here.](https://coursepress.gitbooks.io/1dv612/conte
 A live demo of this application can be found at [https://notifyme.alexnaga.se](https://notifyme.alexnaga.se)
 
 **Application Overview**  
-![Application Overview](https://github.com/1dv612/an222zd-examination/raw/master/img/app_overview.svg?sanitize=true)
+![Application Overview](https://github.com/AlexNaga/notifyMe/raw/master/img/app_overview.svg?sanitize=true)
 
 **Server-side Overview**  
-![Server-side Overview](https://github.com/1dv612/an222zd-examination/raw/master/img/server_overview.svg?sanitize=true)
+![Server-side Overview](https://github.com/AlexNaga/notifyMe/raw/master/img/server_overview.svg?sanitize=true)
 
 **Client-side Overview**  
-![Client-side Overview](https://github.com/1dv612/an222zd-examination/raw/master/img/client_overview.svg?sanitize=true)
+![Client-side Overview](https://github.com/AlexNaga/notifyMe/raw/master/img/client_overview.svg?sanitize=true)
 
 ## Running the Application
 1. Clone this repository or download the [.zip](https://github.com/1dv612/an222zd-examination/archive/master.zip) file.
