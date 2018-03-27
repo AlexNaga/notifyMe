@@ -59,15 +59,8 @@ webhookHandler.on('issues', function (repo, data) {
   const io = app.get('socketio');
   io.emit('event', eventInfo);
 
-  // Send event to Discord
-  request.post(process.env.WEBHOOK_DISCORD_URL, {
-    username: eventInfo.user.username,
-    avatar_url: eventInfo.user.image,
-    content: eventInfo.event +
-      ' ' + eventInfo.action +
-      ': [' + eventInfo.repo_name +
-      '](' + eventInfo.url + ')'
-  })
+  saveEventToDb(eventInfo);
+  sendEventToDiscord(eventInfo);
 });
 
 webhookHandler.on('release', function (repo, data) {
@@ -90,15 +83,8 @@ webhookHandler.on('release', function (repo, data) {
   const io = app.get('socketio');
   io.emit('event', eventInfo);
 
-  // Send event to Discord
-  request.post(process.env.WEBHOOK_DISCORD_URL, {
-    username: eventInfo.user.username,
-    avatar_url: eventInfo.user.image,
-    content: eventInfo.event +
-      ' ' + eventInfo.action +
-      ': [' + eventInfo.repo_name +
-      '](' + eventInfo.url + ')'
-  })
+  saveEventToDb(eventInfo);
+  sendEventToDiscord(eventInfo);
 });
 
 webhookHandler.on('repository', function (repo, data) {
@@ -121,15 +107,8 @@ webhookHandler.on('repository', function (repo, data) {
   const io = app.get('socketio');
   io.emit('event', eventInfo);
 
-  // Send event to Discord
-  request.post(process.env.WEBHOOK_DISCORD_URL, {
-    username: eventInfo.user.username,
-    avatar_url: eventInfo.user.image,
-    content: eventInfo.event +
-      ' ' + eventInfo.action +
-      ': [' + eventInfo.repo_name +
-      '](' + eventInfo.url + ')'
-  })
+  saveEventToDb(eventInfo);
+  sendEventToDiscord(eventInfo);
 });
 
 webhookHandler.on('watch', function (repo, data) {
@@ -153,27 +132,30 @@ webhookHandler.on('watch', function (repo, data) {
   const io = app.get('socketio');
   io.emit('event', eventInfo);
 
-  // Send event to Discord
-  request.post(process.env.WEBHOOK_DISCORD_URL, {
-    username: eventInfo.user.username,
-    avatar_url: eventInfo.user.image,
-    content: eventInfo.event +
-      ' ' + eventInfo.action +
-      ': [' + eventInfo.repo_name +
-      '](' + eventInfo.url + ')'
-  })
+  saveEventToDb(eventInfo);
+  sendEventToDiscord(eventInfo);
+});
 
-  // Save event to db
+function saveEventToDb(event) {
   request.post(process.env.SERVER_DOMAIN + '/events', {
-    event: eventInfo
+    event: event
   })
     .then((response) => {
-      console.log('Success in app.js: ', response.data);
     })
     .catch((err) => {
-      console.log('Error in app.js: ', err.response.data);
     });
-});
+}
+
+function sendEventToDiscord(event) {
+  request.post(process.env.WEBHOOK_DISCORD_URL, {
+    username: event.user.username,
+    avatar_url: event.user.image,
+    content: event.event +
+      ' ' + event.action +
+      ': [' + event.repo_name +
+      '](' + event.url + ')'
+  })
+}
 
 
 // Passport config
