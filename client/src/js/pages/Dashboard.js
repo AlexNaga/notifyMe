@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Message } from 'reactbulma'
 import Spinner from 'react-spinkit';
 import io from 'socket.io-client';
+import moment from 'moment'
 import request from 'axios';
 
 import BodyTitle from 'js/components/BodyTitle';
