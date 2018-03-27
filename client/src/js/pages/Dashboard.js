@@ -23,6 +23,8 @@ export default class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      username: localStorage.username,
+      token: localStorage.token,
       isLoading: true,
       error: false,
       events: [],
@@ -31,39 +33,52 @@ export default class Dashboard extends Component {
   }
 
   componentDidMount() {
-    let token = localStorage.token;
-    let username = localStorage.username;
-
     socket.on('event', (data) => {
       const event = data;
       this.setState({ events: [...this.state.events, event] });
       this.triggerAnimation();
     });
 
-    if (username) {
-      request
-        .post(process.env.REACT_APP_SERVER_DOMAIN + '/users/events', {
-          headers: { Authorization: 'Bearer ' + token },
-          username: username
-        })
-        .then(res => {
-          const events = res.data;
+    this.cancelSource = request.CancelToken.source();
 
-          events.forEach(event => {
-            this.setState({ events: [...this.state.events, event.event] });
-          });
-
-          this.setState({ isLoading: false });
-          this.setState({ showEvents: true });
-        })
-        .catch(err => {
-          this.setState({ isLoading: false });
-          this.setState({ error: true });
-        });
+    if (this.state.username) {
+      this.fetchEvents();
     } else {
       this.setState({ isLoading: false });
       this.setState({ error: true });
     }
+  }
+
+  componentWillUnmount() {
+    this.cancelSource.cancel()
+  }
+
+  fetchEvents = () => {
+    request
+      .post(process.env.REACT_APP_SERVER_DOMAIN + '/users/events', {
+        headers: { Authorization: 'Bearer ' + this.state.token },
+        username: this.state.username
+      }, {
+          cancelToken: this.cancelSource.token
+        })
+      .then(res => {
+        const events = res.data;
+
+        events.forEach(event => {
+          this.setState({ events: [...this.state.events, event.event] });
+        });
+
+        this.setState({ isLoading: false });
+        this.setState({ showEvents: true });
+      })
+      .catch(err => {
+        if (request.isCancel(err)) {
+          // Cancel request if component not mounted. This prevents sending unnecessary requests.
+        } else {
+          this.setState({ isLoading: false });
+          this.setState({ error: true });
+        }
+      });
   }
 
   triggerAnimation = () => {

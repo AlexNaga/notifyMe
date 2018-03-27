@@ -16,6 +16,8 @@ export default class Github extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      username: localStorage.username,
+      token: localStorage.token,
       isLoading: true,
       error: false,
       organizations: [],
@@ -24,29 +26,42 @@ export default class Github extends Component {
   }
 
   componentDidMount() {
-    let token = localStorage.token;
-    let username = localStorage.username;
+    this.cancelSource = request.CancelToken.source();
 
-    if (username) {
-      request
-        .post(process.env.REACT_APP_SERVER_DOMAIN + '/github/organizations', {
-          headers: { Authorization: 'Bearer ' + token },
-          username: username
-        })
-        .then(res => {
-          const organizations = res.data;
-          this.setState({ isLoading: false });
-          this.setState({ organizations });
-          this.setState({ showOrganizations: true });
-        })
-        .catch(err => {
-          this.setState({ isLoading: false });
-          this.setState({ error: true });
-        });
+    if (this.state.username) {
+      this.fetchOrganizations();
     } else {
       this.setState({ isLoading: false });
       this.setState({ error: true });
     }
+  }
+
+  componentWillUnmount() {
+    this.cancelSource.cancel()
+  }
+
+  fetchOrganizations = () => {
+    request
+      .post(process.env.REACT_APP_SERVER_DOMAIN + '/github/organizations', {
+        headers: { Authorization: 'Bearer ' + this.state.token },
+        username: this.state.username,
+      }, {
+          cancelToken: this.cancelSource.token
+        })
+      .then(res => {
+        const organizations = res.data;
+        this.setState({ isLoading: false });
+        this.setState({ organizations });
+        this.setState({ showOrganizations: true });
+      })
+      .catch(err => {
+        if (request.isCancel(err)) {
+          // Cancel request if component not mounted. This prevents sending unnecessary requests.
+        } else {
+          this.setState({ isLoading: false });
+          this.setState({ error: true });
+        }
+      });
   }
 
   _onSubmit = (event, data) => {
