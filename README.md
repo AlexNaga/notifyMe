@@ -7,16 +7,9 @@ You can find the assignment [here.](https://coursepress.gitbooks.io/1dv612/conte
 
 A live demo of this application can be found at [https://notifyme.alexnaga.se](https://notifyme.alexnaga.se)
 
+Dashboard for real-time notifications from Github. Built with React.js and Express.js
+
 ![notifyMe](https://github.com/AlexNaga/notifyMe/raw/master/img/notifyme_overview.png)
-
-**Application Overview**  
-![Application Overview](https://github.com/AlexNaga/notifyMe/raw/master/img/app_overview.svg?sanitize=true)
-
-**Server-side Overview**  
-![Server-side Overview](https://github.com/AlexNaga/notifyMe/raw/master/img/server_overview.svg?sanitize=true)
-
-**Client-side Overview**  
-![Client-side Overview](https://github.com/AlexNaga/notifyMe/raw/master/img/client_overview.svg?sanitize=true)
 
 ## Running the Application
 1. Clone this repository or download the [.zip](https://github.com/1dv612/an222zd-examination/archive/master.zip) file.
@@ -59,3 +52,13 @@ A live demo of this application can be found at [https://notifyme.alexnaga.se](h
 2. Build the application for production by typing `npm run build`
 3. Copy the build folder to the server folder by typing `mv build/ ../server/public/`
 4. The application is now ready for production.
+
+## Architecture
+**Application Overview**  
+![Application Overview](https://github.com/AlexNaga/notifyMe/raw/master/img/app_overview.svg?sanitize=true)
+
+**Server-side Overview**  
+![Server-side Overview](https://github.com/AlexNaga/notifyMe/raw/master/img/server_overview.svg?sanitize=true)
+
+**Client-side Overview**  
+![Client-side Overview](https://github.com/AlexNaga/notifyMe/raw/master/img/client_overview.svg?sanitize=true)
