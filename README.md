@@ -7,6 +7,8 @@ You can find the assignment [here.](https://coursepress.gitbooks.io/1dv612/conte
 
 A live demo of this application can be found at [https://notifyme.alexnaga.se](https://notifyme.alexnaga.se)
 
+![notifyMe](https://github.com/AlexNaga/notifyMe/raw/master/img/notifyme_overview.png)
+
 **Application Overview**  
 ![Application Overview](https://github.com/AlexNaga/notifyMe/raw/master/img/app_overview.svg?sanitize=true)
 
