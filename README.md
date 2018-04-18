@@ -5,8 +5,6 @@ This repository was created for the course 1DV612: Web Application Architectures
 
 You can find the assignment [here.](https://coursepress.gitbooks.io/1dv612/content/assignments/assignment-2)
 
-A live demo of this application can be found at [https://notifyme.alexnaga.se](https://notifyme.alexnaga.se)
-
 Dashboard for real-time notifications from Github. Built with React.js and Express.js
 
 ![notifyMe](https://github.com/AlexNaga/notifyMe/raw/master/img/notifyme_overview.png)
