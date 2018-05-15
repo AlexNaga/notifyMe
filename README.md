@@ -65,7 +65,7 @@ Dashboard for real-time notifications from Github. Built with React.js and Expre
 ## License
 MIT License
 
-Copyright (c) [2018] [Alex Naga]
+Copyright (c) 2018 Alex Naga
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
