@@ -1,9 +1,7 @@
 # notifyMe
 
 ## About
-This repository was created for the course 1DV612: Web Application Architectures and Frameworks. Linnaeus University, Sweden.
-
-You can find the assignment [here.](https://coursepress.gitbooks.io/1dv612/content/assignments/assignment-2)
+This repository was created for the course: Web Application Architectures and Frameworks. Linnaeus University, Sweden.
 
 Dashboard for real-time notifications from Github. Built with React.js and Express.js
 
